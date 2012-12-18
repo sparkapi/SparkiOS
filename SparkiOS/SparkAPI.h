@@ -1,5 +1,5 @@
 //
-//  LoginViewController.h
+//  SparkAPI.h
 //  SparkiOS
 //
 //  Created by David Ragones on 12/17/12.
@@ -19,17 +19,8 @@
 //  limitations under the License.
 //
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
-@interface LoginViewController : UIViewController <UIWebViewDelegate>
-{
-    IBOutlet UIButton *sparkButton;
-    IBOutlet UISwitch *loginType;
-}
-
-@property (strong, nonatomic) UIButton *sparkButton;
-@property (strong, nonatomic) UISwitch *loginType;
-
-@property (strong, nonatomic) UIWebView *webView;
+@interface SparkAPI : NSObject
 
 @end

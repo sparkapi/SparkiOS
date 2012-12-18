@@ -42,6 +42,7 @@
 		49861A26167FDBFC004971C4 /* SparkLoginButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 49861A24167FDBFC004971C4 /* SparkLoginButton@2x.png */; };
 		49861A28167FE115004971C4 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 49861A27167FE115004971C4 /* Default-568h@2x.png */; };
 		49861A2C167FEA8D004971C4 /* UIHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 49861A2B167FEA8D004971C4 /* UIHelper.m */; };
+		49861A2F167FF046004971C4 /* SparkAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 49861A2E167FF046004971C4 /* SparkAPI.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -110,6 +111,8 @@
 		49861A29167FEA13004971C4 /* iOSConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iOSConstants.h; sourceTree = "<group>"; };
 		49861A2A167FEA8D004971C4 /* UIHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIHelper.h; sourceTree = "<group>"; };
 		49861A2B167FEA8D004971C4 /* UIHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIHelper.m; sourceTree = "<group>"; };
+		49861A2D167FF046004971C4 /* SparkAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkAPI.h; sourceTree = "<group>"; };
+		49861A2E167FF046004971C4 /* SparkAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkAPI.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,6 +165,8 @@
 			children = (
 				498619C1167FC448004971C4 /* AppDelegate.h */,
 				498619C2167FC448004971C4 /* AppDelegate.m */,
+				49861A2D167FF046004971C4 /* SparkAPI.h */,
+				49861A2E167FF046004971C4 /* SparkAPI.m */,
 				49861A21167FDA35004971C4 /* ui */,
 				498619B9167FC448004971C4 /* Supporting Files */,
 			);
@@ -354,6 +359,7 @@
 				49861A17167FC91B004971C4 /* UIImageView+AFNetworking.m in Sources */,
 				49861A1F167FDA18004971C4 /* LoginViewController.m in Sources */,
 				49861A2C167FEA8D004971C4 /* UIHelper.m in Sources */,
+				49861A2F167FF046004971C4 /* SparkAPI.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
