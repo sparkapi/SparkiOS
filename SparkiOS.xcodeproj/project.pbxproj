@@ -41,6 +41,7 @@
 		49861A25167FDBFC004971C4 /* SparkLoginButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 49861A23167FDBFC004971C4 /* SparkLoginButton.png */; };
 		49861A26167FDBFC004971C4 /* SparkLoginButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 49861A24167FDBFC004971C4 /* SparkLoginButton@2x.png */; };
 		49861A28167FE115004971C4 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 49861A27167FE115004971C4 /* Default-568h@2x.png */; };
+		49861A2C167FEA8D004971C4 /* UIHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 49861A2B167FEA8D004971C4 /* UIHelper.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -106,6 +107,9 @@
 		49861A23167FDBFC004971C4 /* SparkLoginButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SparkLoginButton.png; sourceTree = "<group>"; };
 		49861A24167FDBFC004971C4 /* SparkLoginButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SparkLoginButton@2x.png"; sourceTree = "<group>"; };
 		49861A27167FE115004971C4 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
+		49861A29167FEA13004971C4 /* iOSConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iOSConstants.h; sourceTree = "<group>"; };
+		49861A2A167FEA8D004971C4 /* UIHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIHelper.h; sourceTree = "<group>"; };
+		49861A2B167FEA8D004971C4 /* UIHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIHelper.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -239,9 +243,12 @@
 		49861A21167FDA35004971C4 /* ui */ = {
 			isa = PBXGroup;
 			children = (
+				49861A29167FEA13004971C4 /* iOSConstants.h */,
 				49861A1C167FDA18004971C4 /* LoginViewController.h */,
 				49861A1D167FDA18004971C4 /* LoginViewController.m */,
 				49861A1E167FDA18004971C4 /* LoginViewController.xib */,
+				49861A2A167FEA8D004971C4 /* UIHelper.h */,
+				49861A2B167FEA8D004971C4 /* UIHelper.m */,
 			);
 			name = ui;
 			sourceTree = "<group>";
@@ -346,6 +353,7 @@
 				49861A16167FC91B004971C4 /* AFXMLRequestOperation.m in Sources */,
 				49861A17167FC91B004971C4 /* UIImageView+AFNetworking.m in Sources */,
 				49861A1F167FDA18004971C4 /* LoginViewController.m in Sources */,
+				49861A2C167FEA8D004971C4 /* UIHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

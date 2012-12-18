@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LoginViewController : UIViewController
+@interface LoginViewController : UIViewController <UIWebViewDelegate>
 {
     IBOutlet UIButton *sparkButton;
     IBOutlet UISwitch *loginType;
@@ -16,5 +16,7 @@
 
 @property (strong, nonatomic) UIButton *sparkButton;
 @property (strong, nonatomic) UISwitch *loginType;
+
+@property (strong, nonatomic) UIWebView *webView;
 
 @end
