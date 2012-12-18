@@ -20,8 +20,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SparkAPI.h"
 
-@interface LoginViewController : UIViewController <UIWebViewDelegate>
+@interface LoginViewController : UIViewController
+    <UIWebViewDelegate, SparkAPIDelegate>
 {
     IBOutlet UIButton *sparkButton;
     IBOutlet UISwitch *loginType;

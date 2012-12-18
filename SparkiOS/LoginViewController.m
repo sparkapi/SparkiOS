@@ -58,7 +58,7 @@
     self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0,0,IPHONE_WIDTH,[UIHelper iPhone5] ? IPHONE5_HEIGHT_INSIDE_NAVBAR : IPHONE_HEIGHT_INSIDE_NAVBAR)];
     self.webView.hidden = YES;
     self.webView.delegate = self;
-    [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.sparkplatform.com"]]];
+    [self.webView loadRequest:[NSURLRequest requestWithURL:[SparkAPI getSparkOpenIdURL]]];
     [self.view addSubview:self.webView];
 }
 
@@ -71,6 +71,13 @@
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
+    NSString* openIdSparkCode = [SparkAPI getHybridOpenIdSparkCode:request];
+    if(openIdSparkCode)
+    {
+        [SparkAPI OAuth2Grant:openIdSparkCode delegate:self];
+        return NO;
+    }
+    
     return YES;
 }
 
@@ -82,6 +89,17 @@
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
+}
+
+// SparkAPIDelegate ************************************************************
+
+- (void)didAuthorize:(SparkAPI*)sender
+{
+    NSLog(@"didAuthorize>%@",sender);
+    
+    // close login view
+    
+    // push view listings
 }
 
 @end

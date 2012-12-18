@@ -21,6 +21,107 @@
 
 #import "SparkAPI.h"
 
+#import "AFHTTPClient.h"
+#import "SBJson.h"
+
 @implementation SparkAPI
+
+@synthesize accessToken, refreshToken;
+
+static NSString* sparkClientId = @"";
+static NSString* sparkClientSecret = @"";
+
+static NSString* sparkOpenIdURL = @"https://sparkplatform.com/openid";
+static NSString* sparkOAuth2GrantURL = @"https://sparkplatform.com/v1/oauth2/grant";
+static NSString* sparkOAuth2CallbackURL = @"https://sparkplatform.com/oauth2/callback";
+
++ (NSString*)encodeURL:(NSString*)string
+{
+    return (__bridge NSString *)(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)string, NULL, CFSTR(":/?#[]@!$ &'()*+,;=\"<>%{}|\\^~`"), CFStringConvertNSStringEncodingToEncoding(NSASCIIStringEncoding)));
+}
+
++ (NSDictionary*)getParameterDictionary:(NSURL*)url
+{
+    NSArray *queryPairs = [[[[url absoluteString] componentsSeparatedByString:@"?"] lastObject] componentsSeparatedByString:@"&"];
+    NSMutableDictionary *pairs = [NSMutableDictionary dictionary];
+    for (NSString *queryPair in queryPairs) {
+        NSArray *bits = [queryPair componentsSeparatedByString:@"="];
+        if ([bits count] != 2) { continue; }
+        
+        NSString *key = [[bits objectAtIndex:0] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSString *value = [[bits objectAtIndex:1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        
+        [pairs setObject:value forKey:key];
+    }
+    return pairs;
+}
+
++ (NSURL*)getSparkOpenIdURL
+{
+    NSMutableString *urlString = [[NSMutableString alloc] init];
+    [urlString appendString:sparkOpenIdURL];
+    [urlString appendString:@"?openid.mode=checkid_setup"];
+    [urlString appendString:@"&openid.spark.client_id="];
+    [urlString appendString:sparkClientId];
+    [urlString appendString:@"&openid.return_to="];
+    [urlString appendString:[self encodeURL:sparkOAuth2CallbackURL]];
+    [urlString appendString:@"&openid.spark.combined_flow=true"];
+    return [NSURL URLWithString:urlString];
+}
+
++ (NSURL*)getSparkOAuth2URL
+{
+    return [NSURL URLWithString:sparkOAuth2GrantURL];
+}
+
++ (NSString*) getHybridOpenIdSparkCode:(NSURLRequest*)request
+{
+    NSDictionary *parameterDictionary = [self getParameterDictionary:request.URL];
+    NSString* openIdMode = nil;
+    NSString* openIdSparkCode = nil;
+    return (parameterDictionary &&
+           (openIdMode = [parameterDictionary objectForKey:@"openid.mode"]) &&
+           [@"id_res" isEqualToString:openIdMode] &&
+           (openIdSparkCode =[parameterDictionary objectForKey:@"openid.spark.code"])) ?
+           openIdSparkCode:
+           nil;
+}
+
++ (void) OAuth2Grant:(NSString*)openIdSparkCode delegate:(id <SparkAPIDelegate>) delegate
+{
+    NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
+    [dictionary setObject:sparkClientId forKey:@"client_id"];
+    [dictionary setObject:sparkClientSecret forKey:@"client_secret"];
+    [dictionary setObject:@"authorization_code" forKey:@"grant_type"];
+    [dictionary setObject:openIdSparkCode forKey:@"code"];
+    [dictionary setObject:sparkOAuth2CallbackURL forKey:@"redirect_uri"];
+    
+     AFHTTPClient *client = [[AFHTTPClient alloc] initWithBaseURL:
+     [NSURL URLWithString:@"https://sparkapi.com/"]];
+    [client setDefaultHeader:@"User-Agent" value:@"Spark iOS API 1.0"];
+    [client setDefaultHeader:@"X-SparkApi-User-Agent" value:@"Spark iOS API 1.0"];
+     
+     [client postPath:@"/v1/oauth2/grant" parameters:dictionary success:^(AFHTTPRequestOperation *operation, id responseObject) {
+         NSString *text = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+         NSDictionary* dictionary = [text JSONValue];
+         SparkAPI *sparkAPI =
+            [[SparkAPI alloc] initWithAccessToken:[dictionary objectForKey:@"access_token"]
+                                     refreshToken:[dictionary objectForKey:@"refresh_token"]];
+        if(delegate)
+            [delegate didAuthorize:sparkAPI];
+     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+         NSLog(@"Failure: %@", error);
+     }];
+}
+
+- initWithAccessToken:(NSString*)access refreshToken:(NSString*)refresh
+{
+    if (self = [super init])
+    {
+        accessToken = access;
+        refreshToken = refresh;
+    }
+    return self;
+}
 
 @end
