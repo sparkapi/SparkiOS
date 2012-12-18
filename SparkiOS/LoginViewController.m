@@ -95,9 +95,9 @@
 
 - (void)didAuthorize:(SparkAPI*)sender
 {
-    NSLog(@"didAuthorize>%@",sender);
+    // set SparkAPI on AppDelegate
     
-    // close login view
+    // remove login view from stack
     
     // push view listings
 }

@@ -40,9 +40,13 @@
 		49861A20167FDA18004971C4 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 49861A1E167FDA18004971C4 /* LoginViewController.xib */; };
 		49861A25167FDBFC004971C4 /* SparkLoginButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 49861A23167FDBFC004971C4 /* SparkLoginButton.png */; };
 		49861A26167FDBFC004971C4 /* SparkLoginButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 49861A24167FDBFC004971C4 /* SparkLoginButton@2x.png */; };
-		49861A28167FE115004971C4 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 49861A27167FE115004971C4 /* Default-568h@2x.png */; };
 		49861A2C167FEA8D004971C4 /* UIHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 49861A2B167FEA8D004971C4 /* UIHelper.m */; };
 		49861A2F167FF046004971C4 /* SparkAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 49861A2E167FF046004971C4 /* SparkAPI.m */; };
+		49861A351680D229004971C4 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 49861A341680D229004971C4 /* Default-568h@2x.png */; };
+		49861A371680D230004971C4 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 49861A361680D230004971C4 /* Default@2x.png */; };
+		49861A391680D234004971C4 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 49861A381680D234004971C4 /* Default.png */; };
+		49861A3B1680D315004971C4 /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 49861A3A1680D315004971C4 /* Default-Landscape@2x~ipad.png */; };
+		49861A3D1680D319004971C4 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 49861A3C1680D319004971C4 /* Default-Landscape~ipad.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -107,12 +111,16 @@
 		49861A1E167FDA18004971C4 /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
 		49861A23167FDBFC004971C4 /* SparkLoginButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SparkLoginButton.png; sourceTree = "<group>"; };
 		49861A24167FDBFC004971C4 /* SparkLoginButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SparkLoginButton@2x.png"; sourceTree = "<group>"; };
-		49861A27167FE115004971C4 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
 		49861A29167FEA13004971C4 /* iOSConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iOSConstants.h; sourceTree = "<group>"; };
 		49861A2A167FEA8D004971C4 /* UIHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIHelper.h; sourceTree = "<group>"; };
 		49861A2B167FEA8D004971C4 /* UIHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIHelper.m; sourceTree = "<group>"; };
 		49861A2D167FF046004971C4 /* SparkAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkAPI.h; sourceTree = "<group>"; };
 		49861A2E167FF046004971C4 /* SparkAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkAPI.m; sourceTree = "<group>"; };
+		49861A341680D229004971C4 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "../Default-568h@2x.png"; sourceTree = "<group>"; };
+		49861A361680D230004971C4 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "../Default@2x.png"; sourceTree = "<group>"; };
+		49861A381680D234004971C4 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = ../Default.png; sourceTree = "<group>"; };
+		49861A3A1680D315004971C4 /* Default-Landscape@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Landscape@2x~ipad.png"; path = "../Default-Landscape@2x~ipad.png"; sourceTree = "<group>"; };
+		49861A3C1680D319004971C4 /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Landscape~ipad.png"; path = "../Default-Landscape~ipad.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -176,8 +184,8 @@
 		498619B9167FC448004971C4 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				498619FB167FC91B004971C4 /* AFNetworking */,
-				498619D4167FC7BD004971C4 /* SBJSON */,
+				498619FB167FC91B004971C4 /* AFNetworking 1.0.1 */,
+				498619D4167FC7BD004971C4 /* SBJSON 3.1 */,
 				49861A22167FDBE1004971C4 /* images */,
 				498619BA167FC448004971C4 /* SparkiOS-Info.plist */,
 				498619BB167FC448004971C4 /* InfoPlist.strings */,
@@ -187,7 +195,7 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		498619D4167FC7BD004971C4 /* SBJSON */ = {
+		498619D4167FC7BD004971C4 /* SBJSON 3.1 */ = {
 			isa = PBXGroup;
 			children = (
 				498619D5167FC7D2004971C4 /* NSObject+SBJson.h */,
@@ -216,10 +224,10 @@
 				498619EC167FC7D2004971C4 /* SBJsonWriter.h */,
 				498619ED167FC7D2004971C4 /* SBJsonWriter.m */,
 			);
-			name = SBJSON;
+			name = "SBJSON 3.1";
 			sourceTree = "<group>";
 		};
-		498619FB167FC91B004971C4 /* AFNetworking */ = {
+		498619FB167FC91B004971C4 /* AFNetworking 1.0.1 */ = {
 			isa = PBXGroup;
 			children = (
 				498619FC167FC91B004971C4 /* AFHTTPClient.h */,
@@ -242,6 +250,7 @@
 				49861A0D167FC91B004971C4 /* UIImageView+AFNetworking.h */,
 				49861A0E167FC91B004971C4 /* UIImageView+AFNetworking.m */,
 			);
+			name = "AFNetworking 1.0.1";
 			path = AFNetworking;
 			sourceTree = "<group>";
 		};
@@ -261,7 +270,11 @@
 		49861A22167FDBE1004971C4 /* images */ = {
 			isa = PBXGroup;
 			children = (
-				49861A27167FE115004971C4 /* Default-568h@2x.png */,
+				49861A341680D229004971C4 /* Default-568h@2x.png */,
+				49861A3A1680D315004971C4 /* Default-Landscape@2x~ipad.png */,
+				49861A3C1680D319004971C4 /* Default-Landscape~ipad.png */,
+				49861A381680D234004971C4 /* Default.png */,
+				49861A361680D230004971C4 /* Default@2x.png */,
 				49861A23167FDBFC004971C4 /* SparkLoginButton.png */,
 				49861A24167FDBFC004971C4 /* SparkLoginButton@2x.png */,
 			);
@@ -323,7 +336,11 @@
 				49861A20167FDA18004971C4 /* LoginViewController.xib in Resources */,
 				49861A25167FDBFC004971C4 /* SparkLoginButton.png in Resources */,
 				49861A26167FDBFC004971C4 /* SparkLoginButton@2x.png in Resources */,
-				49861A28167FE115004971C4 /* Default-568h@2x.png in Resources */,
+				49861A351680D229004971C4 /* Default-568h@2x.png in Resources */,
+				49861A371680D230004971C4 /* Default@2x.png in Resources */,
+				49861A391680D234004971C4 /* Default.png in Resources */,
+				49861A3B1680D315004971C4 /* Default-Landscape@2x~ipad.png in Resources */,
+				49861A3D1680D319004971C4 /* Default-Landscape~ipad.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
