@@ -8,6 +8,8 @@
 
 #import "ViewListingsViewController.h"
 
+#import "MyAccountViewController.h"
+
 @interface ViewListingsViewController ()
 
 @end
@@ -91,7 +93,9 @@
 
 - (void)myAccountAction:(id)sender
 {
-    NSLog(@"myAccount");
+    MyAccountViewController* myAccountViewController =
+        [[MyAccountViewController alloc] initWithStyle:UITableViewStyleGrouped];
+    [self.navigationController pushViewController:myAccountViewController animated:YES];
 }
 
 - (void)searchAction:(id)sender

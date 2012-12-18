@@ -52,6 +52,7 @@
 		49861A581680F9A5004971C4 /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 49861A4F1680F9A5004971C4 /* Icon-72@2x.png */; };
 		49861A591680F9A5004971C4 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 49861A501680F9A5004971C4 /* Icon.png */; };
 		49861A5A1680F9A5004971C4 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 49861A511680F9A5004971C4 /* Icon@2x.png */; };
+		49861A5D1680FA4A004971C4 /* MyAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 49861A5C1680FA4A004971C4 /* MyAccountViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -132,6 +133,8 @@
 		49861A4F1680F9A5004971C4 /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72@2x.png"; sourceTree = "<group>"; };
 		49861A501680F9A5004971C4 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		49861A511680F9A5004971C4 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
+		49861A5B1680FA4A004971C4 /* MyAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyAccountViewController.h; sourceTree = "<group>"; };
+		49861A5C1680FA4A004971C4 /* MyAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyAccountViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -272,6 +275,8 @@
 				49861A1C167FDA18004971C4 /* LoginViewController.h */,
 				49861A1D167FDA18004971C4 /* LoginViewController.m */,
 				49861A1E167FDA18004971C4 /* LoginViewController.xib */,
+				49861A5B1680FA4A004971C4 /* MyAccountViewController.h */,
+				49861A5C1680FA4A004971C4 /* MyAccountViewController.m */,
 				49861A2A167FEA8D004971C4 /* UIHelper.h */,
 				49861A2B167FEA8D004971C4 /* UIHelper.m */,
 				49861A461680F2B5004971C4 /* ViewListingsViewController.h */,
@@ -399,6 +404,7 @@
 				49861A2C167FEA8D004971C4 /* UIHelper.m in Sources */,
 				49861A2F167FF046004971C4 /* SparkAPI.m in Sources */,
 				49861A481680F2B5004971C4 /* ViewListingsViewController.m in Sources */,
+				49861A5D1680FA4A004971C4 /* MyAccountViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

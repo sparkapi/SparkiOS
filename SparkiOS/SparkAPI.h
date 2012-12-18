@@ -31,6 +31,16 @@
 
 - initWithAccessToken:(NSString*)accessToken refreshToken:(NSString*)refreshToken;
 
+- (void) api:(NSString*)apiCommand
+     success:(void(^)(id responseJSON))success
+     failure:(void(^)(NSError *error))failure;
+
+- (void) api:(NSString*)apiCommand
+  parameters:(NSDictionary*)parameters
+  httpMethod:(NSString*)httpMethod
+     success:(void(^)(id responseJSON))success
+     failure:(void(^)(NSError *error))failure;
+
 @end
 
 @protocol SparkAPIDelegate <NSObject>

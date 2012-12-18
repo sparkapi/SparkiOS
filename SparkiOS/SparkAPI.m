@@ -35,12 +35,38 @@
 
 @synthesize accessToken, refreshToken;
 
+// constants
 static NSString* sparkClientId = @"";
 static NSString* sparkClientSecret = @"";
 
 static NSString* sparkOpenIdURL = @"https://sparkplatform.com/openid";
 static NSString* sparkOAuth2GrantURL = @"https://sparkplatform.com/v1/oauth2/grant";
 static NSString* sparkOAuth2CallbackURL = @"https://sparkplatform.com/oauth2/callback";
+
+static NSString* httpGet = @"GET";
+static NSString* httpPost = @"POST";
+static NSString* httpPut = @"PUT";
+static NSString* httpDelete = @"DELETE";
+
+// class vars
+
+static AFHTTPClient *httpClient;
+
+// class interface *************************************************************
+
++(void) initialize
+{
+    @synchronized(self)
+    {
+        if(!httpClient)
+        {
+            httpClient = [[AFHTTPClient alloc] initWithBaseURL:
+                                    [NSURL URLWithString:@"https://sparkapi.com/"]];
+            [httpClient setDefaultHeader:@"User-Agent" value:@"Spark iOS API 1.0"];
+            [httpClient setDefaultHeader:@"X-SparkApi-User-Agent" value:@"Spark iOS API 1.0"];
+        }
+    }
+}
 
 + (NSString*)encodeURL:(NSString*)string
 {
@@ -102,13 +128,8 @@ static NSString* sparkOAuth2CallbackURL = @"https://sparkplatform.com/oauth2/cal
     [dictionary setObject:@"authorization_code" forKey:@"grant_type"];
     [dictionary setObject:openIdSparkCode forKey:@"code"];
     [dictionary setObject:sparkOAuth2CallbackURL forKey:@"redirect_uri"];
-    
-     AFHTTPClient *client = [[AFHTTPClient alloc] initWithBaseURL:
-     [NSURL URLWithString:@"https://sparkapi.com/"]];
-    [client setDefaultHeader:@"User-Agent" value:@"Spark iOS API 1.0"];
-    [client setDefaultHeader:@"X-SparkApi-User-Agent" value:@"Spark iOS API 1.0"];
      
-     [client postPath:@"/v1/oauth2/grant" parameters:dictionary success:^(AFHTTPRequestOperation *operation, id responseObject) {
+     [httpClient postPath:@"/v1/oauth2/grant" parameters:dictionary success:^(AFHTTPRequestOperation *operation, id responseObject) {
          NSString *text = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
          NSDictionary* dictionary = [text JSONValue];
          SparkAPI *sparkAPI =
@@ -121,14 +142,64 @@ static NSString* sparkOAuth2CallbackURL = @"https://sparkplatform.com/oauth2/cal
      }];
 }
 
+// instance methods ************************************************************
+
 - initWithAccessToken:(NSString*)access refreshToken:(NSString*)refresh
 {
     if (self = [super init])
     {
         accessToken = access;
         refreshToken = refresh;
+        [httpClient setDefaultHeader:@"Authorization" value:[NSString stringWithFormat:@"OAuth %@",accessToken]];
     }
     return self;
+}
+
+- (void) api:(NSString*)apiCommand
+     success:(void(^)(id responseJSON))success
+     failure:(void(^)(NSError *error))failure
+{
+    [self api:apiCommand
+   parameters:nil
+   httpMethod:httpGet
+      success:success
+      failure:failure];
+}
+
+- (void) api:(NSString*)apiCommand
+  parameters:(NSDictionary*)parameters
+  httpMethod:(NSString*)httpMethod
+     success:(void(^)(id responseJSON))success
+     failure:(void(^)(NSError *error))failure
+{
+    [httpClient getPath:apiCommand
+             parameters:parameters
+                success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                    NSString *responseString = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+                    NSDictionary *responseJSON = [responseString JSONValue];
+                    if(success)
+                        success([self getResultsArray:responseJSON]);
+                }
+                failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                    if(failure)
+                        failure(error);
+                }];
+}
+
+- (NSArray*) getResultsArray:(NSDictionary*)responseJSON
+{
+    NSDictionary* responsePayload = [self getResponsePayload:responseJSON];
+    return [self getResponseSuccess:responsePayload] ? [responsePayload objectForKey:@"Results"] : nil;
+}
+
+- (NSDictionary*) getResponsePayload:(NSDictionary*)responseJSON
+{
+    return responseJSON ? [responseJSON objectForKey:@"D"] : nil;
+}
+
+- (BOOL) getResponseSuccess:(NSDictionary*)responsePayload
+{
+    return responsePayload ? [[responsePayload objectForKey:@"Success"] boolValue] : NO;
 }
 
 @end
