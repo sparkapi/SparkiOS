@@ -25,9 +25,6 @@
 
 @interface SparkAPI : NSObject
 
-@property (strong, nonatomic) NSString *accessToken;
-@property (strong, nonatomic) NSString *refreshToken;
-
 + (NSURL*)getSparkOpenIdURL;
 + (NSString*) getHybridOpenIdSparkCode:(NSURLRequest*)request;
 + (void) OAuth2Grant:(NSString*)openIdSparkCode delegate:(id <SparkAPIDelegate>) delegate;

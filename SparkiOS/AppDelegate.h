@@ -21,8 +21,11 @@
 
 #import <UIKit/UIKit.h>
 
+#import "SparkAPI.h"
+
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+@property (strong, nonatomic) SparkAPI *sparkAPI;
 
 @end

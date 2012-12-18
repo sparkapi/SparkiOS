@@ -51,6 +51,7 @@
 		49861A411680D60B004971C4 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 49861A401680D60B004971C4 /* Icon.png */; };
 		49861A431680D614004971C4 /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 49861A421680D614004971C4 /* Icon-72@2x.png */; };
 		49861A451680D619004971C4 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 49861A441680D619004971C4 /* Icon-72.png */; };
+		49861A481680F2B5004971C4 /* ViewListingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 49861A471680F2B5004971C4 /* ViewListingsViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -129,6 +130,8 @@
 		49861A401680D60B004971C4 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = ../Icon.png; sourceTree = "<group>"; };
 		49861A421680D614004971C4 /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-72@2x.png"; path = "../Icon-72@2x.png"; sourceTree = "<group>"; };
 		49861A441680D619004971C4 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-72.png"; path = "../Icon-72.png"; sourceTree = "<group>"; };
+		49861A461680F2B5004971C4 /* ViewListingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewListingsViewController.h; sourceTree = "<group>"; };
+		49861A471680F2B5004971C4 /* ViewListingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewListingsViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -271,6 +274,8 @@
 				49861A1E167FDA18004971C4 /* LoginViewController.xib */,
 				49861A2A167FEA8D004971C4 /* UIHelper.h */,
 				49861A2B167FEA8D004971C4 /* UIHelper.m */,
+				49861A461680F2B5004971C4 /* ViewListingsViewController.h */,
+				49861A471680F2B5004971C4 /* ViewListingsViewController.m */,
 			);
 			name = ui;
 			sourceTree = "<group>";
@@ -393,6 +398,7 @@
 				49861A1F167FDA18004971C4 /* LoginViewController.m in Sources */,
 				49861A2C167FEA8D004971C4 /* UIHelper.m in Sources */,
 				49861A2F167FF046004971C4 /* SparkAPI.m in Sources */,
+				49861A481680F2B5004971C4 /* ViewListingsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

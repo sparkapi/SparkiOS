@@ -21,8 +21,10 @@
 
 #import "LoginViewController.h"
 
+#import "AppDelegate.h"
 #import "iOSConstants.h"
 #import "UIHelper.h"
+#import "ViewListingsViewController.h"
 
 @interface LoginViewController ()
 
@@ -89,17 +91,21 @@
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
 }
 
 // SparkAPIDelegate ************************************************************
 
 - (void)didAuthorize:(SparkAPI*)sender
 {
-    // set SparkAPI on AppDelegate
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     
-    // remove login view from stack
+    AppDelegate *appDelegate = ((AppDelegate*)[[UIApplication sharedApplication] delegate]);
+    appDelegate.sparkAPI = sender;
     
-    // push view listings
+    NSMutableArray *viewControllers = [[NSMutableArray alloc] initWithCapacity:1];
+    [viewControllers addObject:[[ViewListingsViewController alloc] initWithStyle:UITableViewStylePlain]];
+    [self.navigationController setViewControllers:viewControllers animated:YES];
 }
 
 @end
