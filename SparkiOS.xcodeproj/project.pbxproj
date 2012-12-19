@@ -55,6 +55,8 @@
 		49861AC61681722F004971C4 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 49861AB91681722F004971C4 /* Icon@2x.png */; };
 		49861AC71681722F004971C4 /* SparkLoginButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 49861ABA1681722F004971C4 /* SparkLoginButton.png */; };
 		49861AC81681722F004971C4 /* SparkLoginButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 49861ABB1681722F004971C4 /* SparkLoginButton@2x.png */; };
+		49861ACB168190CE004971C4 /* ViewListingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 49861ACA168190CE004971C4 /* ViewListingViewController.m */; };
+		49861ACE16819A6E004971C4 /* ListingFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 49861ACD16819A6D004971C4 /* ListingFormatter.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -139,6 +141,10 @@
 		49861AB91681722F004971C4 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		49861ABA1681722F004971C4 /* SparkLoginButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SparkLoginButton.png; sourceTree = "<group>"; };
 		49861ABB1681722F004971C4 /* SparkLoginButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SparkLoginButton@2x.png"; sourceTree = "<group>"; };
+		49861AC9168190CD004971C4 /* ViewListingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewListingViewController.h; sourceTree = "<group>"; };
+		49861ACA168190CE004971C4 /* ViewListingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewListingViewController.m; sourceTree = "<group>"; };
+		49861ACC16819A6D004971C4 /* ListingFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListingFormatter.h; sourceTree = "<group>"; };
+		49861ACD16819A6D004971C4 /* ListingFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListingFormatter.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -244,6 +250,8 @@
 			isa = PBXGroup;
 			children = (
 				49861A29167FEA13004971C4 /* iOSConstants.h */,
+				49861ACC16819A6D004971C4 /* ListingFormatter.h */,
+				49861ACD16819A6D004971C4 /* ListingFormatter.m */,
 				49861A1C167FDA18004971C4 /* LoginViewController.h */,
 				49861A1D167FDA18004971C4 /* LoginViewController.m */,
 				49861A1E167FDA18004971C4 /* LoginViewController.xib */,
@@ -253,6 +261,8 @@
 				49861A2B167FEA8D004971C4 /* UIHelper.m */,
 				49861A461680F2B5004971C4 /* ViewListingsViewController.h */,
 				49861A471680F2B5004971C4 /* ViewListingsViewController.m */,
+				49861AC9168190CD004971C4 /* ViewListingViewController.h */,
+				49861ACA168190CE004971C4 /* ViewListingViewController.m */,
 			);
 			name = ui;
 			sourceTree = "<group>";
@@ -414,6 +424,8 @@
 				49861AAB168171BE004971C4 /* SBJsonTokeniser.m in Sources */,
 				49861AAC168171BE004971C4 /* SBJsonUTF8Stream.m in Sources */,
 				49861AAD168171BE004971C4 /* SBJsonWriter.m in Sources */,
+				49861ACB168190CE004971C4 /* ViewListingViewController.m in Sources */,
+				49861ACE16819A6E004971C4 /* ListingFormatter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

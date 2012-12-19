@@ -1,5 +1,5 @@
 //
-//  ViewListingsViewController.h
+//  ViewListingViewController.h
 //  SparkiOS
 //
 //  Created by David Ragones on 12/18/12.
@@ -21,7 +21,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewListingsViewController : UITableViewController
-    <UITextFieldDelegate>
+@interface ViewListingViewController : UITableViewController
+
+@property (strong, nonatomic) NSString *ListingId;
 
 @end
