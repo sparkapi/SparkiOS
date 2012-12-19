@@ -57,6 +57,7 @@
 		49861AC81681722F004971C4 /* SparkLoginButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 49861ABB1681722F004971C4 /* SparkLoginButton@2x.png */; };
 		49861ACB168190CE004971C4 /* ViewListingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 49861ACA168190CE004971C4 /* ViewListingViewController.m */; };
 		49861ACE16819A6E004971C4 /* ListingFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 49861ACD16819A6D004971C4 /* ListingFormatter.m */; };
+		49861AD016823960004971C4 /* ViewListingDetailLineCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 49861ACF16823960004971C4 /* ViewListingDetailLineCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -145,6 +146,7 @@
 		49861ACA168190CE004971C4 /* ViewListingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewListingViewController.m; sourceTree = "<group>"; };
 		49861ACC16819A6D004971C4 /* ListingFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListingFormatter.h; sourceTree = "<group>"; };
 		49861ACD16819A6D004971C4 /* ListingFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListingFormatter.m; sourceTree = "<group>"; };
+		49861ACF16823960004971C4 /* ViewListingDetailLineCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewListingDetailLineCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -259,6 +261,7 @@
 				49861A5C1680FA4A004971C4 /* MyAccountViewController.m */,
 				49861A2A167FEA8D004971C4 /* UIHelper.h */,
 				49861A2B167FEA8D004971C4 /* UIHelper.m */,
+				49861ACF16823960004971C4 /* ViewListingDetailLineCell.xib */,
 				49861A461680F2B5004971C4 /* ViewListingsViewController.h */,
 				49861A471680F2B5004971C4 /* ViewListingsViewController.m */,
 				49861AC9168190CD004971C4 /* ViewListingViewController.h */,
@@ -386,6 +389,7 @@
 				49861AC61681722F004971C4 /* Icon@2x.png in Resources */,
 				49861AC71681722F004971C4 /* SparkLoginButton.png in Resources */,
 				49861AC81681722F004971C4 /* SparkLoginButton@2x.png in Resources */,
+				49861AD016823960004971C4 /* ViewListingDetailLineCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

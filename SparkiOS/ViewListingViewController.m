@@ -30,14 +30,38 @@
 @interface ViewListingViewController ()
 
 @property (strong, nonatomic) NSDictionary *listingJSON;
-@property (strong, nonatomic) NSArray *standardFields;
+@property (strong, nonatomic) NSDictionary *standardFields;
+@property (strong, nonatomic) NSMutableArray *standardFieldsSorted;
 
 @property (strong, nonatomic) UIPageControl *pageControl;
 @property (strong, nonatomic) NSMutableArray* imageViews;
 
+@property (strong, nonatomic) UITableViewCell *detailLineCell;
+
 @end
 
 @implementation ViewListingViewController
+
+static NSDateFormatter* simpleDateFormatter;
+static NSDateFormatter* simpleDateTimeFormatter;
+
++(void) initialize
+{
+    @synchronized(self)
+    {
+        if (!simpleDateFormatter)
+        {
+            simpleDateFormatter = [[NSDateFormatter alloc] init];
+            [simpleDateFormatter setDateFormat:@"M/d/yy"];
+        }
+        
+        if (!simpleDateTimeFormatter)
+        {
+            simpleDateTimeFormatter = [[NSDateFormatter alloc] init];
+            [simpleDateTimeFormatter setDateFormat:@"M/d/yy h:mma"];
+        }
+    }
+}
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -76,8 +100,7 @@
     [sparkAPI get:@"/v1/standardfields"
        parameters:parameters
           success:^(id responseJSON) {
-              self.standardFields = (NSArray*)responseJSON;
-              NSLog(@"standardFields>%@",self.standardFields);
+              self.standardFields = [(NSArray*)responseJSON objectAtIndex:0];
               [self.tableView reloadData];
           }
           failure:^(NSError* error) {
@@ -98,19 +121,60 @@
     return self.listingJSON && self.standardFields ? 3 : 0;
 }
 
+- (NSInteger)getNumberOfDetailRows
+{
+    NSDictionary* standardFieldsJSON = [self.listingJSON objectForKey:@"StandardFields"];
+    NSString *propertyType = [standardFieldsJSON objectForKey:@"PropertyType"];
+    
+    NSArray* keyArray = [self.standardFields keysSortedByValueUsingComparator:^(id obj1, id obj2) {
+        NSString *label1 = [obj1 objectForKey:@"Label"];
+        NSString *label2 = [obj2 objectForKey:@"Label"];
+        return (NSComparisonResult)[label1 compare:label2];
+    }];
+    
+    self.standardFieldsSorted = [[NSMutableArray alloc] init];
+    
+    for(NSString* key in keyArray)
+    {
+        NSDictionary *standardField = [self.standardFields objectForKey:key];
+        NSArray *mlsVisible = [standardField objectForKey:@"MlsVisible"];
+        for(NSString* type in mlsVisible)
+        {
+            if([type isEqualToString:propertyType])
+            {
+                [self.standardFieldsSorted addObject:standardField];
+                continue;
+            }
+        }
+    }
+    
+    return [self.standardFieldsSorted count];
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 1;
+    return section == 2 ? [self getNumberOfDetailRows] : 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"ViewListingCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    static NSString *DefaultCellIdentifier = @"ViewListingCell";
+    static NSString *DetailLineCellIdentifier = @"ViewListingDetailLineCell";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:(indexPath.section == 2 ? DetailLineCellIdentifier : DefaultCellIdentifier)];
     
     // Configure the cell...
     if(!cell)
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+    {
+        if(indexPath.section == 2)
+        {
+            NSArray *bundleArray = [[NSBundle mainBundle] loadNibNamed:DetailLineCellIdentifier owner:self options:nil];
+            cell = [bundleArray objectAtIndex:0];
+        }
+        else
+            cell =
+                [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:DefaultCellIdentifier];
+    }
     
     NSDictionary* standardFieldsJSON = [self.listingJSON objectForKey:@"StandardFields"];
     if(indexPath.section == 0)
@@ -155,7 +219,16 @@
     }
     else if (indexPath.section == 2)
     {
-        // standard fields
+        NSDictionary *standardField = [self.standardFieldsSorted objectAtIndex:indexPath.row];
+        UILabel *keyLabel = (UILabel*)[cell viewWithTag:1];
+        keyLabel.text = [standardField objectForKey:@"Label"];
+        UILabel *valueLabel = (UILabel*)[cell viewWithTag:2];
+        valueLabel.text = [self getDetailText:indexPath];
+        CGFloat height = [self getDetailTextHeight:valueLabel.text];
+        valueLabel.frame = CGRectMake(valueLabel.frame.origin.x,
+                                       valueLabel.frame.origin.y,
+                                       valueLabel.frame.size.width,
+                                       height);
     }
     
     return cell;
@@ -163,9 +236,67 @@
 
 #pragma mark - Table view delegate
 
+- (NSString*) getDetailText:(NSIndexPath*)indexPath
+{
+    NSDictionary* standardFieldsJSON = [self.listingJSON objectForKey:@"StandardFields"];
+    NSDictionary *standardField = [self.standardFieldsSorted objectAtIndex:indexPath.row];
+    NSString* resourceUri = [standardField objectForKey:@"ResourceUri"];
+    NSString* type = [standardField objectForKey:@"Type"];
+    NSNumber* hasList = [standardField objectForKey:@"HasList"];
+    NSObject* object = [standardFieldsJSON objectForKey:[resourceUri lastPathComponent]];
+    if([object isKindOfClass:[NSNull class]])
+        return nil;
+    else if(hasList && [hasList isKindOfClass:[NSNumber class]] && [hasList boolValue] && [object isKindOfClass:[NSDictionary class]])
+    {
+        NSMutableString *buffer = [[NSMutableString alloc] init];
+        for(NSString* key in [((NSDictionary*)object) keyEnumerator])
+        {
+            if([buffer length] > 0)
+                [buffer appendString:@","];
+            [buffer appendString:key];
+        }
+        return buffer;
+    }
+    else if(([type isEqualToString:@"Date"])  && [object isKindOfClass:[NSDate class]])
+        return [simpleDateFormatter stringFromDate:(NSDate*)object];
+    else if([type isEqualToString:@"DateTime"] && [object isKindOfClass:[NSDate class]])
+        return [simpleDateTimeFormatter stringFromDate:(NSDate*)object];
+    else if(([type isEqualToString:@"Integer"] || [type isEqualToString:@"Decimal"]) && [object isKindOfClass:[NSNumber class]])
+        return [((NSNumber*)object) stringValue];
+    else if([type isEqualToString:@"Character"] && [object isKindOfClass:[NSString class]])
+        return (NSString*)object;
+    else if([type isEqualToString:@"Boolean"] && [object isKindOfClass:[NSNumber class]])
+        return [((NSNumber*)object) boolValue] ? @"true" : @"false";
+    else //if([type isEqualToString:@"NULL"])
+        return nil;
+}
+
+- (CGFloat) getDetailTextHeight:(NSString*)detailText
+{
+    if(!detailText)
+        return 21;
+    
+    CGSize stringSize = [detailText sizeWithFont:[UIFont systemFontOfSize:14]
+                               constrainedToSize:CGSizeMake(290, 9999)
+                                   lineBreakMode:UILineBreakModeWordWrap];
+    return stringSize.height;
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return indexPath.section == 1 ? 200 : 44;
+    if(indexPath.section == 0)
+    {
+        return 44;
+    }
+    else if(indexPath.section == 1)
+    {
+        return 200;
+    }
+    else
+    {
+        CGFloat height = [self getDetailTextHeight:[self getDetailText:indexPath]];
+        return 16.0 + (height < 21.0 ? 21.0 : height);
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -191,8 +322,6 @@
     
     UIImageView *imageView = [self.imageViews objectAtIndex:page];
     [imageView setImageWithURL:[NSURL URLWithString:[photoJSON objectForKey:@"Uri300"]]];    
-    
-    //CGFloat xLocation = page * 300;
 }
 
 @end

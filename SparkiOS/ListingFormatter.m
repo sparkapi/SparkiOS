@@ -23,8 +23,6 @@
 
 @implementation ListingFormatter
 
-static NSString* nullString = @"<null>";
-
 static NSNumberFormatter *currencyFormatter;
 
 +(void) initialize
@@ -76,19 +74,19 @@ static NSNumberFormatter *currencyFormatter;
     
     NSMutableString* address = [[NSMutableString alloc] init];
     NSString* StreetNumber = [standardFieldsJSON objectForKey:@"StreetNumber"];
-    if(StreetNumber && ![nullString isEqualToString:StreetNumber])
+    if(StreetNumber && ![StreetNumber isKindOfClass:[NSNull class]])
         [address appendFormat:@"%@ ", StreetNumber];
     NSString* StreetDirPrefix = [standardFieldsJSON objectForKey:@"StreetDirPrefix"];
-    if(StreetDirPrefix && ![nullString isEqualToString:StreetDirPrefix])
+    if(StreetDirPrefix && ![StreetDirPrefix isKindOfClass:[NSNull class]])
         [address appendFormat:@"%@ ", StreetDirPrefix];
     NSString* StreetName = [standardFieldsJSON objectForKey:@"StreetName"];
-    if(StreetName && ![nullString isEqualToString:StreetName])
+    if(StreetName && ![StreetName isKindOfClass:[NSNull class]])
         [address appendFormat:@"%@ ", StreetName];
     NSString* StreetDirSuffix = [standardFieldsJSON objectForKey:@"StreetDirSuffix"];
-    if(StreetDirSuffix && ![nullString isEqualToString:StreetDirPrefix])
+    if(StreetDirSuffix && ![StreetDirSuffix isKindOfClass:[NSNull class]])
         [address appendFormat:@"%@ ", StreetDirSuffix];
     NSString* StreetSuffix = [standardFieldsJSON objectForKey:@"StreetDirSuffix"];
-    if(StreetSuffix && ![nullString isEqualToString:StreetSuffix])
+    if(StreetSuffix && ![StreetSuffix isKindOfClass:[NSNull class]])
         [address appendFormat:@"%@", StreetSuffix];
     return [address capitalizedString];
 }
