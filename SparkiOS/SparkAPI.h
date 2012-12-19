@@ -31,7 +31,8 @@
 
 - initWithAccessToken:(NSString*)accessToken refreshToken:(NSString*)refreshToken;
 
-- (void) api:(NSString*)apiCommand
+- (void) get:(NSString*)apiCommand
+  parameters:(NSDictionary*)parameters
      success:(void(^)(id responseJSON))success
      failure:(void(^)(NSError *error))failure;
 

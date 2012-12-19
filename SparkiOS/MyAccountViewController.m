@@ -33,10 +33,11 @@
     [super viewDidLoad];
     
     self.title = @"My Account";
-
+    
     SparkAPI *sparkAPI =
         ((AppDelegate*)[[UIApplication sharedApplication] delegate]).sparkAPI;
-    [sparkAPI api:@"/v1/my/account"
+    [sparkAPI get:@"/v1/my/account"
+       parameters:nil
           success:^(id responseJSON) {
               NSArray *resultsJSON = (NSArray*)responseJSON;
               if(resultsJSON && [responseJSON count] > 0)

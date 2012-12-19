@@ -155,12 +155,13 @@ static AFHTTPClient *httpClient;
     return self;
 }
 
-- (void) api:(NSString*)apiCommand
+- (void) get:(NSString*)apiCommand
+  parameters:(NSDictionary*)parameters
      success:(void(^)(id responseJSON))success
      failure:(void(^)(NSError *error))failure
 {
     [self api:apiCommand
-   parameters:nil
+   parameters:parameters
    httpMethod:httpGet
       success:success
       failure:failure];
