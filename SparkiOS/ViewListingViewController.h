@@ -22,6 +22,7 @@
 #import <UIKit/UIKit.h>
 
 @interface ViewListingViewController : UITableViewController
+    <UIScrollViewDelegate>
 
 @property (strong, nonatomic) NSString *ListingId;
 
