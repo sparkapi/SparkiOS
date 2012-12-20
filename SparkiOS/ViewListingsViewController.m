@@ -117,8 +117,8 @@
     NSDictionary* listingJSON = [self.listingsJSON objectAtIndex:indexPath.row];
     NSDictionary* standardFieldsJSON = [listingJSON objectForKey:@"StandardFields"];
         
-    cell.textLabel.text = [ListingFormatter getListingAddress:standardFieldsJSON];    
-    cell.detailTextLabel.text = [ListingFormatter getListingBedsBathsPrice:standardFieldsJSON];
+    cell.textLabel.text = [ListingFormatter getListingTitle:standardFieldsJSON];
+    cell.detailTextLabel.text = [ListingFormatter getListingSubtitle:standardFieldsJSON];
     
     // photo
     NSArray* photosJSON = [standardFieldsJSON objectForKey:@"Photos"];
@@ -180,7 +180,7 @@
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
     [parameters setObject:@"50" forKey:@"_limit"];
     [parameters setObject:@"PrimaryPhoto" forKey:@"_expand"];
-    [parameters setObject:@"ListingId,StreetNumber,StreetDirPrefix,StreetName,StreetDirSuffix,StreetSuffix,BedsTotal,BathsTotal,ListPrice" forKey:@"_select"];
+    [parameters setObject:@"ListingId,StreetNumber,StreetDirPrefix,StreetName,StreetDirSuffix,StreetSuffix,BedsTotal,BathsTotal,ListPrice,City,StateOrProvince" forKey:@"_select"];
     [parameters setObject:self.searchField.text forKey:@"_filter"];
     [parameters setObject:@"-ListPrice" forKey:@"_orderby"];
     

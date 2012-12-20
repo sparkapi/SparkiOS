@@ -169,9 +169,8 @@
     NSDictionary* standardFieldsJSON = [self.listingJSON objectForKey:@"StandardFields"];
     if(indexPath.section == 0)
     {
-        cell.textLabel.text = [ListingFormatter getListingAddress:standardFieldsJSON];
-        cell.detailTextLabel.text = [ListingFormatter getListingBedsBathsPrice:standardFieldsJSON];
-                        
+        cell.textLabel.text = [ListingFormatter getListingTitle:standardFieldsJSON];
+        cell.detailTextLabel.text = [ListingFormatter getListingSubtitle:standardFieldsJSON];
     }
     else if (indexPath.section == 1)
     {

@@ -67,7 +67,7 @@ static NSNumberFormatter *currencyFormatter;
     return nil;
 }
 
-+ (NSString*)getListingAddress:(NSDictionary*)standardFieldsJSON
++ (NSString*)getListingTitle:(NSDictionary*)standardFieldsJSON
 {
     if(!standardFieldsJSON)
         return nil;
@@ -91,12 +91,24 @@ static NSNumberFormatter *currencyFormatter;
     return [address capitalizedString];
 }
 
-+ (NSString*)getListingBedsBathsPrice:(NSDictionary*)standardFieldsJSON
++ (NSString*)getListingSubtitle:(NSDictionary*)standardFieldsJSON
 {
     if(!standardFieldsJSON)
         return nil;
         
     NSMutableString* subtitle = [[NSMutableString alloc] init];
+    NSString *City = [standardFieldsJSON objectForKey:@"City"];
+    if(City)
+        [subtitle appendString:City];
+    NSString* StateOrProvince = [standardFieldsJSON objectForKey:@"StateOrProvince"];
+    if(StateOrProvince)
+    {
+        if([subtitle length] > 0)
+            [subtitle appendString:@", "];
+        [subtitle appendString:StateOrProvince];
+    }
+    if([subtitle length] > 0)
+        [subtitle appendString:@" - "];
     NSNumber *BedsTotal = [standardFieldsJSON objectForKey:@"BedsTotal"];
     if(BedsTotal)
         [subtitle appendFormat:@"%@br ", BedsTotal];

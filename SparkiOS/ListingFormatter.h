@@ -23,8 +23,8 @@
 
 @interface ListingFormatter : NSObject
 
-+ (NSString*)getListingAddress:(NSDictionary*)standardFieldsJSON;
++ (NSString*)getListingTitle:(NSDictionary*)standardFieldsJSON;
 
-+ (NSString*)getListingBedsBathsPrice:(NSDictionary*)standardFieldsJSON;
++ (NSString*)getListingSubtitle:(NSDictionary*)standardFieldsJSON;
 
 @end
