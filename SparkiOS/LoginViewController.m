@@ -161,9 +161,7 @@
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
     NSURLRequest* urlRequest = webView.request;
-    
-    NSLog(@"urlDidFinishLoad>%@",[urlRequest.URL absoluteString]);
-    
+        
     if([[urlRequest.URL absoluteString] isEqualToString:[[SparkAPI getSparkOpenIdLogoutURL] absoluteString]])
     {
         [self.webView loadRequest:[NSURLRequest requestWithURL:(self.loginType.on ?

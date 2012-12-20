@@ -44,27 +44,6 @@
 
 @implementation ViewListingViewController
 
-static NSDateFormatter* simpleDateFormatter;
-static NSDateFormatter* simpleDateTimeFormatter;
-
-+(void) initialize
-{
-    @synchronized(self)
-    {
-        if (!simpleDateFormatter)
-        {
-            simpleDateFormatter = [[NSDateFormatter alloc] init];
-            [simpleDateFormatter setDateFormat:@"M/d/yy"];
-        }
-        
-        if (!simpleDateTimeFormatter)
-        {
-            simpleDateTimeFormatter = [[NSDateFormatter alloc] init];
-            [simpleDateTimeFormatter setDateFormat:@"M/d/yy h:mma"];
-        }
-    }
-}
-
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
@@ -268,10 +247,8 @@ static NSDateFormatter* simpleDateTimeFormatter;
         }
         return buffer;
     }
-    else if(([type isEqualToString:@"Date"])  && [object isKindOfClass:[NSDate class]])
-        return [simpleDateFormatter stringFromDate:(NSDate*)object];
-    else if([type isEqualToString:@"DateTime"] && [object isKindOfClass:[NSDate class]])
-        return [simpleDateTimeFormatter stringFromDate:(NSDate*)object];
+    else if([type isEqualToString:@"Date"] || [type isEqualToString:@"Datetime"])
+        return (NSString*)object;
     else if(([type isEqualToString:@"Integer"] || [type isEqualToString:@"Decimal"]) && [object isKindOfClass:[NSNumber class]])
         return [((NSNumber*)object) stringValue];
     else if([type isEqualToString:@"Character"] && [object isKindOfClass:[NSString class]])
