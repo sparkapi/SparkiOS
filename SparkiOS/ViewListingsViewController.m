@@ -50,6 +50,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.view.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
 
     self.navigationItem.leftBarButtonItem =
         [[UIBarButtonItem alloc] initWithTitle:@"Account"
@@ -69,10 +71,12 @@
     self.searchField.font = [UIFont systemFontOfSize:14];
     self.searchField.borderStyle = UITextBorderStyleRoundedRect;
     self.searchField.delegate = self;
+    self.searchField.text = @"PropertyType Eq 'A'";
     self.navigationItem.titleView = self.searchField;
     
-    //self.tableView.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
+    [self searchAction:nil];
 }
 
 - (void)didReceiveMemoryWarning
@@ -158,6 +162,14 @@
         return;
     }
     
+    if(self.listingsJSON)
+    {
+        self.listingsJSON = nil;
+        self.view.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        [self.tableView reloadData];
+    }
+    
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
     [parameters setObject:@"50" forKey:@"_limit"];
     [parameters setObject:@"PrimaryPhoto" forKey:@"_expand"];
@@ -174,6 +186,7 @@
               if(self.listingsJSON && [self.listingsJSON count] > 0)
               {
                   self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+                  self.view.backgroundColor = [UIColor whiteColor];
                   [self.tableView reloadData];
               }
               else
