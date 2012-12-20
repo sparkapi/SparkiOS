@@ -23,6 +23,9 @@
 
 #import "SparkAPI.h"
 
+#define SPARK_ACCESS_TOKEN @"sparkAccessToken"
+#define SPARK_REFRESH_TOKEN @"sparkRefreshToken"
+
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;

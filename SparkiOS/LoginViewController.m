@@ -103,6 +103,10 @@
     AppDelegate *appDelegate = ((AppDelegate*)[[UIApplication sharedApplication] delegate]);
     appDelegate.sparkAPI = sender;
     
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:sender.accessToken forKey:SPARK_ACCESS_TOKEN];
+    [defaults setObject:sender.refreshToken forKey:SPARK_REFRESH_TOKEN];
+    
     NSMutableArray *viewControllers = [[NSMutableArray alloc] initWithCapacity:1];
     [viewControllers addObject:[[ViewListingsViewController alloc] initWithStyle:UITableViewStylePlain]];
     [self.navigationController setViewControllers:viewControllers animated:YES];

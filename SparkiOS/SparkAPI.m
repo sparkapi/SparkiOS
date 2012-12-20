@@ -26,9 +26,6 @@
 
 @interface SparkAPI ()
 
-@property (strong, nonatomic) NSString *accessToken;
-@property (strong, nonatomic) NSString *refreshToken;
-
 @end
 
 @implementation SparkAPI
