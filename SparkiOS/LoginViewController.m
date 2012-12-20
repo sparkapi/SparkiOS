@@ -65,9 +65,7 @@
     self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0,0,IPHONE_WIDTH,[UIHelper iPhone5] ? IPHONE5_HEIGHT_INSIDE_NAVBAR : IPHONE_HEIGHT_INSIDE_NAVBAR)];
     self.webView.hidden = YES;
     self.webView.delegate = self;
-    [self.webView loadRequest:[NSURLRequest requestWithURL:(self.loginType.selected ?
-                                                            [SparkAPI getSparkHybridOpenIdURL] :
-                                                            [SparkAPI getSparkOpenIdAttributeExchangeURL])]];
+    [self.webView loadRequest:[NSURLRequest requestWithURL:[SparkAPI getSparkOpenIdLogoutURL]]];
     [self.view addSubview:self.webView];
 }
 
@@ -125,8 +123,8 @@
 }
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
-{
-    if(self.loginType.selected)
+{    
+    if(self.loginType.on)
     {
         NSString* openIdSparkCode = [SparkAPI getHybridOpenIdSparkCode:request];
         if(openIdSparkCode)
@@ -162,8 +160,21 @@
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    self.webView.hidden = NO;
+    NSURLRequest* urlRequest = webView.request;
+    
+    NSLog(@"urlDidFinishLoad>%@",[urlRequest.URL absoluteString]);
+    
+    if([[urlRequest.URL absoluteString] isEqualToString:[[SparkAPI getSparkOpenIdLogoutURL] absoluteString]])
+    {
+        [self.webView loadRequest:[NSURLRequest requestWithURL:(self.loginType.on ?
+                                                                [SparkAPI getSparkHybridOpenIdURL] :
+                                                                [SparkAPI getSparkOpenIdAttributeExchangeURL])]];
+    }
+    else
+    {
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+        self.webView.hidden = NO;
+    }
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error

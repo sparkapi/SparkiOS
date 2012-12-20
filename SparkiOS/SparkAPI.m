@@ -39,6 +39,7 @@ static NSString* sparkClientSecret = @"";
 static NSString* sparkOpenIdURL = @"https://sparkplatform.com/openid";
 static NSString* sparkCallbackURL = @"https://sparkplatform.com/oauth2/callback";
 static NSString* sparkOAuth2GrantURL = @"https://sparkplatform.com/v1/oauth2/grant";
+static NSString* sparkOpenIdLogoutURL = @"https://sparkplatform.com/openid/logout";
 
 static NSString* httpGet = @"GET";
 static NSString* httpPost = @"POST";
@@ -134,6 +135,11 @@ static AFHTTPClient *httpClient;
 + (NSURL*)getSparkOAuth2URL
 {
     return [NSURL URLWithString:sparkOAuth2GrantURL];
+}
+
++ (NSURL*)getSparkOpenIdLogoutURL
+{
+    return [NSURL URLWithString:sparkOpenIdLogoutURL];
 }
 
 + (NSString*) getHybridOpenIdSparkCode:(NSURLRequest*)request

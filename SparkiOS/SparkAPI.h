@@ -32,6 +32,7 @@
 + (NSURL*)getSparkOpenIdURL;
 + (NSURL*)getSparkOpenIdAttributeExchangeURL;
 + (NSURL*)getSparkHybridOpenIdURL;
++ (NSURL*)getSparkOpenIdLogoutURL;
 
 + (NSString*) getHybridOpenIdSparkCode:(NSURLRequest*)request;
 + (void) OAuth2Grant:(NSString*)openIdSparkCode

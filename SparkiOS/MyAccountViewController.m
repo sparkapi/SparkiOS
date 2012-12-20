@@ -22,6 +22,7 @@
 #import "MyAccountViewController.h"
 
 #import "iOSConstants.h"
+#import "LoginViewController.h"
 #import "Keys.h"
 #import "SparkAPI.h"
 #import "UIHelper.h"
@@ -50,6 +51,14 @@
     
     self.title = @"My Account";
     
+    UIBarButtonItem *logoutButton =
+    [[UIBarButtonItem alloc] initWithTitle:@"Logout"
+                                     style:UIBarButtonItemStyleBordered
+                                    target:self
+                                    action:@selector(logoutAction:)];
+    //searchButton.tintColor = [UIColor blueColor];
+    self.navigationItem.rightBarButtonItem = logoutButton;
+    
     if([UIHelper isOAuth])
     {
         self.activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
@@ -73,12 +82,32 @@
                   NSLog(@"error>%@",error);
               }];
     }
+    
+    
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)logoutAction:(id)sender
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults removeObjectForKey:SPARK_ACCESS_TOKEN];
+    [defaults removeObjectForKey:SPARK_REFRESH_TOKEN];
+    [defaults removeObjectForKey:SPARK_OPENID];
+    [defaults removeObjectForKey:OPENID_ID];
+    [defaults removeObjectForKey:OPENID_FRIENDLY];
+    [defaults removeObjectForKey:OPENID_FIRST_NAME];
+    [defaults removeObjectForKey:OPENID_MIDDLE_NAME];
+    [defaults removeObjectForKey:OPENID_LAST_NAME];
+    [defaults removeObjectForKey:OPENID_EMAIL];
+    
+    LoginViewController *loginVC = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
+    loginVC.title = @"Login";
+    [self.navigationController setViewControllers:[NSArray arrayWithObject:loginVC] animated:YES];
 }
 
 #pragma mark - Table view data source
