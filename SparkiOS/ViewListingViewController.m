@@ -24,6 +24,7 @@
 #import <QuartzCore/QuartzCore.h>
 
 #import "AppDelegate.h"
+#import "iOSConstants.h"
 #import "ListingFormatter.h"
 #import "UIImageView+AFNetworking.h"
 
@@ -37,6 +38,7 @@
 @property (strong, nonatomic) NSMutableArray* imageViews;
 
 @property (strong, nonatomic) UITableViewCell *detailLineCell;
+@property (strong, nonatomic) UIActivityIndicatorView *activityView;
 
 @end
 
@@ -76,6 +78,11 @@ static NSDateFormatter* simpleDateTimeFormatter;
 {
     [super viewDidLoad];
     
+    self.activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    self.activityView.center = CGPointMake(self.view.center.x,self.view.center.y - NAVBAR_HEIGHT);
+    [self.view addSubview:self.activityView];
+    [self.activityView startAnimating];
+    
     NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
     [parameters setObject:@"1" forKey:@"_limit"];
     [parameters setObject:@"Photos" forKey:@"_expand"];
@@ -91,6 +98,8 @@ static NSDateFormatter* simpleDateTimeFormatter;
               {
                   self.listingJSON = [listingsJSON objectAtIndex:0];
                   [self.tableView reloadData];
+                  if(self.standardFields)
+                     [self.activityView stopAnimating];
               }
           }
           failure:^(NSError* error) {
@@ -102,6 +111,8 @@ static NSDateFormatter* simpleDateTimeFormatter;
           success:^(id responseJSON) {
               self.standardFields = [(NSArray*)responseJSON objectAtIndex:0];
               [self.tableView reloadData];
+              if(self.listingJSON)
+                  [self.activityView stopAnimating];
           }
           failure:^(NSError* error) {
               NSLog(@"error>%@",error);

@@ -22,6 +22,7 @@
 #import "ViewListingsViewController.h"
 
 #import "AppDelegate.h"
+#import "iOSConstants.h"
 #import "ListingFormatter.h"
 #import "MyAccountViewController.h"
 #import "SparkAPI.h"
@@ -31,6 +32,7 @@
 @interface ViewListingsViewController ()
 
 @property (strong, nonatomic) UITextField *searchField;
+@property (strong, nonatomic) UIActivityIndicatorView *activityView;
 @property (strong, nonatomic) NSArray *listingsJSON;
 
 @end
@@ -51,8 +53,6 @@
 {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
-
     self.navigationItem.leftBarButtonItem =
         [[UIBarButtonItem alloc] initWithTitle:@"Account"
                                          style:UIBarButtonItemStyleBordered
@@ -74,6 +74,12 @@
     self.searchField.text = @"PropertyType Eq 'A'";
     self.navigationItem.titleView = self.searchField;
     
+    self.activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    self.activityView.center = CGPointMake(self.view.center.x,self.view.center.y - NAVBAR_HEIGHT);
+    [self.view addSubview:self.activityView];
+    [self.activityView startAnimating];
+    
+    self.view.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];    
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     [self searchAction:nil];
@@ -166,6 +172,7 @@
     {
         self.listingsJSON = nil;
         self.view.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
+        [self.activityView startAnimating];
         self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [self.tableView reloadData];
     }
@@ -183,6 +190,7 @@
        parameters:parameters
           success:^(id responseJSON) {
               self.listingsJSON = (NSArray*)responseJSON;
+              [self.activityView stopAnimating];
               if(self.listingsJSON && [self.listingsJSON count] > 0)
               {
                   self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;

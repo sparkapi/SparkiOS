@@ -22,10 +22,12 @@
 #import "MyAccountViewController.h"
 
 #import "AppDelegate.h"
+#import "iOSConstants.h"
 #import "SparkAPI.h"
 
 @interface MyAccountViewController ()
 
+@property (strong, nonatomic) UIActivityIndicatorView *activityView;
 @property (strong, nonatomic) NSDictionary *myAccountJSON;
 
 @end
@@ -47,6 +49,11 @@
     
     self.title = @"My Account";
     
+    self.activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    self.activityView.center = CGPointMake(self.view.center.x,self.view.center.y - NAVBAR_HEIGHT);
+    [self.view addSubview:self.activityView];
+    [self.activityView startAnimating];
+    
     SparkAPI *sparkAPI =
         ((AppDelegate*)[[UIApplication sharedApplication] delegate]).sparkAPI;
     [sparkAPI get:@"/v1/my/account"
@@ -57,6 +64,7 @@
               {
                   self.myAccountJSON = [responseJSON objectAtIndex:0];
                   [self.tableView reloadData];
+                  [self.activityView stopAnimating];
               }
           }
           failure:^(NSError* error) {
