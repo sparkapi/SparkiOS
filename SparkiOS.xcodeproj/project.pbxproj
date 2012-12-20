@@ -61,6 +61,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4953B0CF1683AD9C00BF47E1 /* Keys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Keys.h; sourceTree = "<group>"; };
 		498619AE167FC448004971C4 /* SparkiOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SparkiOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		498619B2167FC448004971C4 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		498619B4167FC448004971C4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -199,6 +200,7 @@
 			children = (
 				498619C1167FC448004971C4 /* AppDelegate.h */,
 				498619C2167FC448004971C4 /* AppDelegate.m */,
+				4953B0CF1683AD9C00BF47E1 /* Keys.h */,
 				49861A2D167FF046004971C4 /* SparkAPI.h */,
 				49861A2E167FF046004971C4 /* SparkAPI.m */,
 				49861A21167FDA35004971C4 /* ui */,

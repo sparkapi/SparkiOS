@@ -20,7 +20,9 @@
 //
 
 #import "AppDelegate.h"
+#import "Keys.h"
 #import "LoginViewController.h"
+#import "MyAccountViewController.h"
 #import "ViewListingsViewController.h"
 
 @implementation AppDelegate
@@ -32,12 +34,18 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString* accessToken = [defaults objectForKey:SPARK_ACCESS_TOKEN];
     NSString* refreshToken = [defaults objectForKey:SPARK_REFRESH_TOKEN];
+    NSString* openIdSparkid = [defaults objectForKey:SPARK_OPENID];
 
     UIViewController *vc = nil;
-    if(accessToken && refreshToken)
+    if((accessToken && refreshToken) || openIdSparkid)
     {
-        vc = [[ViewListingsViewController alloc] initWithStyle:UITableViewStylePlain];
-        self.sparkAPI = [[SparkAPI alloc] initWithAccessToken:accessToken refreshToken:refreshToken];
+        self.sparkAPI = [[SparkAPI alloc] initWithAccessToken:accessToken
+                                                 refreshToken:refreshToken
+                                                       openId:openIdSparkid];
+        if(accessToken && refreshToken)
+            vc = [[ViewListingsViewController alloc] initWithStyle:UITableViewStylePlain];
+        else
+            vc = [[MyAccountViewController alloc] initWithStyle:UITableViewStyleGrouped];
     }
     else
     {

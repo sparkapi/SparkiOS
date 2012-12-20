@@ -21,10 +21,15 @@
 
 #import <Foundation/Foundation.h>
 
+#import "SparkAPI.h"
+
 @interface UIHelper : NSObject
 
 + (BOOL) iPhone;
 + (BOOL) iPhone5;
 + (BOOL) iPad;
++ (BOOL) isOAuth;
+
++ (SparkAPI*)getSparkAPI;
 
 @end

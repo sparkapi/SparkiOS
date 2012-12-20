@@ -21,7 +21,9 @@
 
 #import "UIHelper.h"
 
+#import "AppDelegate.h"
 #import "iOSConstants.h"
+#import "SparkAPI.h"
 
 @implementation UIHelper
 
@@ -39,6 +41,18 @@
 {
     CGRect screenBounds = [[UIScreen mainScreen] bounds];
     return [self iPhone] && (screenBounds.size.height == IPHONE5_HEIGHT);
+}
+
++ (BOOL) isOAuth
+{
+    SparkAPI* sparkAPI = [self getSparkAPI];
+    return sparkAPI.oauthAccessToken && sparkAPI.oauthRefreshToken;
+}
+
++ (SparkAPI*)getSparkAPI
+{
+    return ((AppDelegate*)[[UIApplication sharedApplication] delegate]).sparkAPI;
+
 }
 
 @end

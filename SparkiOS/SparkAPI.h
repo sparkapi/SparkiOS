@@ -21,18 +21,33 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol SparkAPIDelegate;
-
 @interface SparkAPI : NSObject
 
-@property (strong, nonatomic) NSString *accessToken;
-@property (strong, nonatomic) NSString *refreshToken;
+@property (strong, nonatomic) NSString *openIdSparkId;
+@property (strong, nonatomic) NSString *oauthAccessToken;
+@property (strong, nonatomic) NSString *oauthRefreshToken;
+
+// authenticate
 
 + (NSURL*)getSparkOpenIdURL;
-+ (NSString*) getHybridOpenIdSparkCode:(NSURLRequest*)request;
-+ (void) OAuth2Grant:(NSString*)openIdSparkCode delegate:(id <SparkAPIDelegate>) delegate;
++ (NSURL*)getSparkOpenIdAttributeExchangeURL;
++ (NSURL*)getSparkHybridOpenIdURL;
 
-- initWithAccessToken:(NSString*)accessToken refreshToken:(NSString*)refreshToken;
++ (NSString*) getHybridOpenIdSparkCode:(NSURLRequest*)request;
++ (void) OAuth2Grant:(NSString*)openIdSparkCode
+             success:(void(^)(SparkAPI* sparkAPI))success
+             failure:(void(^)(NSError *error))failure;
+
++ (BOOL) isOpenIdAuthenticationRequest:(NSURLRequest*)request;
++ (void) openIdAuthenticate:(NSURLRequest*)request
+                         success:(void(^)(SparkAPI* sparkAPI, NSDictionary* parameters))success
+                         failure:(void(^)(NSError *error))failure;
+
+// interface
+
+- initWithAccessToken:(NSString*)accessToken
+         refreshToken:(NSString*)refreshToken
+               openId:(NSString*)openIdSparkId;
 
 - (void) get:(NSString*)apiCommand
   parameters:(NSDictionary*)parameters
@@ -40,13 +55,9 @@
      failure:(void(^)(NSError *error))failure;
 
 - (void) api:(NSString*)apiCommand
-  parameters:(NSDictionary*)parameters
   httpMethod:(NSString*)httpMethod
+  parameters:(NSDictionary*)parameters
      success:(void(^)(id responseJSON))success
      failure:(void(^)(NSError *error))failure;
 
-@end
-
-@protocol SparkAPIDelegate <NSObject>
-- (void)didAuthorize:(SparkAPI*)sender;
 @end

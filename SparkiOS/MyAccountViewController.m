@@ -21,9 +21,10 @@
 
 #import "MyAccountViewController.h"
 
-#import "AppDelegate.h"
 #import "iOSConstants.h"
+#import "Keys.h"
 #import "SparkAPI.h"
+#import "UIHelper.h"
 
 @interface MyAccountViewController ()
 
@@ -49,27 +50,29 @@
     
     self.title = @"My Account";
     
-    self.activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    self.activityView.center = CGPointMake(self.view.center.x,self.view.center.y - NAVBAR_HEIGHT);
-    [self.view addSubview:self.activityView];
-    [self.activityView startAnimating];
-    
-    SparkAPI *sparkAPI =
-        ((AppDelegate*)[[UIApplication sharedApplication] delegate]).sparkAPI;
-    [sparkAPI get:@"/v1/my/account"
-       parameters:nil
-          success:^(id responseJSON) {
-              NSArray *resultsJSON = (NSArray*)responseJSON;
-              if(resultsJSON && [responseJSON count] > 0)
-              {
-                  self.myAccountJSON = [responseJSON objectAtIndex:0];
-                  [self.tableView reloadData];
-                  [self.activityView stopAnimating];
+    if([UIHelper isOAuth])
+    {
+        self.activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        self.activityView.center = CGPointMake(self.view.center.x,self.view.center.y - NAVBAR_HEIGHT);
+        [self.view addSubview:self.activityView];
+        [self.activityView startAnimating];
+        
+        SparkAPI *sparkAPI = [UIHelper getSparkAPI];
+        [sparkAPI get:@"/v1/my/account"
+           parameters:nil
+              success:^(id responseJSON) {
+                  NSArray *resultsJSON = (NSArray*)responseJSON;
+                  if(resultsJSON && [responseJSON count] > 0)
+                  {
+                      self.myAccountJSON = [responseJSON objectAtIndex:0];
+                      [self.tableView reloadData];
+                      [self.activityView stopAnimating];
+                  }
               }
-          }
-          failure:^(NSError* error) {
-              NSLog(@"error>%@",error);
-          }];
+              failure:^(NSError* error) {
+                  NSLog(@"error>%@",error);
+              }];
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -82,25 +85,16 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return self.myAccountJSON ? 1 : 0;
+    return self.myAccountJSON || ![UIHelper isOAuth] ? 1 : 0;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 8;
+    return [UIHelper isOAuth] ? 8 : 6;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)myAccountJSONCell:(UITableViewCell*)cell indexPath:(NSIndexPath*)indexPath
 {
-    static NSString *CellIdentifier = @"MyAccountCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
-    if(!cell)
-    {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
-                                      reuseIdentifier:CellIdentifier];
-    }
-        
     if(indexPath.row == 0)
     {
         cell.detailTextLabel.text = @"Name";
@@ -141,6 +135,59 @@
         cell.detailTextLabel.text = @"Website";
         cell.textLabel.text = [self getFirstItem:@"Websites" key:@"Uri"];
     }
+}
+
+- (void)myAccountOpenIdCell:(UITableViewCell*)cell indexPath:(NSIndexPath*)indexPath
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if(indexPath.row == 0)
+    {
+        cell.detailTextLabel.text = @"ID";
+        cell.textLabel.text = [defaults objectForKey:OPENID_ID];
+    }
+    else if(indexPath.row == 1)
+    {
+        cell.detailTextLabel.text = @"Full Name";
+        cell.textLabel.text = [defaults objectForKey:OPENID_FRIENDLY];
+    }
+    else if(indexPath.row == 2)
+    {
+        cell.detailTextLabel.text = @"First Name";
+        cell.textLabel.text = [defaults objectForKey:OPENID_FIRST_NAME];
+    }
+    else if(indexPath.row == 3)
+    {
+        cell.detailTextLabel.text = @"Middle Name";
+        cell.textLabel.text = [defaults objectForKey:OPENID_MIDDLE_NAME];
+    }
+    else if(indexPath.row == 4)
+    {
+        cell.detailTextLabel.text = @"Last Name";
+        cell.textLabel.text = [defaults objectForKey:OPENID_LAST_NAME];
+    }
+    else if(indexPath.row == 5)
+    {
+        cell.detailTextLabel.text = @"Email";
+        cell.textLabel.text = [defaults objectForKey:OPENID_EMAIL];
+    }
+}
+
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *CellIdentifier = @"MyAccountCell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    
+    if(!cell)
+    {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
+                                      reuseIdentifier:CellIdentifier];
+    }
+    
+    if([UIHelper isOAuth])
+        [self myAccountJSONCell:cell indexPath:indexPath];
+    else
+        [self myAccountOpenIdCell:cell indexPath:indexPath];
     
     return cell;
 }

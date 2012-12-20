@@ -23,10 +23,15 @@
 
 #import "AppDelegate.h"
 #import "iOSConstants.h"
+#import "Keys.h"
+#import "SparkAPI.h"
 #import "UIHelper.h"
 #import "ViewListingsViewController.h"
+#import "MyAccountViewController.h"
 
 @interface LoginViewController ()
+
+@property (strong, nonatomic) UIWebView *webView;
 
 @end
 
@@ -60,7 +65,9 @@
     self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0,0,IPHONE_WIDTH,[UIHelper iPhone5] ? IPHONE5_HEIGHT_INSIDE_NAVBAR : IPHONE_HEIGHT_INSIDE_NAVBAR)];
     self.webView.hidden = YES;
     self.webView.delegate = self;
-    [self.webView loadRequest:[NSURLRequest requestWithURL:[SparkAPI getSparkOpenIdURL]]];
+    [self.webView loadRequest:[NSURLRequest requestWithURL:(self.loginType.selected ?
+                                                            [SparkAPI getSparkHybridOpenIdURL] :
+                                                            [SparkAPI getSparkOpenIdAttributeExchangeURL])]];
     [self.view addSubview:self.webView];
 }
 
@@ -71,14 +78,84 @@
     [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 }
 
+- (void)processAuthentication:(SparkAPI*)sparkAPI parameters:(NSDictionary*)parameters
+{
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+    
+    AppDelegate *appDelegate = ((AppDelegate*)[[UIApplication sharedApplication] delegate]);
+    appDelegate.sparkAPI = sparkAPI;
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if(sparkAPI.oauthAccessToken)
+        [defaults setObject:sparkAPI.oauthAccessToken forKey:SPARK_ACCESS_TOKEN];
+    if(sparkAPI.oauthRefreshToken)
+        [defaults setObject:sparkAPI.oauthRefreshToken forKey:SPARK_REFRESH_TOKEN];
+    if(sparkAPI.openIdSparkId)
+    {
+        [defaults setObject:sparkAPI.openIdSparkId forKey:SPARK_OPENID];
+
+        NSString *value = [parameters objectForKey:@"openid.ax.value.id"];
+        if(value)
+            [defaults setObject:value forKey:OPENID_ID];
+        value = [parameters objectForKey:@"openid.ax.value.friendly"];
+        if(value)
+            [defaults setObject:value forKey:OPENID_FRIENDLY];
+        value = [parameters objectForKey:@"openid.ax.value.first_name"];
+        if(value)
+            [defaults setObject:value forKey:OPENID_FIRST_NAME];
+        value = [parameters objectForKey:@"openid.ax.value.middle_name"];
+        if(value)
+            [defaults setObject:value forKey:OPENID_MIDDLE_NAME];
+        value = [parameters objectForKey:@"openid.ax.value.last_name"];
+        if(value)
+            [defaults setObject:value forKey:OPENID_LAST_NAME];
+        value = [parameters objectForKey:@"openid.ax.value.email"];
+        if(value)
+            [defaults setObject:value forKey:OPENID_EMAIL];
+    }
+
+    NSMutableArray *viewControllers = [[NSMutableArray alloc] initWithCapacity:1];
+    UIViewController* vc = nil;
+    if(sparkAPI.oauthAccessToken && sparkAPI.oauthRefreshToken)
+        vc = [[ViewListingsViewController alloc] initWithStyle:UITableViewStylePlain];
+    else
+        vc = [[MyAccountViewController alloc] initWithStyle:UITableViewStyleGrouped];
+    [viewControllers addObject:vc];
+    [self.navigationController setViewControllers:viewControllers animated:YES];
+}
+
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
-    NSString* openIdSparkCode = [SparkAPI getHybridOpenIdSparkCode:request];
-    if(openIdSparkCode)
+    if(self.loginType.selected)
     {
-        [SparkAPI OAuth2Grant:openIdSparkCode delegate:self];
-        return NO;
+        NSString* openIdSparkCode = [SparkAPI getHybridOpenIdSparkCode:request];
+        if(openIdSparkCode)
+        {
+            [SparkAPI OAuth2Grant:openIdSparkCode
+                          success:^(SparkAPI *sparkAPI) {
+                              [self processAuthentication:sparkAPI parameters:nil];
+                          }
+                          failure:^(NSError* error) {
+                              NSLog(@"error>%@",error);
+                          }];
+            return NO;
+        }
     }
+    else
+    {
+        if([SparkAPI isOpenIdAuthenticationRequest:request])
+        {
+            [SparkAPI openIdAuthenticate:request
+                                 success:^(SparkAPI *sparkAPI, NSDictionary *parameters) {
+                                     [self processAuthentication:sparkAPI parameters:parameters];
+                                 }
+                                 failure:^(NSError* error) {
+                                     NSLog(@"error>%@",error);
+                                 }];
+            return NO;
+        }
+    }
+    
     
     return YES;
 }
@@ -92,24 +169,6 @@
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-}
-
-// SparkAPIDelegate ************************************************************
-
-- (void)didAuthorize:(SparkAPI*)sender
-{
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-    
-    AppDelegate *appDelegate = ((AppDelegate*)[[UIApplication sharedApplication] delegate]);
-    appDelegate.sparkAPI = sender;
-    
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setObject:sender.accessToken forKey:SPARK_ACCESS_TOKEN];
-    [defaults setObject:sender.refreshToken forKey:SPARK_REFRESH_TOKEN];
-    
-    NSMutableArray *viewControllers = [[NSMutableArray alloc] initWithCapacity:1];
-    [viewControllers addObject:[[ViewListingsViewController alloc] initWithStyle:UITableViewStylePlain]];
-    [self.navigationController setViewControllers:viewControllers animated:YES];
 }
 
 @end

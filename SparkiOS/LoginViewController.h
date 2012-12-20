@@ -20,10 +20,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SparkAPI.h"
 
 @interface LoginViewController : UIViewController
-    <UIWebViewDelegate, SparkAPIDelegate>
+    <UIWebViewDelegate>
 {
     IBOutlet UIButton *sparkButton;
     IBOutlet UISwitch *loginType;
@@ -31,7 +30,5 @@
 
 @property (strong, nonatomic) UIButton *sparkButton;
 @property (strong, nonatomic) UISwitch *loginType;
-
-@property (strong, nonatomic) UIWebView *webView;
 
 @end
