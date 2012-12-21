@@ -117,14 +117,14 @@
             [defaults setObject:value forKey:OPENID_EMAIL];
     }
 
-    NSMutableArray *viewControllers = [[NSMutableArray alloc] initWithCapacity:1];
-    UIViewController* vc = nil;
-    if(sparkAPI.oauthAccessToken && sparkAPI.oauthRefreshToken)
-        vc = [[ViewListingsViewController alloc] initWithStyle:UITableViewStylePlain];
+    if([UIHelper iPhone])
+        [self.navigationController setViewControllers:[NSArray arrayWithObject:[UIHelper getHomeViewController]]
+                                         animated:YES];
     else
-        vc = [[MyAccountViewController alloc] initWithStyle:UITableViewStyleGrouped];
-    [viewControllers addObject:vc];
-    [self.navigationController setViewControllers:viewControllers animated:YES];
+    {
+        AppDelegate* appDelegate = [UIHelper getAppDelegate];
+        appDelegate.window.rootViewController = [UIHelper getSplitViewController];
+    }
 }
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType

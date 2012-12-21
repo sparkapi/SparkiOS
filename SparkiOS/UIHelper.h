@@ -21,6 +21,7 @@
 
 #import <Foundation/Foundation.h>
 
+#import "AppDelegate.h"
 #import "SparkAPI.h"
 
 @interface UIHelper : NSObject
@@ -30,6 +31,11 @@
 + (BOOL) iPad;
 + (BOOL) isOAuth;
 
++ (AppDelegate*)getAppDelegate;
 + (SparkAPI*)getSparkAPI;
+
++ (UIViewController*)getHomeViewController;
++ (UINavigationController*)getNavigationController:(UIViewController*)rootViewController;
++ (UISplitViewController*)getSplitViewController;
 
 @end

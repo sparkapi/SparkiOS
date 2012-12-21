@@ -43,10 +43,7 @@
         self.sparkAPI = [[SparkAPI alloc] initWithAccessToken:accessToken
                                                  refreshToken:refreshToken
                                                        openId:openIdSparkid];
-        if(accessToken && refreshToken)
-            vc = [[ViewListingsViewController alloc] initWithStyle:UITableViewStylePlain];
-        else
-            vc = [[MyAccountViewController alloc] initWithStyle:UITableViewStyleGrouped];
+        vc = [UIHelper getHomeViewController];
     }
     else
     {
@@ -55,20 +52,12 @@
         vc.title = @"Login";
     }
     
-    UIViewController *rootVC = nil;
-    
+    UIViewController *rootVC = nil;    
     if([UIHelper iPhone])
-    {
-        UINavigationController *navigationController =
-        [[UINavigationController alloc] initWithRootViewController:vc];
-        navigationController.navigationBar.tintColor = [UIColor blackColor];
-        navigationController.toolbar.tintColor = [UIColor blackColor];
-        rootVC = navigationController;
-    }
+        rootVC = [UIHelper getNavigationController:vc];
     else
-    {
-        rootVC = vc;
-    }
+        rootVC = [vc isKindOfClass:[LoginViewController class]] ? vc : [UIHelper getSplitViewController];
+    
     self.window.rootViewController = rootVC;
     [self.window makeKeyAndVisible];
     return YES;

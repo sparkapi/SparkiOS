@@ -21,9 +21,10 @@
 
 #import "UIHelper.h"
 
-#import "AppDelegate.h"
 #import "iOSConstants.h"
+#import "MyAccountViewController.h"
 #import "SparkAPI.h"
+#import "ViewListingsViewController.h"
 
 @implementation UIHelper
 
@@ -49,10 +50,41 @@
     return sparkAPI.oauthAccessToken && sparkAPI.oauthRefreshToken;
 }
 
++ (AppDelegate*)getAppDelegate
+{
+    return (AppDelegate*)[[UIApplication sharedApplication] delegate];
+}
+
 + (SparkAPI*)getSparkAPI
 {
-    return ((AppDelegate*)[[UIApplication sharedApplication] delegate]).sparkAPI;
+    return ([self getAppDelegate]).sparkAPI;
 
+}
+
++ (UIViewController*)getHomeViewController
+{
+    SparkAPI* sparkAPI = [self getSparkAPI];
+    return (sparkAPI.oauthAccessToken && sparkAPI.oauthRefreshToken) ?
+        [[ViewListingsViewController alloc] initWithStyle:UITableViewStylePlain] :
+        [[MyAccountViewController alloc] initWithStyle:UITableViewStyleGrouped];
+}
+
++ (UINavigationController*)getNavigationController:(UIViewController*)rootViewController
+{
+    UINavigationController *navigationController =
+    [[UINavigationController alloc] initWithRootViewController:rootViewController];
+    navigationController.navigationBar.tintColor = [UIColor blackColor];
+    navigationController.toolbar.tintColor = [UIColor blackColor];
+    return navigationController;
+}
+
++ (UISplitViewController*)getSplitViewController
+{
+    UIViewController *vc1 = [UIHelper getNavigationController:[self getHomeViewController]];
+    UIViewController *vc2 = [UIHelper getNavigationController:[[MyAccountViewController alloc] initWithStyle:UITableViewStyleGrouped]];
+    UISplitViewController *svc = [[UISplitViewController alloc] init];
+    svc.viewControllers = [NSArray arrayWithObjects:vc1, vc2, nil];
+    return svc;
 }
 
 @end
