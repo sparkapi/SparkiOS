@@ -71,17 +71,19 @@
         SparkAPI *sparkAPI = [UIHelper getSparkAPI];
         [sparkAPI get:@"/v1/my/account"
            parameters:nil
-              success:^(id responseJSON) {
-                  NSArray *resultsJSON = (NSArray*)responseJSON;
-                  if(resultsJSON && [responseJSON count] > 0)
+              success:^(NSArray *resultsJSON) {
+                  if(resultsJSON && [resultsJSON count] > 0)
                   {
-                      self.myAccountJSON = [responseJSON objectAtIndex:0];
+                      self.myAccountJSON = [resultsJSON objectAtIndex:0];
                       [self.tableView reloadData];
                       [self.activityView stopAnimating];
                   }
               }
-              failure:^(NSError* error) {
-                  NSLog(@"error>%@",error);
+              failure:^(NSInteger sparkErrorCode,
+                        NSString* sparkErrorMessage,
+                        NSError *httpError) {
+                  [self.activityView stopAnimating];
+                  [UIHelper alert:sparkErrorCode message:sparkErrorMessage error:httpError];
               }];
     }
     

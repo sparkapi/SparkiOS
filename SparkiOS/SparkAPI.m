@@ -157,7 +157,7 @@ static AFHTTPClient *httpClient;
 
 + (void) OAuth2Grant:(NSString*)openIdSparkCode
              success:(void(^)(SparkAPI* sparkAPI))success
-             failure:(void(^)(NSError *error))failure;
+             failure:(void(^)(NSError *httpError))failure;
 {
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
     [dictionary setObject:sparkClientId forKey:@"client_id"];
@@ -192,7 +192,7 @@ static AFHTTPClient *httpClient;
 
 + (void) openIdAuthenticate:(NSURLRequest*)request
                     success:(void(^)(SparkAPI* sparkAPI, NSDictionary* parameters))success
-                    failure:(void(^)(NSError *error))failure
+                    failure:(void(^)(NSError *httpError))failure
 {
     NSDictionary *parameters = [self getParameterDictionary:request.URL];
     NSString* openIdSparkId = [parameters objectForKey:@"openid.ax.value.id"];
@@ -222,42 +222,164 @@ static AFHTTPClient *httpClient;
     return self;
 }
 
+- (void)handleSuccess:(id)responseObject
+         successBlock:(void(^)(NSArray *resultsJSON))success
+{
+    if(!responseObject)
+        return;
+    
+    NSString *responseString = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+    NSDictionary *responseJSON = [responseString JSONValue];
+    NSDictionary *responsePayload = [self getResponsePayload:responseJSON];
+    if([self getResponseSuccess:responsePayload] && success)
+            success([responsePayload objectForKey:@"Results"]);
+/*
+    else
+    {
+        NSNumber* sparkErrorCode = [responsePayload objectForKey:@"Code"];
+        NSString* sparkErrorMessage = [responsePayload objectForKey:@"Message"];
+        if(failure)
+            failure(sparkErrorCode, sparkErrorMessage, nil);
+    }
+ */
+}
+
+- (void)handleFailure:(NSError*)httpError
+         failureBlock:(void(^)(NSInteger sparkErrorCode,
+                               NSString* sparkErrorMessage,
+                               NSError *httpError))failure
+{
+    if(!httpError)
+        return;
+
+    NSInteger sparkErrorCode = -1;
+    NSString* sparkErrorMessage = nil;
+    
+    if(-httpError.code >= 1000)
+    {
+        sparkErrorCode = -httpError.code;
+        NSDictionary *responseJSON = [[httpError.userInfo objectForKey:NSLocalizedRecoverySuggestionErrorKey] JSONValue];
+        NSDictionary *responsePayload = [self getResponsePayload:responseJSON];
+        sparkErrorMessage = [responsePayload objectForKey:@"Message"];
+    }
+ 
+    if(failure)
+        failure(sparkErrorCode, sparkErrorMessage, httpError);
+}
+
 - (void) get:(NSString*)apiCommand
   parameters:(NSDictionary*)parameters
-     success:(void(^)(id responseJSON))success
-     failure:(void(^)(NSError *error))failure
+     success:(void(^)(NSArray *resultsJSON))success
+     failure:(void(^)(NSInteger sparkErrorCode,
+                      NSString* sparkErrorMessage,
+                      NSError *httpError))failure
 {
-    [self api:apiCommand
-   httpMethod:httpGet
-   parameters:parameters
-      success:success
-      failure:failure];
+    [httpClient getPath:apiCommand
+             parameters:parameters
+                success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                    [self handleSuccess:responseObject
+                           successBlock:success];
+                }
+                failure:^(AFHTTPRequestOperation *operation, NSError *httpError) {
+                    [self handleFailure:httpError
+                           failureBlock:failure];
+                }];
+}
+
+- (void) post:(NSString*)apiCommand
+  parameters:(NSDictionary*)parameters
+     success:(void(^)(NSArray *resultsJSON))success
+      failure:(void(^)(NSInteger sparkErrorCode,
+                       NSString* sparkErrorMessage,
+                       NSError *httpError))failure
+{
+    [httpClient postPath:apiCommand
+              parameters:parameters
+                 success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                     [self handleSuccess:responseObject
+                            successBlock:success];
+                 }
+                 failure:^(AFHTTPRequestOperation *operation, NSError *httpError) {
+                     [self handleFailure:httpError
+                            failureBlock:failure];
+                 }];
+}
+
+- (void) put:(NSString*)apiCommand
+   parameters:(NSDictionary*)parameters
+      success:(void(^)(NSArray *resultsJSON))success
+     failure:(void(^)(NSInteger sparkErrorCode,
+                      NSString* sparkErrorMessage,
+                      NSError *httpError))failure
+{
+    [httpClient putPath:apiCommand
+             parameters:parameters
+                success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                    [self handleSuccess:responseObject
+                           successBlock:success];
+                }
+                failure:^(AFHTTPRequestOperation *operation, NSError *httpError) {
+                    [self handleFailure:httpError
+                           failureBlock:failure];
+                }];
+}
+
+- (void) delete:(NSString*)apiCommand
+  parameters:(NSDictionary*)parameters
+     success:(void(^)(NSArray *resultsJSON))success
+        failure:(void(^)(NSInteger sparkErrorCode,
+                         NSString* sparkErrorMessage,
+                         NSError *httpError))failure
+{
+    [httpClient deletePath:apiCommand
+             parameters:parameters
+                success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                    [self handleSuccess:responseObject
+                           successBlock:success];
+                }
+                failure:^(AFHTTPRequestOperation *operation, NSError *httpError) {
+                    [self handleFailure:httpError
+                           failureBlock:failure];
+                }];
 }
 
 - (void) api:(NSString*)apiCommand
   httpMethod:(NSString*)httpMethod
   parameters:(NSDictionary*)parameters
-     success:(void(^)(id responseJSON))success
-     failure:(void(^)(NSError *error))failure
+     success:(void(^)(NSArray *resultsJSON))success
+     failure:(void(^)(NSInteger sparkErrorCode,
+                      NSString* sparkErrorMessage,
+                      NSError *httpError))failure
 {
-    [httpClient getPath:apiCommand
-             parameters:parameters
-                success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                    NSString *responseString = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
-                    NSDictionary *responseJSON = [responseString JSONValue];
-                    if(success)
-                        success([self getResultsArray:responseJSON]);
-                }
-                failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                    if(failure)
-                        failure(error);
-                }];
-}
+    if([httpPost isEqualToString:httpMethod])
+    {
+        [self post:apiCommand
+        parameters:parameters
+           success:success
+           failure:failure];
+    }
+    else if([httpPut isEqualToString:httpMethod])
+    {
+        [self put:apiCommand
+       parameters:parameters
+          success:success
+          failure:failure];
+    }
+    else if([httpDelete isEqualToString:httpMethod])
+    {
+        [self delete:apiCommand
+          parameters:parameters
+             success:success
+             failure:failure];
+    }
+    else // ([httpGet isEqualToString:httpMethod])
+    {
+        [self get:apiCommand
+       parameters:parameters
+          success:success
+          failure:failure];
+    }
 
-- (NSArray*) getResultsArray:(NSDictionary*)responseJSON
-{
-    NSDictionary* responsePayload = [self getResponsePayload:responseJSON];
-    return [self getResponseSuccess:responsePayload] ? [responsePayload objectForKey:@"Results"] : nil;
 }
 
 - (NSDictionary*) getResponsePayload:(NSDictionary*)responseJSON

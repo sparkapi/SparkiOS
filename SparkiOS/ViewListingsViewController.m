@@ -197,8 +197,8 @@
     ((AppDelegate*)[[UIApplication sharedApplication] delegate]).sparkAPI;
     [sparkAPI get:@"/v1/listings"
        parameters:parameters
-          success:^(id responseJSON) {
-              self.listingsJSON = (NSArray*)responseJSON;
+          success:^(NSArray *resultsJSON) {
+              self.listingsJSON = resultsJSON;
               [self.activityView stopAnimating];
               if(self.listingsJSON && [self.listingsJSON count] > 0)
               {
@@ -209,8 +209,11 @@
               else
                   self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
           }
-          failure:^(NSError* error) {
-              NSLog(@"error>%@",error);
+          failure:^(NSInteger sparkErrorCode,
+                    NSString* sparkErrorMessage,
+                    NSError *httpError) {
+              [self.activityView stopAnimating];
+              [UIHelper alert:sparkErrorCode message:sparkErrorMessage error:httpError];
           }];
 }
 

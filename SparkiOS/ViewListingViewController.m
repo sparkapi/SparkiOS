@@ -74,11 +74,10 @@
         ((AppDelegate*)[[UIApplication sharedApplication] delegate]).sparkAPI;
     [sparkAPI get:@"/v1/listings"
        parameters:parameters
-          success:^(id responseJSON) {
-              NSArray *listingsJSON = (NSArray*)responseJSON;
-              if(listingsJSON && [listingsJSON count] > 0)
+          success:^(NSArray *resultsJSON) {
+              if(resultsJSON && [resultsJSON count] > 0)
               {
-                  self.listingJSON = [listingsJSON objectAtIndex:0];
+                  self.listingJSON = [resultsJSON objectAtIndex:0];
                   if(self.delegate)
                       [self.delegate loadListing:self.listingJSON];
                   [self.tableView reloadData];
@@ -86,20 +85,26 @@
                      [self.activityView stopAnimating];
               }
           }
-          failure:^(NSError* error) {
-              NSLog(@"error>%@",error);
+          failure:^(NSInteger sparkErrorCode,
+                    NSString* sparkErrorMessage,
+                    NSError *httpError) {
+              [self.activityView stopAnimating];
+              [UIHelper alert:sparkErrorCode message:sparkErrorMessage error:httpError];
           }];
     
     [sparkAPI get:@"/v1/standardfields"
        parameters:parameters
-          success:^(id responseJSON) {
-              self.standardFields = [(NSArray*)responseJSON objectAtIndex:0];
+          success:^(NSArray *resultsJSON) {
+              self.standardFields = [resultsJSON objectAtIndex:0];
               [self.tableView reloadData];
               if(self.listingJSON)
                   [self.activityView stopAnimating];
           }
-          failure:^(NSError* error) {
-              NSLog(@"error>%@",error);
+          failure:^(NSInteger sparkErrorCode,
+                    NSString* sparkErrorMessage,
+                    NSError *httpError) {
+              [self.activityView stopAnimating];
+              [UIHelper alert:sparkErrorCode message:sparkErrorMessage error:httpError];
           }];
 }
 

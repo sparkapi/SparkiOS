@@ -38,4 +38,8 @@
 + (UINavigationController*)getNavigationController:(UIViewController*)rootViewController;
 + (UISplitViewController*)getSplitViewController;
 
++ (void)alert:(NSInteger)sparkErrorCode
+      message:(NSString*)sparkErrorMessage
+        error:(NSError*)error;
+
 @end

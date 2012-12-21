@@ -139,7 +139,7 @@
                               [self processAuthentication:sparkAPI parameters:nil];
                           }
                           failure:^(NSError* error) {
-                              NSLog(@"error>%@",error);
+                              [UIHelper alert:-1 message:nil error:error];
                           }];
             return NO;
         }
@@ -153,7 +153,7 @@
                                      [self processAuthentication:sparkAPI parameters:parameters];
                                  }
                                  failure:^(NSError* error) {
-                                     NSLog(@"error>%@",error);
+                                     [UIHelper alert:-1 message:nil error:error];
                                  }];
             return NO;
         }

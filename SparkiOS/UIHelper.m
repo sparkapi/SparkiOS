@@ -102,4 +102,22 @@
     return svc;
 }
 
++ (void)alert:(NSInteger)sparkErrorCode
+      message:(NSString*)sparkErrorMessage
+        error:(NSError*)error
+{
+    NSString* message = nil;
+    if(sparkErrorCode >= 1000 && sparkErrorMessage)
+        message = [NSString stringWithFormat:@"%d: %@", sparkErrorCode, sparkErrorMessage];
+    else
+        message = error.localizedDescription;
+    
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                        message:message
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+    [alertView show];
+}
+
 @end

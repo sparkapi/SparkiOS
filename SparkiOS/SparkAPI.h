@@ -31,18 +31,18 @@
 
 + (NSURL*)getSparkOpenIdURL;
 + (NSURL*)getSparkOpenIdAttributeExchangeURL;
-+ (NSURL*)getSparkHybridOpenIdURL;
 + (NSURL*)getSparkOpenIdLogoutURL;
++ (NSURL*)getSparkHybridOpenIdURL;
 
 + (NSString*) getHybridOpenIdSparkCode:(NSURLRequest*)request;
 + (void) OAuth2Grant:(NSString*)openIdSparkCode
              success:(void(^)(SparkAPI* sparkAPI))success
-             failure:(void(^)(NSError *error))failure;
+             failure:(void(^)(NSError *httpError))failure;
 
 + (BOOL) isOpenIdAuthenticationRequest:(NSURLRequest*)request;
 + (void) openIdAuthenticate:(NSURLRequest*)request
                          success:(void(^)(SparkAPI* sparkAPI, NSDictionary* parameters))success
-                         failure:(void(^)(NSError *error))failure;
+                         failure:(void(^)(NSError *httpError))failure;
 
 // interface
 
@@ -52,13 +52,38 @@
 
 - (void) get:(NSString*)apiCommand
   parameters:(NSDictionary*)parameters
-     success:(void(^)(id responseJSON))success
-     failure:(void(^)(NSError *error))failure;
+     success:(void(^)(NSArray *resultsJSON))success
+     failure:(void(^)(NSInteger sparkErrorCode,
+                      NSString* sparkErrorMessage,
+                      NSError *httpError))failure;
+
+- (void) post:(NSString*)apiCommand
+   parameters:(NSDictionary*)parameters
+      success:(void(^)(NSArray *resultsJSON))success
+      failure:(void(^)(NSInteger sparkErrorCode,
+                       NSString* sparkErrorMessage,
+                       NSError *httpError))failure;
+
+- (void) put:(NSString*)apiCommand
+  parameters:(NSDictionary*)parameters
+     success:(void(^)(NSArray *resultsJSON))success
+     failure:(void(^)(NSInteger sparkErrorCode,
+                      NSString* sparkErrorMessage,
+                      NSError *httpError))failure;
+
+- (void) delete:(NSString*)apiCommand
+     parameters:(NSDictionary*)parameters
+        success:(void(^)(NSArray *resultsJSON))success
+        failure:(void(^)(NSInteger sparkErrorCode,
+                 NSString* sparkErrorMessage,
+                 NSError *httpError))failure;
 
 - (void) api:(NSString*)apiCommand
   httpMethod:(NSString*)httpMethod
   parameters:(NSDictionary*)parameters
-     success:(void(^)(id responseJSON))success
-     failure:(void(^)(NSError *error))failure;
+     success:(void(^)(NSArray *resultsJSON))success
+     failure:(void(^)(NSInteger sparkErrorCode,
+                      NSString* sparkErrorMessage,
+                      NSError *httpError))failure;
 
 @end
