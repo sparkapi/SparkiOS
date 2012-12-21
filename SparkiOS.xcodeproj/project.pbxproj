@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		4953B0D2168416F800BF47E1 /* LoginViewController-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4953B0D1168416F700BF47E1 /* LoginViewController-iPad.xib */; };
+		4953B0D616842A2B00BF47E1 /* SlideshowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4953B0D416842A2A00BF47E1 /* SlideshowViewController.m */; };
+		4953B0D716842A2B00BF47E1 /* SlideshowViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4953B0D516842A2B00BF47E1 /* SlideshowViewController.xib */; };
+		4953B0DA16842D2800BF47E1 /* SlideshowBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 4953B0D816842D2800BF47E1 /* SlideshowBackground.png */; };
+		4953B0DB16842D2800BF47E1 /* SlideshowBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4953B0D916842D2800BF47E1 /* SlideshowBackground@2x.png */; };
 		498619B3167FC448004971C4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498619B2167FC448004971C4 /* UIKit.framework */; };
 		498619B5167FC448004971C4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498619B4167FC448004971C4 /* Foundation.framework */; };
 		498619B7167FC448004971C4 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498619B6167FC448004971C4 /* CoreGraphics.framework */; };
@@ -64,6 +68,11 @@
 /* Begin PBXFileReference section */
 		4953B0CF1683AD9C00BF47E1 /* Keys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Keys.h; sourceTree = "<group>"; };
 		4953B0D1168416F700BF47E1 /* LoginViewController-iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "LoginViewController-iPad.xib"; sourceTree = "<group>"; };
+		4953B0D316842A2A00BF47E1 /* SlideshowViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlideshowViewController.h; sourceTree = "<group>"; };
+		4953B0D416842A2A00BF47E1 /* SlideshowViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SlideshowViewController.m; sourceTree = "<group>"; };
+		4953B0D516842A2B00BF47E1 /* SlideshowViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SlideshowViewController.xib; sourceTree = "<group>"; };
+		4953B0D816842D2800BF47E1 /* SlideshowBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SlideshowBackground.png; sourceTree = "<group>"; };
+		4953B0D916842D2800BF47E1 /* SlideshowBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "SlideshowBackground@2x.png"; sourceTree = "<group>"; };
 		498619AE167FC448004971C4 /* SparkiOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SparkiOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		498619B2167FC448004971C4 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		498619B4167FC448004971C4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -264,6 +273,9 @@
 				4953B0D1168416F700BF47E1 /* LoginViewController-iPad.xib */,
 				49861A5B1680FA4A004971C4 /* MyAccountViewController.h */,
 				49861A5C1680FA4A004971C4 /* MyAccountViewController.m */,
+				4953B0D316842A2A00BF47E1 /* SlideshowViewController.h */,
+				4953B0D416842A2A00BF47E1 /* SlideshowViewController.m */,
+				4953B0D516842A2B00BF47E1 /* SlideshowViewController.xib */,
 				49861A2A167FEA8D004971C4 /* UIHelper.h */,
 				49861A2B167FEA8D004971C4 /* UIHelper.m */,
 				49861ACF16823960004971C4 /* ViewListingDetailLineCell.xib */,
@@ -322,6 +334,8 @@
 				49861AB71681722F004971C4 /* Icon-72@2x.png */,
 				49861AB81681722F004971C4 /* Icon.png */,
 				49861AB91681722F004971C4 /* Icon@2x.png */,
+				4953B0D816842D2800BF47E1 /* SlideshowBackground.png */,
+				4953B0D916842D2800BF47E1 /* SlideshowBackground@2x.png */,
 				49861ABA1681722F004971C4 /* SparkLoginButton.png */,
 				49861ABB1681722F004971C4 /* SparkLoginButton@2x.png */,
 			);
@@ -396,6 +410,9 @@
 				49861AC81681722F004971C4 /* SparkLoginButton@2x.png in Resources */,
 				49861AD016823960004971C4 /* ViewListingDetailLineCell.xib in Resources */,
 				4953B0D2168416F800BF47E1 /* LoginViewController-iPad.xib in Resources */,
+				4953B0D716842A2B00BF47E1 /* SlideshowViewController.xib in Resources */,
+				4953B0DA16842D2800BF47E1 /* SlideshowBackground.png in Resources */,
+				4953B0DB16842D2800BF47E1 /* SlideshowBackground@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -436,6 +453,7 @@
 				49861AAD168171BE004971C4 /* SBJsonWriter.m in Sources */,
 				49861ACB168190CE004971C4 /* ViewListingViewController.m in Sources */,
 				49861ACE16819A6E004971C4 /* ListingFormatter.m in Sources */,
+				4953B0D616842A2B00BF47E1 /* SlideshowViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

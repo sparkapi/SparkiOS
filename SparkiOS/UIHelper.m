@@ -23,6 +23,7 @@
 
 #import "iOSConstants.h"
 #import "MyAccountViewController.h"
+#import "SlideshowViewController.h"
 #import "SparkAPI.h"
 #import "ViewListingsViewController.h"
 
@@ -81,7 +82,10 @@
 + (UISplitViewController*)getSplitViewController
 {
     UIViewController *vc1 = [UIHelper getNavigationController:[self getHomeViewController]];
-    UIViewController *vc2 = [UIHelper getNavigationController:[[MyAccountViewController alloc] initWithStyle:UITableViewStyleGrouped]];
+    UIViewController *vc2 =
+        [UIHelper getNavigationController:
+            [[SlideshowViewController alloc] initWithNibName:@"SlideshowViewController"
+                                                      bundle:nil]];
     UISplitViewController *svc = [[UISplitViewController alloc] init];
     svc.viewControllers = [NSArray arrayWithObjects:vc1, vc2, nil];
     return svc;

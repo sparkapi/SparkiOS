@@ -107,7 +107,14 @@
     
     LoginViewController *loginVC = [[LoginViewController alloc] initWithNibName:([UIHelper iPhone] ? @"LoginViewController" : @"LoginViewController-iPad") bundle:nil];
     loginVC.title = @"Login";
-    [self.navigationController setViewControllers:[NSArray arrayWithObject:loginVC] animated:YES];
+    
+    if([UIHelper iPhone])
+        [self.navigationController setViewControllers:[NSArray arrayWithObject:loginVC] animated:YES];
+    else
+    {
+        AppDelegate *appDelegate = [UIHelper getAppDelegate];
+        appDelegate.window.rootViewController = loginVC;
+    }
 }
 
 #pragma mark - Table view data source
