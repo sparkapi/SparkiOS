@@ -62,7 +62,12 @@
 
 - (IBAction) sparkLogin
 {
-    self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0,0,IPHONE_WIDTH,[UIHelper iPhone5] ? IPHONE5_HEIGHT_INSIDE_NAVBAR : IPHONE_HEIGHT_INSIDE_NAVBAR)];
+    self.webView =
+        [[UIWebView alloc] initWithFrame:CGRectMake(0,0,
+                                                    [UIHelper iPhone] ? IPHONE_WIDTH : IPAD_WIDTH,
+                                                    [UIHelper iPhone] ?
+                                                        ([UIHelper iPhone5] ? IPHONE5_HEIGHT_INSIDE_NAVBAR : IPHONE_HEIGHT_INSIDE_NAVBAR) :
+                                                        IPAD_HEIGHT_INSIDE_STATUS)];
     self.webView.hidden = YES;
     self.webView.delegate = self;
     [self.webView loadRequest:[NSURLRequest requestWithURL:[SparkAPI getSparkOpenIdLogoutURL]]];

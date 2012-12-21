@@ -23,6 +23,7 @@
 #import "Keys.h"
 #import "LoginViewController.h"
 #import "MyAccountViewController.h"
+#import "UIHelper.h"
 #import "ViewListingsViewController.h"
 
 @implementation AppDelegate
@@ -49,16 +50,26 @@
     }
     else
     {
-        vc = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
+        vc = [[LoginViewController alloc] initWithNibName:([UIHelper iPhone] ? @"LoginViewController" : @"LoginViewController-iPad")
+                                                   bundle:nil];
         vc.title = @"Login";
     }
     
-    UINavigationController *navigationController =
+    UIViewController *rootVC = nil;
+    
+    if([UIHelper iPhone])
+    {
+        UINavigationController *navigationController =
         [[UINavigationController alloc] initWithRootViewController:vc];
-    navigationController.navigationBar.tintColor = [UIColor blackColor];
-    navigationController.toolbar.tintColor = [UIColor blackColor];
-
-    self.window.rootViewController = navigationController;
+        navigationController.navigationBar.tintColor = [UIColor blackColor];
+        navigationController.toolbar.tintColor = [UIColor blackColor];
+        rootVC = navigationController;
+    }
+    else
+    {
+        rootVC = vc;
+    }
+    self.window.rootViewController = rootVC;
     [self.window makeKeyAndVisible];
     return YES;
 }

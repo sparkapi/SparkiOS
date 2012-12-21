@@ -105,7 +105,7 @@
     [defaults removeObjectForKey:OPENID_LAST_NAME];
     [defaults removeObjectForKey:OPENID_EMAIL];
     
-    LoginViewController *loginVC = [[LoginViewController alloc] initWithNibName:@"LoginViewController" bundle:nil];
+    LoginViewController *loginVC = [[LoginViewController alloc] initWithNibName:([UIHelper iPhone] ? @"LoginViewController" : @"LoginViewController-iPad") bundle:nil];
     loginVC.title = @"Login";
     [self.navigationController setViewControllers:[NSArray arrayWithObject:loginVC] animated:YES];
 }

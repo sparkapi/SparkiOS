@@ -22,6 +22,9 @@
 #ifndef SparkiOS_iOSConstants_h
 #define SparkiOS_iOSConstants_h
 
+#define IPAD_WIDTH 1024
+#define IPAD_HEIGHT_INSIDE_STATUS 748
+
 #define IPHONE_WIDTH 320
 
 #define IPHONE_HEIGHT 480
