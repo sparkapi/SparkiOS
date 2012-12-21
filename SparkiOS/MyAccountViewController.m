@@ -62,7 +62,9 @@
     if([UIHelper isOAuth])
     {
         self.activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        self.activityView.center = CGPointMake(self.view.center.x,self.view.center.y - NAVBAR_HEIGHT);
+        self.activityView.center = [UIHelper iPhone] ?
+            CGPointMake(self.view.center.x,self.view.center.y - NAVBAR_HEIGHT) :
+            CGPointMake(160,IPAD_HEIGHT_INSIDE_NAVBAR/2);
         [self.view addSubview:self.activityView];
         [self.activityView startAnimating];
         

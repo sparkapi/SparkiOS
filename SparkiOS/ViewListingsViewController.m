@@ -26,6 +26,7 @@
 #import "ListingFormatter.h"
 #import "MyAccountViewController.h"
 #import "SparkAPI.h"
+#import "UIHelper.h"
 #import "UIImageView+AFNetworking.h"
 #import "ViewListingViewController.h"
 
@@ -75,7 +76,10 @@
     self.navigationItem.titleView = self.searchField;
     
     self.activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-    self.activityView.center = CGPointMake(self.view.center.x,self.view.center.y - NAVBAR_HEIGHT);
+    self.activityView.center = [UIHelper iPhone] ?
+        CGPointMake(self.view.center.x,self.view.center.y - NAVBAR_HEIGHT) :
+        CGPointMake(160,IPAD_HEIGHT_INSIDE_NAVBAR/2);
+        
     [self.view addSubview:self.activityView];
     [self.activityView startAnimating];
     
