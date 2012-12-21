@@ -21,9 +21,17 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol ViewListingViewControllerDelegate;
+
 @interface ViewListingViewController : UITableViewController
     <UIScrollViewDelegate>
 
 @property (strong, nonatomic) NSString *ListingId;
 
+@property (assign) id <ViewListingViewControllerDelegate> delegate;
+
+@end
+
+@protocol ViewListingViewControllerDelegate
+- (void)loadListing:(NSDictionary*)listingJSON;
 @end

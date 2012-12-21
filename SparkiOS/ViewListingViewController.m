@@ -26,6 +26,7 @@
 #import "AppDelegate.h"
 #import "iOSConstants.h"
 #import "ListingFormatter.h"
+#import "UIHelper.h"
 #import "UIImageView+AFNetworking.h"
 
 @interface ViewListingViewController ()
@@ -58,7 +59,9 @@
     [super viewDidLoad];
     
     self.activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    self.activityView.center = CGPointMake(self.view.center.x,self.view.center.y - NAVBAR_HEIGHT);
+    self.activityView.center = [UIHelper iPhone] ?
+        CGPointMake(self.view.center.x,self.view.center.y - NAVBAR_HEIGHT) :
+        CGPointMake(160,IPAD_HEIGHT_INSIDE_NAVBAR/2);
     [self.view addSubview:self.activityView];
     [self.activityView startAnimating];
     
@@ -76,6 +79,8 @@
               if(listingsJSON && [listingsJSON count] > 0)
               {
                   self.listingJSON = [listingsJSON objectAtIndex:0];
+                  if(self.delegate)
+                      [self.delegate loadListing:self.listingJSON];
                   [self.tableView reloadData];
                   if(self.standardFields)
                      [self.activityView stopAnimating];
@@ -108,7 +113,8 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return self.listingJSON && self.standardFields ? 3 : 0;
+    return self.listingJSON && self.standardFields ?
+        ([UIHelper iPhone] ? 3 : 2) : 0;
 }
 
 - (NSInteger)getNumberOfDetailRows
@@ -143,7 +149,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return section == 2 ? [self getNumberOfDetailRows] : 1;
+    return section == (2 - [UIHelper iPad]) ? [self getNumberOfDetailRows] : 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -151,12 +157,13 @@
     static NSString *DefaultCellIdentifier = @"ViewListingCell";
     static NSString *DetailLineCellIdentifier = @"ViewListingDetailLineCell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:(indexPath.section == 2 ? DetailLineCellIdentifier : DefaultCellIdentifier)];
+    UITableViewCell *cell =
+        [tableView dequeueReusableCellWithIdentifier:(indexPath.section == (2 - [UIHelper iPad]) ? DetailLineCellIdentifier : DefaultCellIdentifier)];
     
     // Configure the cell...
     if(!cell)
     {
-        if(indexPath.section == 2)
+        if(indexPath.section == (2 - [UIHelper iPad]))
         {
             NSArray *bundleArray = [[NSBundle mainBundle] loadNibNamed:DetailLineCellIdentifier owner:self options:nil];
             cell = [bundleArray objectAtIndex:0];
@@ -172,17 +179,17 @@
         cell.textLabel.text = [ListingFormatter getListingTitle:standardFieldsJSON];
         cell.detailTextLabel.text = [ListingFormatter getListingSubtitle:standardFieldsJSON];
     }
-    else if (indexPath.section == 1)
+    else if (indexPath.section == 1 && [UIHelper iPhone])
     {
-        NSArray* photosJSON = [standardFieldsJSON objectForKey:@"Photos"];
-        NSDictionary *photoJSON = [photosJSON objectAtIndex:indexPath.row];
-        
         UIScrollView* scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0,0,300,200)];
         scrollView.pagingEnabled = YES;
         scrollView.backgroundColor = [UIColor blackColor];
         scrollView.layer.cornerRadius = 5;
-        [cell.contentView addSubview:scrollView];
         scrollView.delegate = self;
+        [cell.contentView addSubview:scrollView];
+        
+        NSArray* photosJSON = [standardFieldsJSON objectForKey:@"Photos"];
+        NSDictionary *photoJSON = [photosJSON objectAtIndex:indexPath.row];
         CGFloat xLocation = 0;
         int photoCount = (photosJSON ? [photosJSON count] : 1);
         self.imageViews = [[NSMutableArray alloc] init];
@@ -206,7 +213,7 @@
         [cell.contentView addSubview:self.pageControl];
         [self.pageControl.superview bringSubviewToFront:self.pageControl];
     }
-    else if (indexPath.section == 2)
+    else if (indexPath.section == (2 - [UIHelper iPad]))
     {
         NSDictionary *standardField = [self.standardFieldsSorted objectAtIndex:indexPath.row];
         UILabel *keyLabel = (UILabel*)[cell viewWithTag:1];
@@ -275,7 +282,7 @@
     {
         return 44;
     }
-    else if(indexPath.section == 1)
+    else if(indexPath.section == 1 && [UIHelper iPhone])
     {
         return 200;
     }

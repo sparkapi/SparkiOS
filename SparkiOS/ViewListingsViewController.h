@@ -21,7 +21,18 @@
 
 #import <UIKit/UIKit.h>
 
+#import "ViewListingViewController.h"
+
+@protocol ViewListingsViewControllerDelegate;
+
 @interface ViewListingsViewController : UITableViewController
     <UITextFieldDelegate>
 
+@property (assign) id <ViewListingsViewControllerDelegate> listingsDelegate;
+@property (assign) id <ViewListingViewControllerDelegate> listingDelegate;
+
+@end
+
+@protocol ViewListingsViewControllerDelegate
+- (void)selectListing:(NSDictionary*)listingJSON;
 @end

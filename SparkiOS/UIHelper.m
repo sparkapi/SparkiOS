@@ -25,6 +25,7 @@
 #import "MyAccountViewController.h"
 #import "SlideshowViewController.h"
 #import "SparkAPI.h"
+#import "SparkSplitViewController.h"
 #import "ViewListingsViewController.h"
 
 @implementation UIHelper
@@ -81,12 +82,22 @@
 
 + (UISplitViewController*)getSplitViewController
 {
-    UIViewController *vc1 = [UIHelper getNavigationController:[self getHomeViewController]];
+    SparkSplitViewController *svc = [[SparkSplitViewController alloc] init];
+    svc.slideshowVC =
+        [[SlideshowViewController alloc] initWithNibName:@"SlideshowViewController"
+                                                  bundle:nil];
+    
+    UIViewController *homeVC = [self getHomeViewController];
+    UINavigationController* homeNav = [UIHelper getNavigationController:homeVC];
+    homeNav.delegate = svc;
+    UIViewController *vc1 = homeNav;
     UIViewController *vc2 =
-        [UIHelper getNavigationController:
-            [[SlideshowViewController alloc] initWithNibName:@"SlideshowViewController"
-                                                      bundle:nil]];
-    UISplitViewController *svc = [[UISplitViewController alloc] init];
+        [UIHelper getNavigationController:svc.slideshowVC];
+    if([homeVC isKindOfClass:[ViewListingsViewController class]])
+    {
+        ((ViewListingsViewController*)homeVC).listingsDelegate = svc;
+        ((ViewListingsViewController*)homeVC).listingDelegate = svc;
+    }
     svc.viewControllers = [NSArray arrayWithObjects:vc1, vc2, nil];
     return svc;
 }

@@ -146,6 +146,11 @@
     NSString* ListingId = [standardFieldsJSON objectForKey:@"ListingId"];
     ViewListingViewController *viewListingVC = [[ViewListingViewController alloc] initWithStyle:UITableViewStyleGrouped];
     viewListingVC.ListingId = ListingId;
+    if(self.listingsDelegate)
+        [self.listingsDelegate selectListing:listingJSON];
+    if(self.listingDelegate)
+        viewListingVC.delegate = self.listingDelegate;
+
     [self.navigationController pushViewController:viewListingVC animated:YES];
 }
 
