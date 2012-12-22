@@ -33,6 +33,7 @@
 @synthesize oauthAccessToken, oauthRefreshToken, openIdSparkId;
 
 // constants
+
 static NSString* sparkClientId = @"";
 static NSString* sparkClientSecret = @"";
 
@@ -62,6 +63,7 @@ static AFHTTPClient *httpClient;
                                     [NSURL URLWithString:@"https://sparkapi.com/"]];
             [httpClient setDefaultHeader:@"User-Agent" value:@"Spark iOS API 1.0"];
             [httpClient setDefaultHeader:@"X-SparkApi-User-Agent" value:@"Spark iOS API 1.0"];
+            httpClient.parameterEncoding = AFJSONParameterEncoding;
         }
     }
 }
@@ -167,8 +169,7 @@ static AFHTTPClient *httpClient;
     [dictionary setObject:sparkCallbackURL forKey:@"redirect_uri"];
      
      [httpClient postPath:@"/v1/oauth2/grant" parameters:dictionary success:^(AFHTTPRequestOperation *operation, id responseObject) {
-         NSString *text = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
-         NSDictionary* dictionary = [text JSONValue];
+         NSDictionary* dictionary = [self getResponseJSON:responseObject];
          SparkAPI *sparkAPI =
          [[SparkAPI alloc] initWithAccessToken:[dictionary objectForKey:@"access_token"]
                                   refreshToken:[dictionary objectForKey:@"refresh_token"]
@@ -222,42 +223,90 @@ static AFHTTPClient *httpClient;
     return self;
 }
 
++ (NSDictionary*)getResponseJSON:(id)responseObject
+{
+    NSString *responseString = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
+    return [responseString JSONValue];
+}
+
 - (void)handleSuccess:(id)responseObject
          successBlock:(void(^)(NSArray *resultsJSON))success
 {
     if(!responseObject)
         return;
     
-    NSString *responseString = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
-    NSDictionary *responseJSON = [responseString JSONValue];
+    NSDictionary *responseJSON = [SparkAPI getResponseJSON:responseObject];
     NSDictionary *responsePayload = [self getResponsePayload:responseJSON];
     if([self getResponseSuccess:responsePayload] && success)
-            success([responsePayload objectForKey:@"Results"]);
-/*
-    else
-    {
-        NSNumber* sparkErrorCode = [responsePayload objectForKey:@"Code"];
-        NSString* sparkErrorMessage = [responsePayload objectForKey:@"Message"];
-        if(failure)
-            failure(sparkErrorCode, sparkErrorMessage, nil);
-    }
- */
+        success([responsePayload objectForKey:@"Results"]);
+}
+
+- (void)handleSessionExpiration:(NSString*)apiCommand
+                     httpMethod:(NSString*)httpMethod
+                     parameters:(NSDictionary*)parameters
+                        success:(void(^)(NSArray *resultsJSON))success
+                        failure:(void(^)(NSInteger sparkErrorCode,
+                                         NSString* sparkErrorMessage,
+                                         NSError *httpError))failure
+{
+    NSMutableDictionary* dictionary = [[NSMutableDictionary alloc] init];
+    [dictionary setObject:sparkClientId forKey:@"client_id"];
+    [dictionary setObject:sparkClientSecret forKey:@"client_secret"];
+    [dictionary setObject:@"refresh_token" forKey:@"grant_type"];
+    [dictionary setObject:self.oauthRefreshToken forKey:@"refresh_token"];
+    [dictionary setObject:sparkCallbackURL forKey:@"redirect_uri"];
+    
+    [httpClient postPath:@"/v1/oauth2/grant"
+              parameters:dictionary
+                 success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                     NSDictionary *responseJSON = [SparkAPI getResponseJSON:responseObject];
+                     self.oauthAccessToken = [responseJSON objectForKey:@"access_token"];
+                     self.oauthRefreshToken = [responseJSON objectForKey:@"refresh_token"];
+                     [httpClient setDefaultHeader:@"Authorization" value:[NSString stringWithFormat:@"OAuth %@",self.oauthAccessToken]];
+                     
+                     [self api:apiCommand
+                    httpMethod:httpMethod
+                    parameters:parameters
+                       success:success
+                       failure:failure];
+                 }
+                  failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                      if(failure)
+                          failure(-1,nil,error);
+                  }];
 }
 
 - (void)handleFailure:(NSError*)httpError
-         failureBlock:(void(^)(NSInteger sparkErrorCode,
+                  api:(NSString*)apiCommand
+           httpMethod:(NSString*)httpMethod
+           parameters:(NSDictionary*)parameters
+              success:(void(^)(NSArray *resultsJSON))success
+              failure:(void(^)(NSInteger sparkErrorCode,
                                NSString* sparkErrorMessage,
                                NSError *httpError))failure
 {
     if(!httpError)
+    {
         return;
+    }
 
+    
     NSInteger sparkErrorCode = -1;
     NSString* sparkErrorMessage = nil;
     
     if(-httpError.code >= 1000)
     {
         sparkErrorCode = -httpError.code;
+        if(sparkErrorCode == 1020)
+        {
+            [self handleSessionExpiration:apiCommand
+                               httpMethod:httpMethod
+                               parameters:parameters
+                                  success:success
+                                  failure:failure];
+            return;
+        }
+
         NSDictionary *responseJSON = [[httpError.userInfo objectForKey:NSLocalizedRecoverySuggestionErrorKey] JSONValue];
         NSDictionary *responsePayload = [self getResponsePayload:responseJSON];
         sparkErrorMessage = [responsePayload objectForKey:@"Message"];
@@ -282,7 +331,11 @@ static AFHTTPClient *httpClient;
                 }
                 failure:^(AFHTTPRequestOperation *operation, NSError *httpError) {
                     [self handleFailure:httpError
-                           failureBlock:failure];
+                                    api:apiCommand
+                             httpMethod:httpGet
+                             parameters:parameters
+                                success:success
+                                failure:failure];
                 }];
 }
 
@@ -301,7 +354,11 @@ static AFHTTPClient *httpClient;
                  }
                  failure:^(AFHTTPRequestOperation *operation, NSError *httpError) {
                      [self handleFailure:httpError
-                            failureBlock:failure];
+                                     api:apiCommand
+                              httpMethod:httpPost
+                              parameters:parameters
+                                 success:success
+                                 failure:failure];
                  }];
 }
 
@@ -320,7 +377,11 @@ static AFHTTPClient *httpClient;
                 }
                 failure:^(AFHTTPRequestOperation *operation, NSError *httpError) {
                     [self handleFailure:httpError
-                           failureBlock:failure];
+                                    api:apiCommand
+                             httpMethod:httpPut
+                             parameters:parameters
+                                success:success
+                                failure:failure];
                 }];
 }
 
@@ -339,7 +400,11 @@ static AFHTTPClient *httpClient;
                 }
                 failure:^(AFHTTPRequestOperation *operation, NSError *httpError) {
                     [self handleFailure:httpError
-                           failureBlock:failure];
+                                    api:apiCommand
+                             httpMethod:httpDelete
+                             parameters:parameters
+                                success:success
+                                failure:failure];
                 }];
 }
 
