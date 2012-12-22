@@ -116,6 +116,7 @@
     {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
                                       reuseIdentifier:CellIdentifier];
+        cell.imageView.contentMode = UIViewContentModeScaleAspectFit;
     }
     
     NSDictionary* listingJSON = [self.listingsJSON objectAtIndex:indexPath.row];
@@ -129,7 +130,10 @@
     if(photosJSON && [photosJSON count] > 0)
     {
         NSDictionary* photoJSON = [photosJSON objectAtIndex:0];
-        [cell.imageView setImageWithURL:[NSURL URLWithString:[photoJSON objectForKey:@"UriThumb"]] placeholderImage:[UIImage imageNamed:@"DefaultListingPhoto.png"]];
+        
+        [cell.imageView
+            setImageWithURL:[NSURL URLWithString:[photoJSON objectForKey:@"UriThumb"]]
+           placeholderImage:[UIImage imageNamed:@"DefaultListingPhoto.png"]];
     }
     
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
