@@ -22,6 +22,8 @@
 #import "UIHelper.h"
 
 #import "iOSConstants.h"
+#import "Keys.h"
+#import "LoginViewController.h"
 #import "MyAccountViewController.h"
 #import "SlideshowViewController.h"
 #import "SparkAPI.h"
@@ -102,13 +104,21 @@
     return svc;
 }
 
-+ (void)alert:(NSInteger)sparkErrorCode
-      message:(NSString*)sparkErrorMessage
-        error:(NSError*)error
++ (void)handleFailure:(UIViewController*)viewController
+                 code:(NSInteger)sparkErrorCode
+              message:(NSString*)sparkErrorMessage
+                error:(NSError*)error
 {
     NSString* message = nil;
     if(sparkErrorCode >= 1000 && sparkErrorMessage)
+    {
+        if(sparkErrorCode == 1011)
+        {
+            [self logout:viewController];
+            return;
+        }
         message = [NSString stringWithFormat:@"%d: %@", sparkErrorCode, sparkErrorMessage];
+    }
     else
         message = error.localizedDescription;
     
@@ -118,6 +128,31 @@
                                               cancelButtonTitle:@"OK"
                                               otherButtonTitles:nil];
     [alertView show];
+}
+
++ (void)logout:(UIViewController*)viewController
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults removeObjectForKey:SPARK_ACCESS_TOKEN];
+    [defaults removeObjectForKey:SPARK_REFRESH_TOKEN];
+    [defaults removeObjectForKey:SPARK_OPENID];
+    [defaults removeObjectForKey:OPENID_ID];
+    [defaults removeObjectForKey:OPENID_FRIENDLY];
+    [defaults removeObjectForKey:OPENID_FIRST_NAME];
+    [defaults removeObjectForKey:OPENID_MIDDLE_NAME];
+    [defaults removeObjectForKey:OPENID_LAST_NAME];
+    [defaults removeObjectForKey:OPENID_EMAIL];
+    
+    LoginViewController *loginVC = [[LoginViewController alloc] initWithNibName:([UIHelper iPhone] ? @"LoginViewController" : @"LoginViewController-iPad") bundle:nil];
+    loginVC.title = @"Login";
+    
+    if([UIHelper iPhone])
+        [viewController.navigationController setViewControllers:[NSArray arrayWithObject:loginVC] animated:YES];
+    else
+    {
+        AppDelegate *appDelegate = [UIHelper getAppDelegate];
+        appDelegate.window.rootViewController = loginVC;
+    }
 }
 
 @end

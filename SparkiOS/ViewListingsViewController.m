@@ -213,7 +213,7 @@
                     NSString* sparkErrorMessage,
                     NSError *httpError) {
               [self.activityView stopAnimating];
-              [UIHelper alert:sparkErrorCode message:sparkErrorMessage error:httpError];
+              [UIHelper handleFailure:self code:sparkErrorCode message:sparkErrorMessage error:httpError];
           }];
 }
 

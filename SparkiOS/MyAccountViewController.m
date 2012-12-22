@@ -83,7 +83,7 @@
                         NSString* sparkErrorMessage,
                         NSError *httpError) {
                   [self.activityView stopAnimating];
-                  [UIHelper alert:sparkErrorCode message:sparkErrorMessage error:httpError];
+                  [UIHelper handleFailure:self code:sparkErrorCode message:sparkErrorMessage error:httpError];
               }];
     }
     
@@ -98,27 +98,7 @@
 
 - (void)logoutAction:(id)sender
 {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults removeObjectForKey:SPARK_ACCESS_TOKEN];
-    [defaults removeObjectForKey:SPARK_REFRESH_TOKEN];
-    [defaults removeObjectForKey:SPARK_OPENID];
-    [defaults removeObjectForKey:OPENID_ID];
-    [defaults removeObjectForKey:OPENID_FRIENDLY];
-    [defaults removeObjectForKey:OPENID_FIRST_NAME];
-    [defaults removeObjectForKey:OPENID_MIDDLE_NAME];
-    [defaults removeObjectForKey:OPENID_LAST_NAME];
-    [defaults removeObjectForKey:OPENID_EMAIL];
-    
-    LoginViewController *loginVC = [[LoginViewController alloc] initWithNibName:([UIHelper iPhone] ? @"LoginViewController" : @"LoginViewController-iPad") bundle:nil];
-    loginVC.title = @"Login";
-    
-    if([UIHelper iPhone])
-        [self.navigationController setViewControllers:[NSArray arrayWithObject:loginVC] animated:YES];
-    else
-    {
-        AppDelegate *appDelegate = [UIHelper getAppDelegate];
-        appDelegate.window.rootViewController = loginVC;
-    }
+    [UIHelper logout:self];
 }
 
 #pragma mark - Table view data source
