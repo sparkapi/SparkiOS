@@ -243,11 +243,11 @@
     NSDictionary *standardField = [self.standardFieldsSorted objectAtIndex:indexPath.row];
     NSString* resourceUri = [standardField objectForKey:@"ResourceUri"];
     NSString* type = [standardField objectForKey:@"Type"];
-    NSNumber* hasList = [standardField objectForKey:@"HasList"];
+    NSNumber* multiSelect = [standardField objectForKey:@"MultiSelect"];
     NSObject* object = [standardFieldsJSON objectForKey:[resourceUri lastPathComponent]];
     if([object isKindOfClass:[NSNull class]])
         return nil;
-    else if(hasList && [hasList isKindOfClass:[NSNumber class]] && [hasList boolValue] && [object isKindOfClass:[NSDictionary class]])
+    else if(multiSelect && [multiSelect isKindOfClass:[NSNumber class]] && [multiSelect boolValue] && [object isKindOfClass:[NSDictionary class]])
     {
         NSMutableString *buffer = [[NSMutableString alloc] init];
         for(NSString* key in [((NSDictionary*)object) keyEnumerator])
