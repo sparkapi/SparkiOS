@@ -144,66 +144,79 @@ static AFHTTPClient *httpClient;
     return [NSURL URLWithString:sparkOpenIdLogoutURL];
 }
 
-+ (NSString*) getHybridOpenIdSparkCode:(NSURLRequest*)request
++ (BOOL) hybridAuthenticate:(NSURLRequest*)request
+                    success:(void(^)(SparkAPI* sparkAPI))success
+                    failure:(void(^)(NSString* openIdMode, NSString* openIdError, NSError *httpError))failure
 {
     NSDictionary *parameterDictionary = [self getParameterDictionary:request.URL];
     NSString* openIdMode = nil;
     NSString* openIdSparkCode = nil;
-    return (parameterDictionary &&
-           (openIdMode = [parameterDictionary objectForKey:@"openid.mode"]) &&
-           [@"id_res" isEqualToString:openIdMode] &&
-           (openIdSparkCode =[parameterDictionary objectForKey:@"openid.spark.code"])) ?
-           openIdSparkCode:
-           nil;
+    if(parameterDictionary &&
+       (openIdMode = [parameterDictionary objectForKey:@"openid.mode"]) &&
+       [@"id_res" isEqualToString:openIdMode] &&
+       (openIdSparkCode =[parameterDictionary objectForKey:@"openid.spark.code"]))
+    {
+        NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
+        [dictionary setObject:sparkClientId forKey:@"client_id"];
+        [dictionary setObject:sparkClientSecret forKey:@"client_secret"];
+        [dictionary setObject:@"authorization_code" forKey:@"grant_type"];
+        [dictionary setObject:openIdSparkCode forKey:@"code"];
+        [dictionary setObject:sparkCallbackURL forKey:@"redirect_uri"];
+        
+        [httpClient postPath:@"/v1/oauth2/grant" parameters:dictionary success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            NSDictionary* dictionary = [self getResponseJSON:responseObject];
+            SparkAPI *sparkAPI =
+            [[SparkAPI alloc] initWithAccessToken:[dictionary objectForKey:@"access_token"]
+                                     refreshToken:[dictionary objectForKey:@"refresh_token"]
+                                           openId:nil];
+            if(success)
+                success(sparkAPI);
+            
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            if(failure)
+                failure(openIdMode, nil, error);
+        }];
+        
+        return YES;
+    }
+    else if([@"error" isEqualToString:openIdMode])
+    {
+        if(failure)
+            failure(openIdMode, [parameterDictionary objectForKey:@"openid.error"], nil);
+        return YES;
+    }
+    
+    return NO;
 }
 
-+ (void) OAuth2Grant:(NSString*)openIdSparkCode
-             success:(void(^)(SparkAPI* sparkAPI))success
-             failure:(void(^)(NSError *httpError))failure;
-{
-    NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
-    [dictionary setObject:sparkClientId forKey:@"client_id"];
-    [dictionary setObject:sparkClientSecret forKey:@"client_secret"];
-    [dictionary setObject:@"authorization_code" forKey:@"grant_type"];
-    [dictionary setObject:openIdSparkCode forKey:@"code"];
-    [dictionary setObject:sparkCallbackURL forKey:@"redirect_uri"];
-     
-     [httpClient postPath:@"/v1/oauth2/grant" parameters:dictionary success:^(AFHTTPRequestOperation *operation, id responseObject) {
-         NSDictionary* dictionary = [self getResponseJSON:responseObject];
-         SparkAPI *sparkAPI =
-         [[SparkAPI alloc] initWithAccessToken:[dictionary objectForKey:@"access_token"]
-                                  refreshToken:[dictionary objectForKey:@"refresh_token"]
-                                        openId:nil];
-        if(success)
-            success(sparkAPI);
-     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-         if(failure)
-             failure(error);
-     }];
-}
-
-+ (BOOL) isOpenIdAuthenticationRequest:(NSURLRequest*)request
++ (BOOL) openIdAuthenticate:(NSURLRequest*)request
+                    success:(void(^)(SparkAPI* sparkAPI, NSDictionary* parameters))success
+                    failure:(void(^)(NSString* openIdMode, NSString* openIdError))failure
 {
     NSDictionary *parameterDictionary = [self getParameterDictionary:request.URL];
     NSString* openIdMode = nil;
-    return (parameterDictionary &&
+    if (parameterDictionary &&
             (openIdMode = [parameterDictionary objectForKey:@"openid.mode"]) &&
-            [@"id_res" isEqualToString:openIdMode]);
-}
-
-+ (void) openIdAuthenticate:(NSURLRequest*)request
-                    success:(void(^)(SparkAPI* sparkAPI, NSDictionary* parameters))success
-                    failure:(void(^)(NSError *httpError))failure
-{
-    NSDictionary *parameters = [self getParameterDictionary:request.URL];
-    NSString* openIdSparkId = [parameters objectForKey:@"openid.ax.value.id"];
+            [@"id_res" isEqualToString:openIdMode])
+    {
+        NSString* openIdSparkId = [parameterDictionary objectForKey:@"openid.ax.value.id"];
+        SparkAPI *sparkAPI =
+        [[SparkAPI alloc] initWithAccessToken:nil
+                                 refreshToken:nil
+                                       openId:openIdSparkId];
+        if(success)
+            success(sparkAPI,parameterDictionary);
+        
+        return YES;
+    }
+    else if([@"error" isEqualToString:openIdMode])
+    {
+        if(failure)
+            failure(openIdMode, [parameterDictionary objectForKey:@"openid.error"]);
+        return YES;
+    }
     
-    SparkAPI *sparkAPI =
-    [[SparkAPI alloc] initWithAccessToken:nil
-                             refreshToken:nil
-                                   openId:openIdSparkId];
-    if(success)
-        success(sparkAPI,parameters);
+    return NO;
 }
 // instance methods ************************************************************
 

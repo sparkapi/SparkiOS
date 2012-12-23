@@ -34,15 +34,13 @@
 + (NSURL*)getSparkOpenIdLogoutURL;
 + (NSURL*)getSparkHybridOpenIdURL;
 
-+ (NSString*) getHybridOpenIdSparkCode:(NSURLRequest*)request;
-+ (void) OAuth2Grant:(NSString*)openIdSparkCode
++ (BOOL) hybridAuthenticate:(NSURLRequest*)request
              success:(void(^)(SparkAPI* sparkAPI))success
-             failure:(void(^)(NSError *httpError))failure;
+             failure:(void(^)(NSString* openIdMode, NSString* openIdError, NSError *httpError))failure;
 
-+ (BOOL) isOpenIdAuthenticationRequest:(NSURLRequest*)request;
-+ (void) openIdAuthenticate:(NSURLRequest*)request
++ (BOOL) openIdAuthenticate:(NSURLRequest*)request
                          success:(void(^)(SparkAPI* sparkAPI, NSDictionary* parameters))success
-                         failure:(void(^)(NSError *httpError))failure;
+                         failure:(void(^)(NSString* openIdMode, NSString* openIdError))failure;
 
 // interface
 

@@ -131,32 +131,25 @@
 {    
     if(self.loginType.on)
     {
-        NSString* openIdSparkCode = [SparkAPI getHybridOpenIdSparkCode:request];
-        if(openIdSparkCode)
-        {
-            [SparkAPI OAuth2Grant:openIdSparkCode
+        if([SparkAPI hybridAuthenticate:request
                           success:^(SparkAPI *sparkAPI) {
                               [self processAuthentication:sparkAPI parameters:nil];
                           }
-                          failure:^(NSError* error) {
-                              [UIHelper handleFailure:nil code:-1 message:nil error:error];
-                          }];
+                          failure:^(NSString* openIdMode, NSString* openIdError, NSError *httpError) {
+                              [UIHelper handleFailure:nil code:-1 message:nil error:httpError];
+                          }])
             return NO;
-        }
     }
     else
     {
-        if([SparkAPI isOpenIdAuthenticationRequest:request])
-        {
-            [SparkAPI openIdAuthenticate:request
+        if([SparkAPI openIdAuthenticate:request
                                  success:^(SparkAPI *sparkAPI, NSDictionary *parameters) {
                                      [self processAuthentication:sparkAPI parameters:parameters];
                                  }
-                                 failure:^(NSError* error) {
-                                     [UIHelper handleFailure:nil code:-1 message:nil error:error];
-                                 }];
+                                 failure:^(NSString* openIdMode, NSString* openIdError) {
+                                     [UIHelper handleFailure:nil code:-1 message:nil error:nil];
+                                 }])
             return NO;
-        }
     }
     
     
