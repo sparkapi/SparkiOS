@@ -127,6 +127,16 @@
     }
 }
 
+- (NSString*)handleOpenIdError:(NSString*)openIdMode openIdError:(NSString*)openIdError
+{
+    if([@"cancel" isEqualToString:openIdMode])
+        return @"OpenId authentication cancelled";
+    else if([@"error" isEqualToString:openIdMode])
+        return [NSString stringWithFormat:@"OpenId error:%@",openIdError];
+    else
+        return nil;
+}
+
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {    
     if(self.loginType.on)
@@ -136,7 +146,10 @@
                               [self processAuthentication:sparkAPI parameters:nil];
                           }
                           failure:^(NSString* openIdMode, NSString* openIdError, NSError *httpError) {
-                              [UIHelper handleFailure:nil code:-1 message:nil error:httpError];
+                              NSString* message = nil;
+                              if(openIdMode)
+                                  message = [self handleOpenIdError:openIdMode openIdError:openIdError];
+                              [UIHelper handleFailure:message error:httpError];
                           }])
             return NO;
     }
@@ -147,7 +160,10 @@
                                      [self processAuthentication:sparkAPI parameters:parameters];
                                  }
                                  failure:^(NSString* openIdMode, NSString* openIdError) {
-                                     [UIHelper handleFailure:nil code:-1 message:nil error:nil];
+                                     NSString* message = nil;
+                                     if(openIdMode)
+                                         message = [self handleOpenIdError:openIdMode openIdError:openIdError];
+                                     [UIHelper handleFailure:message error:nil];
                                  }])
             return NO;
     }

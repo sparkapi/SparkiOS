@@ -104,6 +104,25 @@
     return svc;
 }
 
++ (void)handleFailure:(NSString*)message
+                error:(NSError*)error
+{
+    NSString* errorMessage = nil;
+    if(message)
+        errorMessage = nil;
+    else if (error)
+        errorMessage = error.localizedDescription;
+    
+    
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                        message:message
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+    [alertView show];
+    
+}
+
 + (void)handleFailure:(UIViewController*)viewController
                  code:(NSInteger)sparkErrorCode
               message:(NSString*)sparkErrorMessage
@@ -119,15 +138,8 @@
         }
         message = [NSString stringWithFormat:@"%d: %@", sparkErrorCode, sparkErrorMessage];
     }
-    else
-        message = error.localizedDescription;
-    
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                        message:message
-                                                       delegate:nil
-                                              cancelButtonTitle:@"OK"
-                                              otherButtonTitles:nil];
-    [alertView show];
+
+    [self handleFailure:message error:error];
 }
 
 + (void)logout:(UIViewController*)viewController
