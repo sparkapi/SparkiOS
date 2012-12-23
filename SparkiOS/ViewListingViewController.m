@@ -72,7 +72,7 @@
     
     SparkAPI *sparkAPI =
         ((AppDelegate*)[[UIApplication sharedApplication] delegate]).sparkAPI;
-    [sparkAPI get:@"/v1/listings"
+    [sparkAPI get:@"/listings"
        parameters:parameters
           success:^(NSArray *resultsJSON) {
               if(resultsJSON && [resultsJSON count] > 0)
@@ -92,7 +92,7 @@
               [UIHelper handleFailure:self code:sparkErrorCode message:sparkErrorMessage error:httpError];
           }];
     
-    [sparkAPI get:@"/v1/standardfields"
+    [sparkAPI get:@"/standardfields"
        parameters:parameters
           success:^(NSArray *resultsJSON) {
               self.standardFields = [resultsJSON objectAtIndex:0];

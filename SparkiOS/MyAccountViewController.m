@@ -69,7 +69,7 @@
         [self.activityView startAnimating];
         
         SparkAPI *sparkAPI = [UIHelper getSparkAPI];
-        [sparkAPI get:@"/v1/my/account"
+        [sparkAPI get:@"/my/account"
            parameters:nil
               success:^(NSArray *resultsJSON) {
                   if(resultsJSON && [resultsJSON count] > 0)

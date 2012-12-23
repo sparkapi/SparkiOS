@@ -27,6 +27,10 @@
 @property (strong, nonatomic) NSString *oauthAccessToken;
 @property (strong, nonatomic) NSString *oauthRefreshToken;
 
+@property (strong, nonatomic, setter=setApplicationName:) NSString *applicationName;
+@property NSInteger logLevel;
+
+
 // authenticate
 
 + (NSURL*)getSparkOpenIdURL;
@@ -83,5 +87,6 @@
      failure:(void(^)(NSInteger sparkErrorCode,
                       NSString* sparkErrorMessage,
                       NSError *httpError))failure;
+
 
 @end

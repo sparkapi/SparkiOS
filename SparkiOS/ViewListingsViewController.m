@@ -199,7 +199,7 @@
     
     SparkAPI *sparkAPI =
     ((AppDelegate*)[[UIApplication sharedApplication] delegate]).sparkAPI;
-    [sparkAPI get:@"/v1/listings"
+    [sparkAPI get:@"/listings"
        parameters:parameters
           success:^(NSArray *resultsJSON) {
               self.listingsJSON = resultsJSON;
