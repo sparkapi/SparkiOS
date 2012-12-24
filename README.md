@@ -3,7 +3,7 @@ Spark iOS API and Example App
 
 The `SparkAPI` object is designed as a standalone Objective-C interface for use with the [Spark API](http://www.sparkplatform.com/docs/overview/api).  
 
-This project also includes an example iPad and iPhone app that makes use of `SparkAPI` object to [authenticate](http://www.sparkplatform.com/docs/authentication/authentication) via Hybrid and OpenID methods, search listings, view listings, view an individual listing, and view a user account.  View app [screenshots](./SparkiOS/blob/master/Spark iOS Screenshots.pdf) for iPad and iPhone.
+This project also includes an example iPad and iPhone app that makes use of `SparkAPI` object to [authenticate](http://www.sparkplatform.com/docs/authentication/authentication) via Hybrid or OpenID methods, search listings, view listings, view an individual listing, and view a user account.  View app [screenshots](./SparkiOS/blob/master/Spark iOS Screenshots.pdf) for iPad and iPhone.
 
 ## Requirements
 
@@ -69,7 +69,49 @@ These authentication methods are typically placed in a UIWebViewDelegate object 
 
 ### Making API calls
 
+Once an authenticated `SparkAPI` object is instantiated, api methods corresponding to the four HTTP methods are available as well as general api method.  Similar to the authentication methods, all utilize callback blocks that receive asynchronous responses from the Spark API on success or failure.  
 
+On success, the results JSON array is parsed from the Spark response object and provided as an argument to the success block.
+
+On failure, `sparkErrorCode` and `sparkErrorMessage` are parsed from the returned JSON and provided as arguments to the failure block.
+
+``` objective-c
+- (void) get:(NSString*)apiCommand
+  parameters:(NSDictionary*)parameters
+     success:(void(^)(NSArray *resultsJSON))success
+     failure:(void(^)(NSInteger sparkErrorCode,
+                      NSString* sparkErrorMessage,
+                      NSError *httpError))failure;
+
+- (void) post:(NSString*)apiCommand
+   parameters:(NSDictionary*)parameters
+      success:(void(^)(NSArray *resultsJSON))success
+      failure:(void(^)(NSInteger sparkErrorCode,
+                       NSString* sparkErrorMessage,
+                       NSError *httpError))failure;
+
+- (void) put:(NSString*)apiCommand
+  parameters:(NSDictionary*)parameters
+     success:(void(^)(NSArray *resultsJSON))success
+     failure:(void(^)(NSInteger sparkErrorCode,
+                      NSString* sparkErrorMessage,
+                      NSError *httpError))failure;
+
+- (void) delete:(NSString*)apiCommand
+     parameters:(NSDictionary*)parameters
+        success:(void(^)(NSArray *resultsJSON))success
+        failure:(void(^)(NSInteger sparkErrorCode,
+                 NSString* sparkErrorMessage,
+                 NSError *httpError))failure;
+
+- (void) api:(NSString*)apiCommand
+  httpMethod:(NSString*)httpMethod
+  parameters:(NSDictionary*)parameters
+     success:(void(^)(NSArray *resultsJSON))success
+     failure:(void(^)(NSInteger sparkErrorCode,
+                      NSString* sparkErrorMessage,
+                      NSError *httpError))failure;
+```
 
 ### Logging
 
@@ -82,7 +124,7 @@ The `SparkAPI` object contains basic log level metering to control output of log
 
 ## Compatability
 
-Tested OSs: iOS6, iOS5
+Tested OSs: iOS 6, iOS 5
 
 Tested XCode versions: 4.5, 4.2
 
