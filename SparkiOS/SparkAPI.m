@@ -313,17 +313,23 @@ static AFHTTPClient *httpClient;
                                NSError *httpError))failure
 {
     if(!httpError)
-    {
         return;
-    }
 
+    [self logWarning:[NSString stringWithFormat:@"%@ failure>%@ - %@", httpMethod, apiCommand, httpError]];
     
     NSInteger sparkErrorCode = -1;
     NSString* sparkErrorMessage = nil;
+
+    NSDictionary *responseJSON = [[httpError.userInfo objectForKey:NSLocalizedRecoverySuggestionErrorKey] JSONValue];
+    NSDictionary *responsePayload = [self getResponsePayload:responseJSON];
     
-    if(-httpError.code >= 1000)
+    if(responsePayload)
     {
-        sparkErrorCode = -httpError.code;
+        NSNumber *code = [responsePayload objectForKey:@"Code"];
+        if(code)
+            sparkErrorCode = [code integerValue];
+        sparkErrorMessage = [responsePayload objectForKey:@"Message"];
+
         if(sparkErrorCode == 1020)
         {
             [self handleSessionExpiration:apiCommand
@@ -333,10 +339,6 @@ static AFHTTPClient *httpClient;
                                   failure:failure];
             return;
         }
-
-        NSDictionary *responseJSON = [[httpError.userInfo objectForKey:NSLocalizedRecoverySuggestionErrorKey] JSONValue];
-        NSDictionary *responsePayload = [self getResponsePayload:responseJSON];
-        sparkErrorMessage = [responsePayload objectForKey:@"Message"];
     }
  
     if(failure)
@@ -358,7 +360,6 @@ static AFHTTPClient *httpClient;
                            successBlock:success];
                 }
                 failure:^(AFHTTPRequestOperation *operation, NSError *httpError) {
-                    [self logWarning:[NSString stringWithFormat:@"get failure>%@ - %@", apiCommand, httpError]];
                     [self handleFailure:httpError
                                     api:apiCommand
                              httpMethod:httpGet
@@ -383,7 +384,6 @@ static AFHTTPClient *httpClient;
                             successBlock:success];
                  }
                  failure:^(AFHTTPRequestOperation *operation, NSError *httpError) {
-                     [self logWarning:[NSString stringWithFormat:@"post failure>%@ - %@", apiCommand, httpError]];
                      [self handleFailure:httpError
                                      api:apiCommand
                               httpMethod:httpPost
@@ -408,7 +408,6 @@ static AFHTTPClient *httpClient;
                            successBlock:success];
                 }
                 failure:^(AFHTTPRequestOperation *operation, NSError *httpError) {
-                    [self logWarning:[NSString stringWithFormat:@"put failure>%@ - %@", apiCommand, httpError]];
                     [self handleFailure:httpError
                                     api:apiCommand
                              httpMethod:httpPut
@@ -433,7 +432,6 @@ static AFHTTPClient *httpClient;
                            successBlock:success];
                 }
                 failure:^(AFHTTPRequestOperation *operation, NSError *httpError) {
-                    [self logWarning:[NSString stringWithFormat:@"delete failure>%@ - %@", apiCommand, httpError]];
                     [self handleFailure:httpError
                                     api:apiCommand
                              httpMethod:httpDelete
