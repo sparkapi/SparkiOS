@@ -29,6 +29,10 @@ static NSString* sparkCallbackURL = @"https://sparkplatform.com/oauth2/callback"
 
 ### Authenticate
 
+SparkAPI provides two class methods for processing authentication and returning a SparkAPI object upon success: 
+
+* **hybridAuthenticate** implements the Spark [OpenID+OAuth 2 Hybrid Protocol](http://www.sparkplatform.com/docs/authentication/openid_oauth2_authentication) and 
+* **openIdAuthenticate** implements the Spark [OpenID Attribute Exchange Extension](http://www.sparkplatform.com/docs/authentication/openid_authentication).  
 
 ``` objective-c
 + (BOOL) hybridAuthenticate:(NSURLRequest*)request
