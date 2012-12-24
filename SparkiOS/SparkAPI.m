@@ -35,13 +35,13 @@
 
 @implementation SparkAPI
 
-@synthesize oauthAccessToken, oauthRefreshToken, openIdSparkId, applicationName, logLevel;
-
-// constants
+// configuration ***************************************************************
 
 static NSString* sparkClientId = @"<YOUR OAUTH2 CLIENT KEY>";
 static NSString* sparkClientSecret = @"<YOUR OAUTH2 CLIENT SECRET>";
 static NSString* sparkCallbackURL = @"https://sparkplatform.com/oauth2/callback";
+
+// constants *******************************************************************
 
 static NSString* sparkOpenIdURL = @"https://sparkplatform.com/openid";
 static NSString* sparkOpenIdLogoutURL = @"https://sparkplatform.com/openid/logout";
@@ -56,9 +56,13 @@ static NSString* httpPost = @"POST";
 static NSString* httpPut = @"PUT";
 static NSString* httpDelete = @"DELETE";
 
-// class vars
+// class vars ******************************************************************
 
 static AFHTTPClient *httpClient;
+
+// instance vars ***************************************************************
+
+@synthesize oauthAccessToken, oauthRefreshToken, openIdSparkId, applicationName, logLevel;
 
 // class interface *************************************************************
 
@@ -224,7 +228,7 @@ static AFHTTPClient *httpClient;
     
     return NO;
 }
-// instance methods ************************************************************
+// interface *******************************************************************
 
 - initWithAccessToken:(NSString*)access
          refreshToken:(NSString*)refresh
