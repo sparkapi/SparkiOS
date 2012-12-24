@@ -38,6 +38,8 @@
 + (UINavigationController*)getNavigationController:(UIViewController*)rootViewController;
 + (UISplitViewController*)getSplitViewController;
 
++ (void)iPhone5Shift:(UIView*)v;
+
 + (void)handleFailure:(NSString*)message
                 error:(NSError*)error;
 + (void)handleFailure:(UIViewController*)viewController

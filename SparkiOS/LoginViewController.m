@@ -37,7 +37,7 @@
 
 @implementation LoginViewController
 
-@synthesize sparkButton, loginType;
+@synthesize sparkButton, loginType, hybridLabel, openIDLabel;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -51,7 +51,15 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+
+    if([UIHelper iPhone5])
+    {
+        //sparkButton, loginType, hybridLabel, openIDLabel;
+        [UIHelper iPhone5Shift:self.sparkButton];
+        [UIHelper iPhone5Shift:self.loginType];
+        [UIHelper iPhone5Shift:self.hybridLabel];
+        [UIHelper iPhone5Shift:self.openIDLabel];
+    }
 }
 
 - (void)didReceiveMemoryWarning

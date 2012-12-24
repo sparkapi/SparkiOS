@@ -26,9 +26,13 @@
 {
     IBOutlet UIButton *sparkButton;
     IBOutlet UISwitch *loginType;
+    IBOutlet UILabel *openIDLabel;
+    IBOutlet UILabel *hybridLabel;
 }
 
 @property (strong, nonatomic) UIButton *sparkButton;
 @property (strong, nonatomic) UISwitch *loginType;
+@property (strong, nonatomic) UILabel *openIDLabel;
+@property (strong, nonatomic) UILabel *hybridLabel;
 
 @end

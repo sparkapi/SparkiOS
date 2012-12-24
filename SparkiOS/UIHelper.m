@@ -104,6 +104,11 @@
     return svc;
 }
 
++ (void)iPhone5Shift:(UIView*)v
+{
+    v.center = CGPointMake(v.center.x, v.center.y + NAVBAR_HEIGHT);
+}
+
 + (void)handleFailure:(NSString*)message
                 error:(NSError*)error
 {
