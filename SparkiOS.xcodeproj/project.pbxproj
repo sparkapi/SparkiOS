@@ -350,9 +350,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		498619AD167FC448004971C4 /* SparkiOS */ = {
+		498619AD167FC448004971C4 /* Spark */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 498619CC167FC448004971C4 /* Build configuration list for PBXNativeTarget "SparkiOS" */;
+			buildConfigurationList = 498619CC167FC448004971C4 /* Build configuration list for PBXNativeTarget "Spark" */;
 			buildPhases = (
 				498619AA167FC448004971C4 /* Sources */,
 				498619AB167FC448004971C4 /* Frameworks */,
@@ -362,7 +362,7 @@
 			);
 			dependencies = (
 			);
-			name = SparkiOS;
+			name = Spark;
 			productName = SparkiOS;
 			productReference = 498619AE167FC448004971C4 /* SparkiOS.app */;
 			productType = "com.apple.product-type.application";
@@ -388,7 +388,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				498619AD167FC448004971C4 /* SparkiOS */,
+				498619AD167FC448004971C4 /* Spark */,
 			);
 		};
 /* End PBXProject section */
@@ -565,7 +565,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		498619CC167FC448004971C4 /* Build configuration list for PBXNativeTarget "SparkiOS" */ = {
+		498619CC167FC448004971C4 /* Build configuration list for PBXNativeTarget "Spark" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				498619CD167FC448004971C4 /* Debug */,

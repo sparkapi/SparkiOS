@@ -104,7 +104,7 @@ static AFHTTPClient *httpClient;
     [urlString appendString:sparkOpenIdURL];
     [urlString appendString:@"?openid.mode=checkid_setup"];
     [urlString appendString:@"&openid.spark.client_id="];
-    [urlString appendString:sparkClientId];
+    [urlString appendString:[SparkAPI encodeURL:sparkClientId]];
     [urlString appendString:@"&openid.return_to="];
     [urlString appendString:[self encodeURL:sparkCallbackURL]];
     return urlString;
@@ -161,7 +161,7 @@ static AFHTTPClient *httpClient;
        (openIdSparkCode =[parameterDictionary objectForKey:@"openid.spark.code"]))
     {
         NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
-        [dictionary setObject:sparkClientId forKey:@"client_id"];
+        [dictionary setObject:[SparkAPI encodeURL:sparkClientId] forKey:@"client_id"];
         [dictionary setObject:sparkClientSecret forKey:@"client_secret"];
         [dictionary setObject:@"authorization_code" forKey:@"grant_type"];
         [dictionary setObject:openIdSparkCode forKey:@"code"];
@@ -277,7 +277,7 @@ static AFHTTPClient *httpClient;
                                          NSError *httpError))failure
 {
     NSMutableDictionary* dictionary = [[NSMutableDictionary alloc] init];
-    [dictionary setObject:sparkClientId forKey:@"client_id"];
+    [dictionary setObject:[SparkAPI encodeURL:sparkClientId] forKey:@"client_id"];
     [dictionary setObject:sparkClientSecret forKey:@"client_secret"];
     [dictionary setObject:@"refresh_token" forKey:@"grant_type"];
     [dictionary setObject:self.oauthRefreshToken forKey:@"refresh_token"];
