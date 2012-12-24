@@ -319,7 +319,7 @@ static AFHTTPClient *httpClient;
     if(!httpError)
         return;
 
-    [self logWarning:[NSString stringWithFormat:@"%@ failure>%@ - %@", httpMethod, apiCommand, httpError]];
+    [self logError:[NSString stringWithFormat:@"%@ failure>%@ - %@", httpMethod, apiCommand, httpError]];
     
     NSInteger sparkErrorCode = -1;
     NSString* sparkErrorMessage = nil;

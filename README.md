@@ -46,7 +46,7 @@ Both utilize callback blocks that receive asynchronous responses from the Spark 
                          failure:(void(^)(NSString* openIdMode, NSString* openIdError))failure;
 ```
 
-These authentication methods are typically placed in a UIWebViewDelegate object to respond to a NSURLRequest generated after the user provides their Spark credentials.  See [LoginViewController.m](./blob/master/SparkiOS/LoginViewController.m) for an example.
+These authentication methods are typically placed in a UIWebViewDelegate object to respond to a NSURLRequest generated after the user provides their Spark credentials.  See [LoginViewController.m](./SparkiOS/blob/master/SparkiOS/LoginViewController.m) for an example.
 
 ``` objective-c
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
@@ -67,7 +67,11 @@ These authentication methods are typically placed in a UIWebViewDelegate object 
 }
 ```
 
-### API call
+### Making API calls
+
+### Logging
+
+The SparkAPI object contains basic log level metering to control output of log messages to the console.  By default, the `logLevel` is set to `SPARK_LOG_LEVEL_INFO` to output each API call to the console.  To output only errors to the console, set the `logLevel` property to `SPARK_LOG_LEVEL_ERROR`.
 
 ## Dependencies
 
