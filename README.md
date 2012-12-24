@@ -69,11 +69,15 @@ These authentication methods are typically placed in a UIWebViewDelegate object 
 
 ### Making API calls
 
-Once an authenticated `SparkAPI` object is instantiated, api methods corresponding to the four HTTP methods are available as well as general api method.  Similar to the authentication methods, all utilize callback blocks that receive asynchronous responses from the Spark API on success or failure.  
+Once an authenticated `SparkAPI` object is instantiated, api methods corresponding to the four HTTP methods are available as well as general `api` method.  Similar to the authentication methods, all utilize callback blocks that receive asynchronous responses from the Spark API on success or failure.  
 
 On success, the results JSON array is parsed from the Spark response object and provided as an argument to the success block.
 
 On failure, `sparkErrorCode` and `sparkErrorMessage` are parsed from the returned JSON and provided as arguments to the failure block.
+
+
+
+Session renewal is handled automatically by the `SparkAPI` object when a session token expire [error code](http://www.sparkplatform.com/docs/supporting_documentation/error_codes) is returned by the API.
 
 ``` objective-c
 - (void) get:(NSString*)apiCommand
@@ -111,6 +115,27 @@ On failure, `sparkErrorCode` and `sparkErrorMessage` are parsed from the returne
      failure:(void(^)(NSInteger sparkErrorCode,
                       NSString* sparkErrorMessage,
                       NSError *httpError))failure;
+```
+
+Below is an example API call to the `/my/account` Spark API endpoint from the example app.  On success, the table view interface is updated.  On failure, an alert view is presented to the user.
+
+``` objective-c
+    [sparkAPI get:@"/my/account"
+       parameters:nil
+          success:^(NSArray *resultsJSON) {
+              if(resultsJSON && [resultsJSON count] > 0)
+              {
+                  self.myAccountJSON = [resultsJSON objectAtIndex:0];
+                  [self.tableView reloadData];
+                  [self.activityView stopAnimating];
+              }
+          }
+          failure:^(NSInteger sparkErrorCode,
+                    NSString* sparkErrorMessage,
+                    NSError *httpError) {
+              [self.activityView stopAnimating];
+              [UIHelper handleFailure:self code:sparkErrorCode message:sparkErrorMessage error:httpError];
+          }];
 ```
 
 ### Logging
