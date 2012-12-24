@@ -3,7 +3,7 @@ Spark iOS API and Example App
 
 The `SparkAPI` object is designed as a standalone Objective-C interface for use with the [Spark API](http://www.sparkplatform.com/docs/overview/api).  
 
-This project also includes an example iPad and iPhone app that makes use of `SparkAPI` object to [authenticate](http://www.sparkplatform.com/docs/authentication/authentication) via Hybrid or OpenID methods, search listings, view listings, view an individual listing, and view a user account.  View app [screenshots](./SparkiOS/blob/master/Spark iOS Screenshots.pdf) for iPad and iPhone.
+This project also includes an example iPad and iPhone app that makes use of `SparkAPI` object to [authenticate](http://www.sparkplatform.com/docs/authentication/authentication) via Hybrid or OpenID methods, search listings, view listings, view an individual listing with photos and standard fields, and view a user account.  View app [screenshots](./SparkiOS/blob/master/Spark iOS Screenshots.pdf) for iPad and iPhone.
 
 ## Requirements
 
