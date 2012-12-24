@@ -31,8 +31,10 @@ static NSString* sparkCallbackURL = @"https://sparkplatform.com/oauth2/callback"
 
 SparkAPI provides two class methods for processing authentication and returning a SparkAPI object upon success: 
 
-* **hybridAuthenticate** implements the Spark [OpenID+OAuth 2 Hybrid Protocol](http://www.sparkplatform.com/docs/authentication/openid_oauth2_authentication) and 
+* **hybridAuthenticate** implements the Spark [OpenID+OAuth 2 Hybrid Protocol](http://www.sparkplatform.com/docs/authentication/openid_oauth2_authentication)
 * **openIdAuthenticate** implements the Spark [OpenID Attribute Exchange Extension](http://www.sparkplatform.com/docs/authentication/openid_authentication).  
+
+Both utilize callback blocks that receive asynchronous responses from the Spark API on success or failure.
 
 ``` objective-c
 + (BOOL) hybridAuthenticate:(NSURLRequest*)request
@@ -44,6 +46,26 @@ SparkAPI provides two class methods for processing authentication and returning 
                          failure:(void(^)(NSString* openIdMode, NSString* openIdError))failure;
 ```
 
+These authentication methods are typically placed in a UIWebViewDelegate object to respond to a NSURLRequest generated after the user provides their Spark credentials.  See LoginViewController.m for an example.
+
+``` objective-c
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+    if([SparkAPI hybridAuthenticate:request
+                            success:^(SparkAPI *sparkAPI) {
+                                [self processAuthentication:sparkAPI parameters:nil];
+                            }
+                            failure:^(NSString* openIdMode, NSString* openIdError, NSError *httpError) {
+                                NSString* message = nil;
+                                if(openIdMode)
+                                    message = [self handleOpenIdError:openIdMode openIdError:openIdError];
+                                [UIHelper handleFailure:message error:httpError];
+                            }])
+        return NO;
+    else
+        return YES;
+}
+```
 
 ### API call
 
