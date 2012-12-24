@@ -1,9 +1,9 @@
 Spark iOS API and Example App
 =============================
 
-The SparkAPI object is designed as a standalone Objective-C interface for use with the [Spark API](http://www.sparkplatform.com/docs/overview/api).  
+The `SparkAPI` object is designed as a standalone Objective-C interface for use with the [Spark API](http://www.sparkplatform.com/docs/overview/api).  
 
-This project also includes an example iPad and iPhone app that makes use of SparkAPI object to [authenticate](http://www.sparkplatform.com/docs/authentication/authentication) via Hybrid and OpenID methods, search listings, view listings, view an individual listing, and view a user account.
+This project also includes an example iPad and iPhone app that makes use of `SparkAPI` object to [authenticate](http://www.sparkplatform.com/docs/authentication/authentication) via Hybrid and OpenID methods, search listings, view listings, view an individual listing, and view a user account.  View app [screenshots](./SparkiOS/blob/master/Spark iOS Screenshots.pdf) for iPad and iPhone.
 
 ## Requirements
 
@@ -13,7 +13,7 @@ This project also includes an example iPad and iPhone app that makes use of Spar
 
 ## Configuration
 
-Once you [register](http://www.sparkplatform.com/register/developers) as a Spark developer and receive your Spark Client Id and Client Secret, open the SparkAPI.m file and set the sparkClientId, sparkClientSecret constants.  The sparkCallbackURL can also be customized but you most likely will want to use the default value.
+Once you [register](http://www.sparkplatform.com/register/developers) as a Spark developer and receive your Spark Client Id and Client Secret, open the SparkAPI.m file and set the `sparkClientId` and `sparkClientSecret` constants.  The `sparkCallbackURL` can also be customized but you most likely will want to use the default value.
 
 ``` objective-c
 @implementation SparkAPI
@@ -69,9 +69,11 @@ These authentication methods are typically placed in a UIWebViewDelegate object 
 
 ### Making API calls
 
+
+
 ### Logging
 
-The SparkAPI object contains basic log level metering to control output of log messages to the console.  By default, the `logLevel` is set to `SPARK_LOG_LEVEL_INFO` to output each API call to the console.  To output only errors to the console, set the `logLevel` property to `SPARK_LOG_LEVEL_ERROR`.
+The `SparkAPI` object contains basic log level metering to control output of log messages to the console.  By default, the `logLevel` property is set to `SPARK_LOG_LEVEL_INFO` to output each API call to the console.  To output only errors to the console, set the `logLevel` property to `SPARK_LOG_LEVEL_ERROR`.
 
 ## Dependencies
 
