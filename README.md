@@ -25,9 +25,9 @@ static NSString* sparkClientSecret = @"<YOUR OAUTH2 CLIENT SECRET>";
 static NSString* sparkCallbackURL = @"https://sparkplatform.com/oauth2/callback";
 ```
 
-## API Example
+## API Examples
 
-### Authenticate
+### Authentication
 
 SparkAPI provides two class methods for processing authentication and returning a SparkAPI object upon success: 
 
@@ -46,7 +46,7 @@ Both utilize callback blocks that receive asynchronous responses from the Spark 
                          failure:(void(^)(NSString* openIdMode, NSString* openIdError))failure;
 ```
 
-These authentication methods are typically placed in a UIWebViewDelegate object to respond to a NSURLRequest generated after the user provides their Spark credentials.  See LoginViewController.m for an example.
+These authentication methods are typically placed in a UIWebViewDelegate object to respond to a NSURLRequest generated after the user provides their Spark credentials.  See [LoginViewController.m](./blob/master/SparkiOS/LoginViewController.m) for an example.
 
 ``` objective-c
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
