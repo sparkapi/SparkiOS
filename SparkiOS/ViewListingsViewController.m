@@ -97,7 +97,7 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    return YES;
+    return [UIHelper iPhone] ? (interfaceOrientation == UIInterfaceOrientationPortrait) : YES;
 }
 
 #pragma mark - Table view data source

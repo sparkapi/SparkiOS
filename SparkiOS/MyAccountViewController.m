@@ -98,7 +98,7 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    return YES;
+    return [UIHelper iPhone] ? (interfaceOrientation == UIInterfaceOrientationPortrait) : YES;
 }
 
 - (void)logoutAction:(id)sender
