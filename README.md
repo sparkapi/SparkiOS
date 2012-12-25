@@ -1,9 +1,9 @@
 Spark iOS API and Example App
 =============================
 
-The `SparkAPI` object is designed as a standalone Objective-C interface for use with the [Spark API](http://www.sparkplatform.com/docs/overview/api).  
+The `SparkAPI` object is designed as a standalone Objective-C interface for use with the [Spark API](http://www.sparkplatform.com/docs/overview/api).  It implements Spark [authentication](http://www.sparkplatform.com/docs/authentication/authentication) via the Hybrid or OpenID methods.  API calls per HTTP method provide a high-level Spark API interface and return a JSON results array on success while handling erros like session expiration for the client.
 
-This project also includes an example iPad and iPhone app that makes use of `SparkAPI` object to [authenticate](http://www.sparkplatform.com/docs/authentication/authentication) via Hybrid or OpenID methods, search listings, view listings, view an individual listing with photos and standard fields, and view a user account.  View app [screenshots](./SparkiOS/blob/master/Spark iOS Screenshots.pdf) for iPad and iPhone.
+This project includes an example iPad and iPhone app that makes use of `SparkAPI` object to authenticate via Hybrid or OpenID methods, search listings, view listings, view an individual listing with photos and standard fields, and view a user account.  View app [screenshots](./SparkiOS/blob/master/Spark iOS Screenshots.pdf) for iPad and iPhone.
 
 ## Requirements
 
@@ -74,8 +74,6 @@ Once an authenticated `SparkAPI` object is instantiated, api methods correspondi
 On success, the results JSON array is parsed from the Spark response object and provided as an argument to the success block.
 
 On failure, `sparkErrorCode` and `sparkErrorMessage` are parsed from the returned JSON and provided as arguments to the failure block.
-
-
 
 Session renewal is handled automatically by the `SparkAPI` object when a session token expire [error code](http://www.sparkplatform.com/docs/supporting_documentation/error_codes) is returned by the API.
 

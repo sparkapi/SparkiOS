@@ -82,6 +82,13 @@
     [self.view addSubview:self.webView];
 }
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    return [UIHelper iPhone] ?
+        UIInterfaceOrientationPortrait :
+        (interfaceOrientation == UIInterfaceOrientationLandscapeLeft || interfaceOrientation == UIInterfaceOrientationLandscapeRight);
+}
+
 // UIWebViewDelegate ***********************************************************
 
 - (void)webViewDidStartLoad:(UIWebView *)webView
