@@ -1,15 +1,15 @@
 Spark iOS API and Example App
 =============================
 
-The `SparkAPI` object is designed as a standalone Objective-C interface for use with the [Spark API](http://www.sparkplatform.com/docs/overview/api).  It implements Spark [authentication](http://www.sparkplatform.com/docs/authentication/authentication) via the Hybrid or OpenID methods.  API calls per HTTP method provide a high-level Spark API interface and return a JSON results array on success while handling erros like session expiration for the client.
+The `SparkAPI` object is designed as a standalone Objective-C interface for use with the [Spark API](http://www.sparkplatform.com/docs/overview/api).  It implements Spark [authentication](http://www.sparkplatform.com/docs/authentication/authentication) via the Hybrid or OpenID methods.  API calls per HTTP method provide a high-level Spark API interface and return a JSON results array on success while handling errors like session expiration for the client.
 
 This project includes an example iPad and iPhone app that makes use of `SparkAPI` object to authenticate via Hybrid or OpenID methods, search listings, view listings, view an individual listing with photos and standard fields, and view a user account.  View app [screenshots](./SparkiOS/blob/master/Spark iOS Screenshots.pdf) for iPad and iPhone.
 
 ## Requirements
 
 * iOS 5 or later
-* XCode 4.2 or later
-* Running the code on an iOS device requires an active Apple Developer account
+* XCode IDE
+* Running on an iOS device requires an active Apple Developer account
 
 ## Configuration
 
@@ -145,7 +145,7 @@ The `SparkAPI` object contains basic log level metering to control output of log
 * [AFNetworking 1.0.1](https://github.com/AFNetworking/AFNetworking)
 * [SBJSON 3.1](http://stig.github.com/json-framework/)
 
-## Compatability
+## Compatibility
 
 Tested OSs: iOS 6, iOS 5
 
