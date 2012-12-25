@@ -114,13 +114,13 @@
 {
     NSString* errorMessage = nil;
     if(message)
-        errorMessage = nil;
+        errorMessage = message;
     else if (error)
         errorMessage = error.localizedDescription;
     
     
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                        message:message
+                                                        message:errorMessage
                                                        delegate:nil
                                               cancelButtonTitle:@"OK"
                                               otherButtonTitles:nil];
@@ -136,12 +136,14 @@
     NSString* message = nil;
     if(sparkErrorCode >= 1000 && sparkErrorMessage)
     {
+        message = [NSString stringWithFormat:@"%d: %@", sparkErrorCode, sparkErrorMessage];
+
         if(sparkErrorCode == 1000)
         {
+            [self handleFailure:message error:nil];
             [self logout:viewController];
             return;
         }
-        message = [NSString stringWithFormat:@"%d: %@", sparkErrorCode, sparkErrorMessage];
     }
 
     [self handleFailure:message error:error];

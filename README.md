@@ -149,6 +149,6 @@ The `SparkAPI` object contains basic log level metering to control output of log
 
 Tested OSs: iOS 6, iOS 5
 
-Tested XCode versions: 4.5, 4.2
+Tested XCode versions: 4.5
 
 Tested Devices: iPad 3, iPad mini, iPad 1, iPhone 5, iPhone 4

@@ -40,6 +40,11 @@
     [self setContent];
 }
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    return YES;
+}
+
 - (void)setContent
 {
     if(self.scrollView.subviews)

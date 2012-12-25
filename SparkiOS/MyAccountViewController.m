@@ -96,6 +96,11 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    return YES;
+}
+
 - (void)logoutAction:(id)sender
 {
     [UIHelper logout:self];
