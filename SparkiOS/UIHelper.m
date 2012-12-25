@@ -136,7 +136,7 @@
     NSString* message = nil;
     if(sparkErrorCode >= 1000 && sparkErrorMessage)
     {
-        if(sparkErrorCode == 1011)
+        if(sparkErrorCode == 1000)
         {
             [self logout:viewController];
             return;
