@@ -48,7 +48,7 @@ Both utilize callback blocks that receive asynchronous responses from the Spark 
 
 These authentication methods are typically placed in a UIWebViewDelegate object to respond to a NSURLRequest generated after the user provides their Spark credentials.  See [LoginViewController.m](./SparkiOS/blob/master/SparkiOS/LoginViewController.m) for an example.
 
-* To initiate a Hybrid authentication request, encapsulate the 'getSparkHybridOpenIdURL' in a `NSURLRequest` and call `UIWebView loadRequest:`.
+* To initiate a Hybrid authentication request, encapsulate the `getSparkHybridOpenIdURL` in a `NSURLRequest` and call `UIWebView loadRequest:`.
 
 * To initiate an OpenID authentication request, encapsulate the `getSparkOpenIdURL` or `getSparkOpenIdAttributeExchangeURL` in a `NSURLRequest` and call `UIWebView loadRequest:`.
 
