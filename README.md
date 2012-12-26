@@ -29,6 +29,16 @@ static NSString* sparkCallbackURL = @"https://sparkplatform.com/oauth2/callback"
 
 ### Authentication
 
+The `SparkAPI` object is designed to work with `UIWebView` and `UIWebViewDelegate` objects to initiate and process Spark authentication.
+
+**Initiating an Authentication Request**:
+
+* To initiate a Hybrid authentication request, encapsulate the `getSparkHybridOpenIdURL` in a `NSURLRequest` and call `UIWebView loadRequest:`.
+
+* To initiate an OpenID authentication request, encapsulate the `getSparkOpenIdURL` or `getSparkOpenIdAttributeExchangeURL` in a `NSURLRequest` and call `UIWebView loadRequest:`.
+
+**Processing Authentication**:
+
 SparkAPI provides two class methods for processing authentication and returning a SparkAPI object upon success: 
 
 * **hybridAuthenticate** implements the Spark [OpenID+OAuth 2 Hybrid Protocol](http://www.sparkplatform.com/docs/authentication/openid_oauth2_authentication).
@@ -47,10 +57,6 @@ Both utilize callback blocks that receive asynchronous responses from the Spark 
 ```
 
 These authentication methods are typically placed in a UIWebViewDelegate object to respond to a NSURLRequest generated after the user provides their Spark credentials.  See [LoginViewController.m](./SparkiOS/blob/master/SparkiOS/LoginViewController.m) for an example.
-
-* To initiate a Hybrid authentication request, encapsulate the `getSparkHybridOpenIdURL` in a `NSURLRequest` and call `UIWebView loadRequest:`.
-
-* To initiate an OpenID authentication request, encapsulate the `getSparkOpenIdURL` or `getSparkOpenIdAttributeExchangeURL` in a `NSURLRequest` and call `UIWebView loadRequest:`.
 
 
 ``` objective-c
