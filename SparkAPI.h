@@ -33,10 +33,10 @@
 
 // authenticate
 
++ (NSURL*)getSparkHybridOpenIdURL;
 + (NSURL*)getSparkOpenIdURL;
 + (NSURL*)getSparkOpenIdAttributeExchangeURL;
 + (NSURL*)getSparkOpenIdLogoutURL;
-+ (NSURL*)getSparkHybridOpenIdURL;
 
 + (BOOL) hybridAuthenticate:(NSURLRequest*)request
              success:(void(^)(SparkAPI* sparkAPI))success
