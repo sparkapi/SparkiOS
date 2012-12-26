@@ -21,15 +21,16 @@
 
 #import <Foundation/Foundation.h>
 
+#define SPARK_LOG_LEVEL_ERROR 4
+#define SPARK_LOG_LEVEL_WARNING 3
+#define SPARK_LOG_LEVEL_INFO 2
+#define SPARK_LOG_LEVEL_FINE 1
+
 @interface SparkAPI : NSObject
 
 @property (strong, nonatomic) NSString *openIdSparkId;
 @property (strong, nonatomic) NSString *oauthAccessToken;
 @property (strong, nonatomic) NSString *oauthRefreshToken;
-
-@property (strong, nonatomic, setter=setApplicationName:) NSString *applicationName;
-@property NSInteger logLevel;
-
 
 // authenticate
 
@@ -45,6 +46,11 @@
 + (BOOL) openIdAuthenticate:(NSURLRequest*)request
                          success:(void(^)(SparkAPI* sparkAPI, NSDictionary* parameters))success
                          failure:(void(^)(NSString* openIdMode, NSString* openIdError))failure;
+
+// logging
+
++ (void) setLogLevel:(NSInteger)logLevel;
++ (NSInteger) getLogLevel;
 
 // interface
 

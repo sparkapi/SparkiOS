@@ -145,9 +145,9 @@
 - (NSString*)handleOpenIdError:(NSString*)openIdMode openIdError:(NSString*)openIdError
 {
     if([@"cancel" isEqualToString:openIdMode])
-        return @"OpenId authentication cancelled";
+        return @"OpenID authentication cancelled";
     else if([@"error" isEqualToString:openIdMode])
-        return [NSString stringWithFormat:@"OpenId error:%@",openIdError];
+        return [NSString stringWithFormat:@"OpenID error:%@",openIdError];
     else
         return nil;
 }

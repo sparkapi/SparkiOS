@@ -13,7 +13,7 @@ This project includes an example iPad and iPhone app that makes use of `SparkAPI
 
 ## Configuration
 
-Once you [register](http://www.sparkplatform.com/register/developers) as a Spark developer and receive your Spark Client Id and Client Secret, open the SparkAPI.m file and set the `sparkClientId` and `sparkClientSecret` constants.  The `sparkCallbackURL` can also be customized but you most likely will want to use the default value.
+Once you [register](http://www.sparkplatform.com/register/developers) as a Spark developer and receive your Spark Client Id and Client Secret, open the SparkAPI.m file and set the `sparkClientId` and `sparkClientSecret` class variables.  You must also set the `sparkAPIUserAgent` with the name of your app or your API requests will not be accepted.  The `sparkCallbackURL` can also be customized but you most likely will want to use the default value to start.
 
 ``` objective-c
 @implementation SparkAPI
@@ -22,6 +22,7 @@ Once you [register](http://www.sparkplatform.com/register/developers) as a Spark
 
 static NSString* sparkClientKey = @"<YOUR OAUTH2 CLIENT KEY>";
 static NSString* sparkClientSecret = @"<YOUR OAUTH2 CLIENT SECRET>";
+static NSString* sparkAPIUserAgent = nil; // set or your API requests will not be successful
 static NSString* sparkCallbackURL = @"https://sparkplatform.com/oauth2/callback";
 ```
 
@@ -149,7 +150,7 @@ Below is an example API call to the `/my/account` Spark API endpoint from the ex
 
 ### Logging
 
-The `SparkAPI` object contains basic log level metering to control output of log messages to the console.  By default, the `logLevel` property is set to `SPARK_LOG_LEVEL_INFO` to output each API call to the console.  To output only errors to the console, set the `logLevel` property to `SPARK_LOG_LEVEL_ERROR`.
+The `SparkAPI` object contains basic log level metering to control output of log messages to the console.  By default, the `logLevel` property is set to `SPARK_LOG_LEVEL_INFO` to output each API call to the console.  To output only errors to the console, call `[SparkAPI setLogLevel:SPARK_LOG_LEVEL_ERROR]`.
 
 ## Dependencies
 

@@ -24,11 +24,6 @@
 #import "AFHTTPClient.h"
 #import "SBJson.h"
 
-#define SPARK_LOG_LEVEL_ERROR 4
-#define SPARK_LOG_LEVEL_WARNING 3
-#define SPARK_LOG_LEVEL_INFO 2
-#define SPARK_LOG_LEVEL_FINE 1
-
 @interface SparkAPI ()
 
 @end
@@ -39,6 +34,7 @@
 
 static NSString* sparkClientKey = @"<YOUR OAUTH2 CLIENT KEY>";
 static NSString* sparkClientSecret = @"<YOUR OAUTH2 CLIENT SECRET>";
+static NSString* sparkAPIUserAgent = nil; // set or your API requests will not be successful
 static NSString* sparkCallbackURL = @"https://sparkplatform.com/oauth2/callback";
 
 // constants *******************************************************************
@@ -49,7 +45,7 @@ static NSString* sparkOpenIdLogoutURL = @"https://sparkplatform.com/openid/logou
 static NSString* sparkAPIEndpoint = @"https://sparkapi.com/";
 static NSString* sparkAPIVersion = @"/v1";
 
-static NSString* sparkUserAgent = @"Spark iOS API 1.0";
+static NSString* sparkAPILibrary = @"Spark iOS API 1.0";
 
 static NSString* httpGet = @"GET";
 static NSString* httpPost = @"POST";
@@ -59,10 +55,11 @@ static NSString* httpDelete = @"DELETE";
 // class vars ******************************************************************
 
 static AFHTTPClient *httpClient;
+static NSInteger logLevel;
 
 // instance vars ***************************************************************
 
-@synthesize oauthAccessToken, oauthRefreshToken, openIdSparkId, applicationName, logLevel;
+@synthesize oauthAccessToken, oauthRefreshToken, openIdSparkId;
 
 // class interface *************************************************************
 
@@ -74,8 +71,8 @@ static AFHTTPClient *httpClient;
         {
             httpClient = [[AFHTTPClient alloc] initWithBaseURL:
                                     [NSURL URLWithString:sparkAPIEndpoint]];
-            [httpClient setDefaultHeader:@"User-Agent" value:sparkUserAgent];
-            [httpClient setDefaultHeader:@"X-SparkApi-User-Agent" value:sparkUserAgent];
+            [httpClient setDefaultHeader:@"User-Agent" value:sparkAPILibrary];
+            [httpClient setDefaultHeader:@"X-SparkApi-User-Agent" value:sparkAPIUserAgent];
             httpClient.parameterEncoding = AFJSONParameterEncoding;
         }
     }
@@ -183,6 +180,7 @@ static AFHTTPClient *httpClient;
                              success(sparkAPI);
                          
                      } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                         [SparkAPI logError:[NSString stringWithFormat:@"hybridAuthenticate failure>%@", error]];
                          if(failure)
                              failure(openIdMode, nil, error);
                      }];
@@ -191,8 +189,10 @@ static AFHTTPClient *httpClient;
     }
     else if([@"error" isEqualToString:openIdMode])
     {
+        NSString* openIDError = [parameterDictionary objectForKey:@"openid.error"];
+        [SparkAPI logError:[NSString stringWithFormat:@"hybridAuthenticate OpenID error>%@", openIDError]];
         if(failure)
-            failure(openIdMode, [parameterDictionary objectForKey:@"openid.error"], nil);
+            failure(openIdMode, openIDError, nil);
         return YES;
     }
     
@@ -221,13 +221,67 @@ static AFHTTPClient *httpClient;
     }
     else if([@"error" isEqualToString:openIdMode])
     {
+        NSString* openIDError = [parameterDictionary objectForKey:@"openid.error"];
+        [SparkAPI logError:[NSString stringWithFormat:@"hybridAuthenticate OpenID error>%@", openIDError]];
         if(failure)
-            failure(openIdMode, [parameterDictionary objectForKey:@"openid.error"]);
+            failure(openIdMode, openIDError);
         return YES;
     }
     
     return NO;
 }
+
+// logging
+
++ (void) setLogLevel:(NSInteger)level
+{
+    logLevel = level;
+}
+
++ (NSInteger) getLogLevel
+{
+    return logLevel;
+}
+
++ (NSString*)getLogLevelLabel:(NSInteger)level
+{
+    if(level == SPARK_LOG_LEVEL_ERROR)
+        return @"ERROR";
+    else if (level == SPARK_LOG_LEVEL_WARNING)
+        return @"WARNING";
+    else if (level == SPARK_LOG_LEVEL_INFO)
+        return @"INFO";
+    else if (level == SPARK_LOG_LEVEL_FINE)
+        return @"FINE";
+    else
+        return nil;
+}
+
++ (void)log:(NSInteger)level message:(NSString*)message
+{
+    if(level >= logLevel)
+        NSLog(@"SparkAPI %@: %@", [self getLogLevelLabel:level], message);
+}
+
++ (void)logError:(NSString*)message
+{
+    [self log:SPARK_LOG_LEVEL_ERROR message:message];
+}
+
++ (void)logWarning:(NSString*)message
+{
+    [self log:SPARK_LOG_LEVEL_WARNING message:message];
+}
++ (void)logInfo:(NSString*)message
+{
+    [self log:SPARK_LOG_LEVEL_INFO message:message];
+}
+
++ (void)logFine:(NSString*)message
+{
+    [self log:SPARK_LOG_LEVEL_FINE message:message];
+}
+
 // interface *******************************************************************
 
 - initWithAccessToken:(NSString*)access
@@ -246,12 +300,6 @@ static AFHTTPClient *httpClient;
         logLevel = SPARK_LOG_LEVEL_INFO;
     }
     return self;
-}
-
-- (void)setApplicationName:(NSString *)value
-{
-    applicationName = value;
-    [httpClient setDefaultHeader:@"X-SparkApi-User-Agent" value:value];
 }
 
 + (NSDictionary*)getResponseJSON:(id)responseObject
@@ -319,7 +367,7 @@ static AFHTTPClient *httpClient;
     if(!httpError)
         return;
 
-    [self logError:[NSString stringWithFormat:@"%@ failure>%@ - %@", httpMethod, apiCommand, httpError]];
+    [SparkAPI logError:[NSString stringWithFormat:@"%@ failure>%@ - %@", httpMethod, apiCommand, httpError]];
     
     NSInteger sparkErrorCode = -1;
     NSString* sparkErrorMessage = nil;
@@ -359,7 +407,7 @@ static AFHTTPClient *httpClient;
     [httpClient getPath:[NSString stringWithFormat:@"%@%@",sparkAPIVersion,apiCommand]
              parameters:parameters
                 success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                    [self logInfo:[NSString stringWithFormat:@"get success>%@", apiCommand]];
+                    [SparkAPI logInfo:[NSString stringWithFormat:@"get success>%@", apiCommand]];
                     [self handleSuccess:responseObject
                            successBlock:success];
                 }
@@ -383,7 +431,7 @@ static AFHTTPClient *httpClient;
     [httpClient postPath:[NSString stringWithFormat:@"%@%@",sparkAPIVersion,apiCommand]
               parameters:parameters
                  success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                     [self logInfo:[NSString stringWithFormat:@"post success>%@", apiCommand]];
+                     [SparkAPI logInfo:[NSString stringWithFormat:@"post success>%@", apiCommand]];
                      [self handleSuccess:responseObject
                             successBlock:success];
                  }
@@ -407,7 +455,7 @@ static AFHTTPClient *httpClient;
     [httpClient putPath:[NSString stringWithFormat:@"%@%@",sparkAPIVersion,apiCommand]
              parameters:parameters
                 success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                    [self logInfo:[NSString stringWithFormat:@"put success>%@", apiCommand]];
+                    [SparkAPI logInfo:[NSString stringWithFormat:@"put success>%@", apiCommand]];
                     [self handleSuccess:responseObject
                            successBlock:success];
                 }
@@ -431,7 +479,7 @@ static AFHTTPClient *httpClient;
     [httpClient deletePath:[NSString stringWithFormat:@"%@%@",sparkAPIVersion,apiCommand]
              parameters:parameters
                 success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                    [self logInfo:[NSString stringWithFormat:@"delete success>%@", apiCommand]];
+                    [SparkAPI logInfo:[NSString stringWithFormat:@"delete success>%@", apiCommand]];
                     [self handleSuccess:responseObject
                            successBlock:success];
                 }
@@ -492,47 +540,6 @@ static AFHTTPClient *httpClient;
 - (BOOL) getResponseSuccess:(NSDictionary*)responsePayload
 {
     return responsePayload ? [[responsePayload objectForKey:@"Success"] boolValue] : NO;
-}
-
-// logging
-
-- (NSString*)getLogLevelLabel:(NSInteger)level
-{
-    if(level == SPARK_LOG_LEVEL_ERROR)
-        return @"ERROR";
-    else if (level == SPARK_LOG_LEVEL_WARNING)
-        return @"WARNING";
-    else if (level == SPARK_LOG_LEVEL_INFO)
-        return @"INFO";
-    else if (level == SPARK_LOG_LEVEL_FINE)
-        return @"FINE";
-    else
-        return nil;
-}
-
-- (void)log:(NSInteger)level message:(NSString*)message
-{
-    if(level >= self.logLevel)
-        NSLog(@"SparkAPI %@: %@", [self getLogLevelLabel:level], message);
-}
-
-- (void)logError:(NSString*)message
-{
-    [self log:SPARK_LOG_LEVEL_ERROR message:message];
-}
-
-- (void)logWarning:(NSString*)message
-{
-    [self log:SPARK_LOG_LEVEL_WARNING message:message];
-}
-- (void)logInfo:(NSString*)message
-{
-    [self log:SPARK_LOG_LEVEL_INFO message:message];
-}
-
-- (void)logFine:(NSString*)message
-{
-    [self log:SPARK_LOG_LEVEL_FINE message:message];
 }
 
 @end
