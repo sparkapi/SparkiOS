@@ -24,6 +24,7 @@
 #import "iOSConstants.h"
 #import "LoginViewController.h"
 #import "Keys.h"
+#import "JSONHelper.h"
 #import "SparkAPI.h"
 #import "UIHelper.h"
 
@@ -123,17 +124,17 @@
     if(indexPath.row == 0)
     {
         cell.detailTextLabel.text = @"Name";
-        cell.textLabel.text = [self.myAccountJSON objectForKey:@"Name"];
+        cell.textLabel.text = [JSONHelper getJSONString:self.myAccountJSON key:@"Name"];
     }
     else if(indexPath.row == 1)
     {
         cell.detailTextLabel.text = @"Office";
-        cell.textLabel.text = [self.myAccountJSON objectForKey:@"Office"];
+        cell.textLabel.text = [JSONHelper getJSONString:self.myAccountJSON key:@"Office"];
     }
     else if(indexPath.row == 2)
     {
         cell.detailTextLabel.text = @"Company";
-        cell.textLabel.text = [self.myAccountJSON objectForKey:@"Company"];
+        cell.textLabel.text = [JSONHelper getJSONString:self.myAccountJSON key:@"Company"];
     }
     else if(indexPath.row == 3)
     {
@@ -143,7 +144,7 @@
     else if(indexPath.row == 4)
     {
         cell.detailTextLabel.text = @"MLS";
-        cell.textLabel.text = [self.myAccountJSON objectForKey:@"Mls"];
+        cell.textLabel.text = [JSONHelper getJSONString:self.myAccountJSON key:@"Mls"];
     }
     else if(indexPath.row == 5)
     {
@@ -221,7 +222,7 @@
 {
     NSArray* arrayJSON = [self.myAccountJSON objectForKey:arrayKey];
     return arrayJSON && [arrayJSON count] > 0 ?
-        [((NSDictionary*)[arrayJSON objectAtIndex:0]) objectForKey:itemKey] :
+        [JSONHelper getJSONString:((NSDictionary*)[arrayJSON objectAtIndex:0]) key:itemKey] :
         nil;
 }
 

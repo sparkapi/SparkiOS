@@ -24,6 +24,7 @@
 #import <QuartzCore/QuartzCore.h>
 
 #import "AppDelegate.h"
+#import "JSONHelper.h"
 #import "iOSConstants.h"
 #import "ListingFormatter.h"
 #import "UIHelper.h"
@@ -211,7 +212,11 @@
             imageView.layer.cornerRadius = 5;
             [scrollView addSubview:imageView];
             if(i == 0)
-                [imageView setImageWithURL:[NSURL URLWithString:[photoJSON objectForKey:@"Uri300"]]];
+            {
+                NSString* urlString = [JSONHelper getJSONString:photoJSON key:@"Uri300"];
+                if(urlString)
+                    [imageView setImageWithURL:[NSURL URLWithString:urlString]];
+            }
             xLocation += 300;
         }
         
@@ -325,7 +330,9 @@
     NSDictionary *photoJSON = [photosJSON objectAtIndex:page];
     
     UIImageView *imageView = [self.imageViews objectAtIndex:page];
-    [imageView setImageWithURL:[NSURL URLWithString:[photoJSON objectForKey:@"Uri300"]]];    
+    NSString* urlString = [JSONHelper getJSONString:photoJSON key:@"Uri300"];
+    if(urlString)
+        [imageView setImageWithURL:[NSURL URLWithString:urlString]];
 }
 
 @end

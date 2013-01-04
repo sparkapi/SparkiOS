@@ -21,6 +21,8 @@
 
 #import "ListingFormatter.h"
 
+#import "JSONHelper.h"
+
 @implementation ListingFormatter
 
 static NSNumberFormatter *currencyFormatter;
@@ -73,22 +75,27 @@ static NSNumberFormatter *currencyFormatter;
         return nil;
     
     NSMutableString* address = [[NSMutableString alloc] init];
-    NSString* StreetNumber = [standardFieldsJSON objectForKey:@"StreetNumber"];
-    if(StreetNumber && ![StreetNumber isKindOfClass:[NSNull class]])
+    NSString* StreetNumber = [JSONHelper getJSONString:standardFieldsJSON key:@"StreetNumber"];
+    if(StreetNumber && [self isStandardField:StreetNumber])
         [address appendFormat:@"%@ ", StreetNumber];
-    NSString* StreetDirPrefix = [standardFieldsJSON objectForKey:@"StreetDirPrefix"];
-    if(StreetDirPrefix && ![StreetDirPrefix isKindOfClass:[NSNull class]])
+    NSString* StreetDirPrefix = [JSONHelper getJSONString:standardFieldsJSON key:@"StreetDirPrefix"];
+    if(StreetDirPrefix && [self isStandardField:StreetDirPrefix])
         [address appendFormat:@"%@ ", StreetDirPrefix];
-    NSString* StreetName = [standardFieldsJSON objectForKey:@"StreetName"];
-    if(StreetName && ![StreetName isKindOfClass:[NSNull class]])
+    NSString* StreetName = [JSONHelper getJSONString:standardFieldsJSON key:@"StreetName"];
+    if(StreetName && [self isStandardField:StreetName])
         [address appendFormat:@"%@ ", StreetName];
-    NSString* StreetDirSuffix = [standardFieldsJSON objectForKey:@"StreetDirSuffix"];
-    if(StreetDirSuffix && ![StreetDirSuffix isKindOfClass:[NSNull class]])
+    NSString* StreetDirSuffix = [JSONHelper getJSONString:standardFieldsJSON key:@"StreetDirSuffix"];
+    if(StreetDirSuffix && [self isStandardField:StreetDirSuffix])
         [address appendFormat:@"%@ ", StreetDirSuffix];
-    NSString* StreetSuffix = [standardFieldsJSON objectForKey:@"StreetDirSuffix"];
-    if(StreetSuffix && ![StreetSuffix isKindOfClass:[NSNull class]])
+    NSString* StreetSuffix = [JSONHelper getJSONString:standardFieldsJSON key:@"StreetSuffix"];
+    if(StreetSuffix && [self isStandardField:StreetSuffix])
         [address appendFormat:@"%@", StreetSuffix];
     return [address capitalizedString];
+}
+
++ (BOOL) isStandardField:(NSString*)value
+{
+    return value && [value rangeOfString:@"***"].location == NSNotFound;
 }
 
 + (NSString*)getListingSubtitle:(NSDictionary*)standardFieldsJSON
@@ -97,10 +104,10 @@ static NSNumberFormatter *currencyFormatter;
         return nil;
         
     NSMutableString* subtitle = [[NSMutableString alloc] init];
-    NSString *City = [standardFieldsJSON objectForKey:@"City"];
+    NSString *City = [JSONHelper getJSONString:standardFieldsJSON key:@"City"];
     if(City)
         [subtitle appendString:City];
-    NSString* StateOrProvince = [standardFieldsJSON objectForKey:@"StateOrProvince"];
+    NSString* StateOrProvince = [JSONHelper getJSONString:standardFieldsJSON key:@"StateOrProvince"];
     if(StateOrProvince)
     {
         if([subtitle length] > 0)
@@ -109,13 +116,13 @@ static NSNumberFormatter *currencyFormatter;
     }
     if([subtitle length] > 0)
         [subtitle appendString:@" - "];
-    NSNumber *BedsTotal = [standardFieldsJSON objectForKey:@"BedsTotal"];
+    NSNumber *BedsTotal = [JSONHelper getJSONNumber:standardFieldsJSON key:@"BedsTotal"];
     if(BedsTotal)
         [subtitle appendFormat:@"%@br ", BedsTotal];
-    NSString *BathsTotal = [standardFieldsJSON objectForKey:@"BathsTotal"];
+    NSString *BathsTotal = [JSONHelper getJSONString:standardFieldsJSON key:@"BathsTotal"];
     if(BathsTotal)
         [subtitle appendFormat:@"%@ba ", BathsTotal];
-    NSNumber* ListPrice = [standardFieldsJSON objectForKey:@"ListPrice"];
+    NSNumber* ListPrice = [JSONHelper getJSONNumber:standardFieldsJSON key:@"ListPrice"];
     if(ListPrice)
         [subtitle appendFormat:@"%@", [self displayPrice:ListPrice]];
     return subtitle;

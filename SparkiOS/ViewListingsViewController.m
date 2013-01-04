@@ -23,6 +23,7 @@
 
 #import "AppDelegate.h"
 #import "iOSConstants.h"
+#import "JSONHelper.h"
 #import "ListingFormatter.h"
 #import "MyAccountViewController.h"
 #import "SparkAPI.h"
@@ -136,9 +137,11 @@
     {
         NSDictionary* photoJSON = [photosJSON objectAtIndex:0];
         
-        [cell.imageView
-            setImageWithURL:[NSURL URLWithString:[photoJSON objectForKey:@"UriThumb"]]
-           placeholderImage:[UIImage imageNamed:@"DefaultListingPhoto.png"]];
+        NSString* urlString = [JSONHelper getJSONString:photoJSON key:@"UriThumb"];
+        if(urlString)
+            [cell.imageView
+             setImageWithURL:[NSURL URLWithString:urlString]
+             placeholderImage:[UIImage imageNamed:@"DefaultListingPhoto.png"]];
     }
     
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;

@@ -22,6 +22,7 @@
 #import "SparkAPI.h"
 
 #import "AFHTTPClient.h"
+#import "JSONHelper.h"
 #import "SBJson.h"
 
 @interface SparkAPI ()
@@ -377,10 +378,10 @@ static NSInteger logLevel;
     
     if(responsePayload)
     {
-        NSNumber *code = [responsePayload objectForKey:@"Code"];
+        NSNumber* code = [JSONHelper getJSONNumber:responsePayload key:@"Code"];
         if(code)
             sparkErrorCode = [code integerValue];
-        sparkErrorMessage = [responsePayload objectForKey:@"Message"];
+        sparkErrorMessage = [JSONHelper getJSONString:responsePayload key:@"Message"];
 
         if(sparkErrorCode == 1020)
         {

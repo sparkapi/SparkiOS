@@ -21,6 +21,7 @@
 
 #import "SlideshowViewController.h"
 
+#import "JSONHelper.h"
 #import "UIImageView+AFNetworking.h"
 
 @interface SlideshowViewController ()
@@ -61,7 +62,11 @@
         imageView.contentMode = UIViewContentModeScaleAspectFit;
         [self.scrollView addSubview:imageView];
         if(i == 0)
-            [imageView setImageWithURL:[NSURL URLWithString:[[self.photosJSON objectAtIndex:0] objectForKey:@"Uri800"]]];
+        {
+            NSString* urlString = [JSONHelper getJSONString:[self.photosJSON objectAtIndex:0] key:@"Uri800"];
+            if(urlString)
+                [imageView setImageWithURL:[NSURL URLWithString:urlString]];
+        }
         xLocation += 704;
     }
     
@@ -78,7 +83,9 @@
     
     NSDictionary *photoJSON = [self.photosJSON objectAtIndex:page];
     UIImageView *imageView = [self.imageViews objectAtIndex:page];
-    [imageView setImageWithURL:[NSURL URLWithString:[photoJSON objectForKey:@"Uri800"]]];
+    NSString* urlString = [JSONHelper getJSONString:photoJSON key:@"Uri800"];
+    if(urlString)
+        [imageView setImageWithURL:[NSURL URLWithString:urlString]];
 }
 
 @end
