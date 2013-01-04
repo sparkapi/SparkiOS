@@ -64,6 +64,7 @@
 		49861ACB168190CE004971C4 /* ViewListingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 49861ACA168190CE004971C4 /* ViewListingViewController.m */; };
 		49861ACE16819A6E004971C4 /* ListingFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 49861ACD16819A6D004971C4 /* ListingFormatter.m */; };
 		49861AD016823960004971C4 /* ViewListingDetailLineCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 49861ACF16823960004971C4 /* ViewListingDetailLineCell.xib */; };
+		49C3E2D1169768BC00918153 /* JSONHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 49C3E2D0169768BC00918153 /* JSONHelper.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -78,7 +79,7 @@
 		4953B0DD1684EFCB00BF47E1 /* SparkSplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkSplitViewController.m; sourceTree = "<group>"; };
 		4953B0E916890F3900BF47E1 /* SparkAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkAPI.h; sourceTree = "<group>"; };
 		4953B0EA16890F3900BF47E1 /* SparkAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkAPI.m; sourceTree = "<group>"; };
-		498619AE167FC448004971C4 /* SparkiOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = SparkiOS.app; path = Spark.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		498619AE167FC448004971C4 /* Spark.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Spark.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		498619B2167FC448004971C4 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		498619B4167FC448004971C4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		498619B6167FC448004971C4 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -162,6 +163,8 @@
 		49861ACC16819A6D004971C4 /* ListingFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListingFormatter.h; sourceTree = "<group>"; };
 		49861ACD16819A6D004971C4 /* ListingFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListingFormatter.m; sourceTree = "<group>"; };
 		49861ACF16823960004971C4 /* ViewListingDetailLineCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewListingDetailLineCell.xib; sourceTree = "<group>"; };
+		49C3E2CF169768BC00918153 /* JSONHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONHelper.h; sourceTree = "<group>"; };
+		49C3E2D0169768BC00918153 /* JSONHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONHelper.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -194,7 +197,7 @@
 		498619AF167FC448004971C4 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				498619AE167FC448004971C4 /* SparkiOS.app */,
+				498619AE167FC448004971C4 /* Spark.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -267,13 +270,15 @@
 				498619C1167FC448004971C4 /* AppDelegate.h */,
 				498619C2167FC448004971C4 /* AppDelegate.m */,
 				49861A29167FEA13004971C4 /* iOSConstants.h */,
+				49C3E2CF169768BC00918153 /* JSONHelper.h */,
+				49C3E2D0169768BC00918153 /* JSONHelper.m */,
 				4953B0CF1683AD9C00BF47E1 /* Keys.h */,
 				49861ACC16819A6D004971C4 /* ListingFormatter.h */,
 				49861ACD16819A6D004971C4 /* ListingFormatter.m */,
+				4953B0D1168416F700BF47E1 /* LoginViewController-iPad.xib */,
 				49861A1C167FDA18004971C4 /* LoginViewController.h */,
 				49861A1D167FDA18004971C4 /* LoginViewController.m */,
 				49861A1E167FDA18004971C4 /* LoginViewController.xib */,
-				4953B0D1168416F700BF47E1 /* LoginViewController-iPad.xib */,
 				49861A5B1680FA4A004971C4 /* MyAccountViewController.h */,
 				49861A5C1680FA4A004971C4 /* MyAccountViewController.m */,
 				4953B0D316842A2A00BF47E1 /* SlideshowViewController.h */,
@@ -364,7 +369,7 @@
 			);
 			name = Spark;
 			productName = SparkiOS;
-			productReference = 498619AE167FC448004971C4 /* SparkiOS.app */;
+			productReference = 498619AE167FC448004971C4 /* Spark.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -460,6 +465,7 @@
 				4953B0D616842A2B00BF47E1 /* SlideshowViewController.m in Sources */,
 				4953B0DE1684EFCB00BF47E1 /* SparkSplitViewController.m in Sources */,
 				4953B0EB16890F3900BF47E1 /* SparkAPI.m in Sources */,
+				49C3E2D1169768BC00918153 /* JSONHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -532,11 +538,13 @@
 		498619CD167FC448004971C4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SparkiOS/SparkiOS-Prefix.pch";
 				INFOPLIST_FILE = "SparkiOS/SparkiOS-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -544,11 +552,15 @@
 		498619CE167FC448004971C4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SparkiOS/SparkiOS-Prefix.pch";
 				INFOPLIST_FILE = "SparkiOS/SparkiOS-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
