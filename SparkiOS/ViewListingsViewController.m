@@ -22,13 +22,13 @@
 #import "ViewListingsViewController.h"
 
 #import "AppDelegate.h"
+#import "ImageTableViewCell.h"
 #import "iOSConstants.h"
 #import "JSONHelper.h"
 #import "ListingFormatter.h"
 #import "MyAccountViewController.h"
 #import "SparkAPI.h"
 #import "UIHelper.h"
-#import "UIImageView+AFNetworking.h"
 #import "ViewListingViewController.h"
 
 @interface ViewListingsViewController ()
@@ -40,16 +40,6 @@
 @end
 
 @implementation ViewListingsViewController
-
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        // Custom initialization
-
-    }
-    return self;
-}
 
 - (void)viewDidLoad
 {
@@ -116,15 +106,16 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"ViewListingsCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    ImageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     if(!cell)
     {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
+        cell = [[ImageTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
                                       reuseIdentifier:CellIdentifier];
         cell.imageView.contentMode = UIViewContentModeScaleAspectFit;
     }
-    
+    cell.imageView.image = [UIImage imageNamed:@"DefaultListingPhoto.png"];
+        
     NSDictionary* listingJSON = [self.listingsJSON objectAtIndex:indexPath.row];
     NSDictionary* standardFieldsJSON = [listingJSON objectForKey:@"StandardFields"];
         
@@ -139,9 +130,12 @@
         
         NSString* urlString = [JSONHelper getJSONString:photoJSON key:@"UriThumb"];
         if(urlString)
-            [cell.imageView
-             setImageWithURL:[NSURL URLWithString:urlString]
-             placeholderImage:[UIImage imageNamed:@"DefaultListingPhoto.png"]];
+        {
+            NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]
+                                                     cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                                 timeoutInterval:60.0];
+            cell.connection = [[NSURLConnection alloc] initWithRequest:request delegate:cell];
+        }
     }
     
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;

@@ -65,6 +65,7 @@
 		49861ACE16819A6E004971C4 /* ListingFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 49861ACD16819A6D004971C4 /* ListingFormatter.m */; };
 		49861AD016823960004971C4 /* ViewListingDetailLineCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 49861ACF16823960004971C4 /* ViewListingDetailLineCell.xib */; };
 		49C3E2D1169768BC00918153 /* JSONHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 49C3E2D0169768BC00918153 /* JSONHelper.m */; };
+		49C3E2DA16994C8E00918153 /* ImageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 49C3E2D916994C8E00918153 /* ImageTableViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -165,6 +166,8 @@
 		49861ACF16823960004971C4 /* ViewListingDetailLineCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewListingDetailLineCell.xib; sourceTree = "<group>"; };
 		49C3E2CF169768BC00918153 /* JSONHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONHelper.h; sourceTree = "<group>"; };
 		49C3E2D0169768BC00918153 /* JSONHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONHelper.m; sourceTree = "<group>"; };
+		49C3E2D816994C8E00918153 /* ImageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageTableViewCell.h; sourceTree = "<group>"; };
+		49C3E2D916994C8E00918153 /* ImageTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageTableViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -269,16 +272,18 @@
 			children = (
 				498619C1167FC448004971C4 /* AppDelegate.h */,
 				498619C2167FC448004971C4 /* AppDelegate.m */,
+				49C3E2D816994C8E00918153 /* ImageTableViewCell.h */,
+				49C3E2D916994C8E00918153 /* ImageTableViewCell.m */,
 				49861A29167FEA13004971C4 /* iOSConstants.h */,
 				49C3E2CF169768BC00918153 /* JSONHelper.h */,
 				49C3E2D0169768BC00918153 /* JSONHelper.m */,
 				4953B0CF1683AD9C00BF47E1 /* Keys.h */,
 				49861ACC16819A6D004971C4 /* ListingFormatter.h */,
 				49861ACD16819A6D004971C4 /* ListingFormatter.m */,
-				4953B0D1168416F700BF47E1 /* LoginViewController-iPad.xib */,
 				49861A1C167FDA18004971C4 /* LoginViewController.h */,
 				49861A1D167FDA18004971C4 /* LoginViewController.m */,
 				49861A1E167FDA18004971C4 /* LoginViewController.xib */,
+				4953B0D1168416F700BF47E1 /* LoginViewController-iPad.xib */,
 				49861A5B1680FA4A004971C4 /* MyAccountViewController.h */,
 				49861A5C1680FA4A004971C4 /* MyAccountViewController.m */,
 				4953B0D316842A2A00BF47E1 /* SlideshowViewController.h */,
@@ -466,6 +471,7 @@
 				4953B0DE1684EFCB00BF47E1 /* SparkSplitViewController.m in Sources */,
 				4953B0EB16890F3900BF47E1 /* SparkAPI.m in Sources */,
 				49C3E2D1169768BC00918153 /* JSONHelper.m in Sources */,
+				49C3E2DA16994C8E00918153 /* ImageTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
