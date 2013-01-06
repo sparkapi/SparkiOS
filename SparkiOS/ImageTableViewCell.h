@@ -21,8 +21,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ImageTableViewCell : UITableViewCell <NSURLConnectionDataDelegate>
-
-@property (nonatomic, strong) NSURLConnection* connection;
+@interface ImageTableViewCell : UITableViewCell
 
 @end

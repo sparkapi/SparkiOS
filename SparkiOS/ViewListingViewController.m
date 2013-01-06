@@ -321,7 +321,7 @@
     NSDictionary *photoJSON = [photosJSON objectAtIndex:page];
     
     UIImageView *imageView = [self.imageViews objectAtIndex:page];
-    NSString* urlString = [JSONHelper getJSONString:photoJSON key:@"Uri300"];
+    NSString* urlString = [JSONHelper getJSONString:photoJSON key:@"Uri640"];
     if(urlString)
         [imageView setImageWithURL:[NSURL URLWithString:urlString]];
 }

@@ -21,12 +21,6 @@
 
 #import "ImageTableViewCell.h"
 
-@interface ImageTableViewCell ()
-
-@property (nonatomic, strong) NSMutableData* imageData;
-
-@end
-
 @implementation ImageTableViewCell
 
 - (void)layoutSubviews {
@@ -35,28 +29,6 @@
     self.imageView.frame = CGRectMake(1,1,40,40);
     self.textLabel.frame = CGRectMake(51,2,178,22);
     self.detailTextLabel.frame = CGRectMake(51,24,196,18);
-}
-
-// NSURLConnectionDataDelegate *************************************************
-
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
-{
-    // swallow
-}
-
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
-{
-    if (!self.imageData) {
-        self.imageData = [[NSMutableData alloc] initWithCapacity:2048];
-    }
-    [self.imageData appendData:data];
-}
-
-- (void)connectionDidFinishLoading:(NSURLConnection *)c
-{
-    self.imageView.image = [UIImage imageWithData:self.imageData];
-    self.connection = nil;
-    self.imageData = nil;
 }
 
 @end

@@ -29,6 +29,7 @@
 #import "MyAccountViewController.h"
 #import "SparkAPI.h"
 #import "UIHelper.h"
+#import "UIImageView+AFNetworking.h"
 #import "ViewListingViewController.h"
 
 @interface ViewListingsViewController ()
@@ -131,10 +132,9 @@
         NSString* urlString = [JSONHelper getJSONString:photoJSON key:@"UriThumb"];
         if(urlString)
         {
-            NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]
-                                                     cachePolicy:NSURLRequestUseProtocolCachePolicy
-                                                 timeoutInterval:60.0];
-            cell.connection = [[NSURLConnection alloc] initWithRequest:request delegate:cell];
+            [cell.imageView
+             setImageWithURL:[NSURL URLWithString:urlString]
+             placeholderImage:[UIImage imageNamed:@"DefaultListingPhoto.png"]];
         }
     }
     
