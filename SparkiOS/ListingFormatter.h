@@ -23,6 +23,14 @@
 
 @interface ListingFormatter : NSObject
 
++ (NSDate*)parseISO8601Date:(NSString*)string;
+
++ (NSString*)formatDateTime:(NSDate*)date;
+
++ (NSString*)formatPrice:(NSNumber*)price;
+
++ (NSString*)formatPriceShort:(NSNumber*)price;
+
 + (NSString*)getListingTitle:(NSDictionary*)standardFieldsJSON;
 
 + (NSString*)getListingSubtitle:(NSDictionary*)standardFieldsJSON;

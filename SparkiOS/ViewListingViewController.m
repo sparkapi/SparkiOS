@@ -254,15 +254,24 @@
         for(NSString* key in [((NSDictionary*)object) keyEnumerator])
         {
             if([buffer length] > 0)
-                [buffer appendString:@","];
+                [buffer appendString:@", "];
             [buffer appendString:key];
         }
         return buffer;
     }
-    else if([type isEqualToString:@"Date"] || [type isEqualToString:@"Datetime"])
+    else if([type isEqualToString:@"Date"])
         return (NSString*)object;
+    else if([type isEqualToString:@"Datetime"])
+        return [ListingFormatter formatDateTime:[ListingFormatter parseISO8601Date:(NSString*)object]];
     else if(([type isEqualToString:@"Integer"] || [type isEqualToString:@"Decimal"]) && [object isKindOfClass:[NSNumber class]])
-        return [((NSNumber*)object) stringValue];
+    {
+        NSNumber* number = (NSNumber*)object;
+        NSString* label = [standardField objectForKey:@"Label"];
+        if(label && [@"List Price" isEqualToString:label])
+            return [ListingFormatter formatPrice:number];
+        else
+            return [number stringValue];
+    }
     else if([type isEqualToString:@"Character"] && [object isKindOfClass:[NSString class]])
         return (NSString*)object;
     else if([type isEqualToString:@"Boolean"] && [object isKindOfClass:[NSNumber class]])

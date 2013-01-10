@@ -26,6 +26,8 @@
 @implementation ListingFormatter
 
 static NSNumberFormatter *currencyFormatter;
+static NSDateFormatter *iso8601DateTimeFormatter;
+static NSDateFormatter *dateTimeFormatter;
 
 +(void) initialize
 {
@@ -36,11 +38,32 @@ static NSNumberFormatter *currencyFormatter;
             currencyFormatter = [[NSNumberFormatter alloc] init];
             [currencyFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
         }
+        
+        if(!iso8601DateTimeFormatter)
+        {
+            iso8601DateTimeFormatter = [[NSDateFormatter alloc] init];
+            [iso8601DateTimeFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss'Z'"];
+        }
+        
+        if (!dateTimeFormatter)
+        {
+            dateTimeFormatter = [[NSDateFormatter alloc] init];
+            [dateTimeFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+        }
     }
 }
 
++ (NSDate*)parseISO8601Date:(NSString*)string
+{
+    return string ? [iso8601DateTimeFormatter dateFromString:string] : nil;
+}
 
-+ (NSString*)displayPrice:(NSNumber*)price
++ (NSString*)formatDateTime:(NSDate*)date
+{
+    return date ? [dateTimeFormatter stringFromDate:date] : nil;
+}
+
++ (NSString*)formatPriceShort:(NSNumber*)price
 {
     if(price && [price floatValue] > 0.0)
     {
@@ -67,6 +90,14 @@ static NSNumberFormatter *currencyFormatter;
         return buffer;
     }
     return nil;
+    
+}
+
++ (NSString*)formatPrice:(NSNumber*)price
+{
+    return (price && [price floatValue] > 0.0) ?
+        [currencyFormatter stringFromNumber:price] :
+        nil;
 }
 
 + (NSString*)getListingTitle:(NSDictionary*)standardFieldsJSON
@@ -124,7 +155,7 @@ static NSNumberFormatter *currencyFormatter;
         [subtitle appendFormat:@"%@ba ", BathsTotal];
     NSNumber* ListPrice = [JSONHelper getJSONNumber:standardFieldsJSON key:@"ListPrice"];
     if(ListPrice)
-        [subtitle appendFormat:@"%@", [self displayPrice:ListPrice]];
+        [subtitle appendFormat:@"%@", [self formatPriceShort:ListPrice]];
     return subtitle;
 }
 
