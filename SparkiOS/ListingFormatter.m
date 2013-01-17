@@ -137,7 +137,7 @@ static NSDateFormatter *dateTimeFormatter;
     NSMutableString* subtitle = [[NSMutableString alloc] init];
     NSString *City = [JSONHelper getJSONString:standardFieldsJSON key:@"City"];
     if(City)
-        [subtitle appendString:City];
+        [subtitle appendString:[City capitalizedString]];
     NSString* StateOrProvince = [JSONHelper getJSONString:standardFieldsJSON key:@"StateOrProvince"];
     if(StateOrProvince)
     {

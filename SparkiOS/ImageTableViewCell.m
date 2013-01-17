@@ -27,8 +27,8 @@
     [super layoutSubviews];
     // reset frames so no shifting on image load
     self.imageView.frame = CGRectMake(1,1,40,40);
-    self.textLabel.frame = CGRectMake(51,2,178,22);
-    self.detailTextLabel.frame = CGRectMake(51,24,196,18);
+    self.textLabel.frame = CGRectMake(51,2,239,22);
+    self.detailTextLabel.frame = CGRectMake(51,24,239,18);
 }
 
 @end
