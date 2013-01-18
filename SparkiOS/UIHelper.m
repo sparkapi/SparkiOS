@@ -118,7 +118,7 @@
     else if (error)
         errorMessage = error.localizedDescription;
     
-    
+    NSLog(@"error>%@",error);
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
                                                         message:errorMessage
                                                        delegate:nil

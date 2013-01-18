@@ -191,7 +191,8 @@
         [cell.contentView addSubview:scrollView];
         
         NSArray* photosJSON = [standardFieldsJSON objectForKey:@"Photos"];
-        NSDictionary *photoJSON = [photosJSON objectAtIndex:indexPath.row];
+        NSDictionary *photoJSON = photosJSON && [photosJSON count] > 0 ?
+            [photosJSON objectAtIndex:0] : nil;
         CGFloat xLocation = 0;
         int photoCount = (photosJSON ? [photosJSON count] : 1);
         self.imageViews = [[NSMutableArray alloc] init];
@@ -322,17 +323,21 @@
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)sv
 {
-    int page = floor((sv.contentOffset.x - 300 / 2) / 300) + 1;
-    [self.pageControl setCurrentPage:page];
- 
     NSDictionary* standardFieldsJSON = [self.listingJSON objectForKey:@"StandardFields"];
     NSArray* photosJSON = [standardFieldsJSON objectForKey:@"Photos"];
-    NSDictionary *photoJSON = [photosJSON objectAtIndex:page];
-    
-    UIImageView *imageView = [self.imageViews objectAtIndex:page];
-    NSString* urlString = [JSONHelper getJSONString:photoJSON key:@"Uri640"];
-    if(urlString)
-        [imageView setImageWithURL:[NSURL URLWithString:urlString]];
+
+    int page = floor((sv.contentOffset.x - 300 / 2) / 300) + 1;
+    if(photosJSON && page < [photosJSON count])
+    {
+        [self.pageControl setCurrentPage:page];
+        
+        NSDictionary *photoJSON = [photosJSON objectAtIndex:page];
+        
+        UIImageView *imageView = [self.imageViews objectAtIndex:page];
+        NSString* urlString = [JSONHelper getJSONString:photoJSON key:@"Uri640"];
+        if(urlString)
+            [imageView setImageWithURL:[NSURL URLWithString:urlString]];
+    }
 }
 
 @end
