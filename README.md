@@ -152,6 +152,43 @@ Below is an example API call to the `/my/account` Spark API endpoint from the ex
 
 The `SparkAPI` object contains basic log level metering to control output of log messages to the console.  By default, the `logLevel` property is set to `SPARK_LOG_LEVEL_INFO` to output each API call to the console.  To output only errors to the console, call `[SparkAPI setLogLevel:SPARK_LOG_LEVEL_ERROR]`.
 
+### Getting Started with your own App
+
+The example app provides a great starting point for building your own Spark-powered iOS app.  At a minimum, the core authentication features encapsulated by `LoginViewController` can be repurposed.
+
+In your `AppDelegate` `didFinishLaunchingWithOptions` method, you will need code similar to below that reads any saved tokens and bypasses Login if the session is valid to show your home `ViewController`.  If the session is not valid, the `LoginViewController` is presented.
+
+``` objective-c
+
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString* accessToken = [defaults objectForKey:SPARK_ACCESS_TOKEN];
+    NSString* refreshToken = [defaults objectForKey:SPARK_REFRESH_TOKEN];
+    NSString* openIdSparkid = [defaults objectForKey:SPARK_OPENID];
+
+    UIViewController *vc = nil;
+    if((accessToken && refreshToken) || openIdSparkid)
+    {
+        self.sparkAPI = [[SparkAPI alloc] initWithAccessToken:accessToken
+                                                 refreshToken:refreshToken
+                                                       openId:openIdSparkid];
+        vc = [UIHelper getHomeViewController];
+    }
+    else
+    {
+        vc = [[LoginViewController alloc] initWithNibName:([UIHelper iPhone] ? @"LoginViewController" : @"LoginViewController-iPad")
+                                                   bundle:nil];
+        vc.title = @"Login";
+    }
+    
+    UIViewController *rootVC = nil;    
+    if([UIHelper iPhone])
+        rootVC = [UIHelper getNavigationController:vc];
+    else
+        rootVC = [vc isKindOfClass:[LoginViewController class]] ? vc : [UIHelper getSplitViewController];
+```
+
+In `LoginViewController`, the `processAuthentication` method should also be modified to save any session state (to `NSUserDefaults`, CoreData, or similar) as well as redirect the user to the top `ViewController`.
+
 ## Dependencies
 
 * [AFNetworking 1.0.1](https://github.com/AFNetworking/AFNetworking)
