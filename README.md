@@ -159,7 +159,6 @@ The example app provides a great starting point for building your own Spark-powe
 In your `AppDelegate` `didFinishLaunchingWithOptions` method, you will need code similar to below that reads any saved tokens and bypasses Login if the session is valid to show your home `ViewController`.  If the session is not valid, the `LoginViewController` is presented.
 
 ``` objective-c
-
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString* accessToken = [defaults objectForKey:SPARK_ACCESS_TOKEN];
     NSString* refreshToken = [defaults objectForKey:SPARK_REFRESH_TOKEN];
@@ -188,6 +187,26 @@ In your `AppDelegate` `didFinishLaunchingWithOptions` method, you will need code
 ```
 
 In `LoginViewController`, the `processAuthentication` method should also be modified to save any session state (to `NSUserDefaults`, CoreData, or similar) as well as redirect the user to the top `ViewController`.
+
+``` objective-c
+    AppDelegate *appDelegate = ((AppDelegate*)[[UIApplication sharedApplication] delegate]);
+    appDelegate.sparkAPI = sparkAPI;
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if(sparkAPI.oauthAccessToken)
+        [defaults setObject:sparkAPI.oauthAccessToken forKey:SPARK_ACCESS_TOKEN];
+    if(sparkAPI.oauthRefreshToken)
+        [defaults setObject:sparkAPI.oauthRefreshToken forKey:SPARK_REFRESH_TOKEN];
+
+    if([UIHelper iPhone])
+        [self.navigationController setViewControllers:[NSArray arrayWithObject:[UIHelper getHomeViewController]]
+                                         animated:YES];
+    else
+    {
+        AppDelegate* appDelegate = [UIHelper getAppDelegate];
+        appDelegate.window.rootViewController = [UIHelper getSplitViewController];
+    }
+```
 
 ## Dependencies
 
