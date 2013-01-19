@@ -219,4 +219,4 @@ Tested OSs: iOS 6, iOS 5
 
 Tested XCode versions: 4.5
 
-Tested Devices: iPad 3, iPad mini, iPad 1, iPhone 5, iPhone 4
+Tested Devices: iPad 3, iPad 2, iPad mini, iPad 1, iPhone 5, iPhone 4
