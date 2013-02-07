@@ -23,6 +23,7 @@
 #import "Keys.h"
 #import "LoginViewController.h"
 #import "MyAccountViewController.h"
+#import "PDKeychainBindings.h"
 #import "UIHelper.h"
 #import "ViewListingsViewController.h"
 
@@ -32,10 +33,10 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString* accessToken = [defaults objectForKey:SPARK_ACCESS_TOKEN];
-    NSString* refreshToken = [defaults objectForKey:SPARK_REFRESH_TOKEN];
-    NSString* openIdSparkid = [defaults objectForKey:SPARK_OPENID];
+    PDKeychainBindings *keychain = [PDKeychainBindings sharedKeychainBindings];
+    NSString* accessToken = [keychain objectForKey:SPARK_ACCESS_TOKEN];
+    NSString* refreshToken = [keychain objectForKey:SPARK_REFRESH_TOKEN];
+    NSString* openIdSparkid = [keychain objectForKey:SPARK_OPENID];
 
     UIViewController *vc = nil;
     if((accessToken && refreshToken) || openIdSparkid)
