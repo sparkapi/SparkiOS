@@ -14,6 +14,9 @@
 		4953B0DB16842D2800BF47E1 /* SlideshowBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4953B0D916842D2800BF47E1 /* SlideshowBackground@2x.png */; };
 		4953B0DE1684EFCB00BF47E1 /* SparkSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4953B0DD1684EFCB00BF47E1 /* SparkSplitViewController.m */; };
 		4953B0EB16890F3900BF47E1 /* SparkAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 4953B0EA16890F3900BF47E1 /* SparkAPI.m */; };
+		49542D2316C33E3F00CC8819 /* PDKeychainBindings.m in Sources */ = {isa = PBXBuildFile; fileRef = 49542D2016C33E3F00CC8819 /* PDKeychainBindings.m */; };
+		49542D2416C33E3F00CC8819 /* PDKeychainBindingsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 49542D2216C33E3F00CC8819 /* PDKeychainBindingsController.m */; };
+		49542D2616C33E7900CC8819 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49542D2516C33E7900CC8819 /* Security.framework */; };
 		498619B3167FC448004971C4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498619B2167FC448004971C4 /* UIKit.framework */; };
 		498619B5167FC448004971C4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498619B4167FC448004971C4 /* Foundation.framework */; };
 		498619B7167FC448004971C4 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 498619B6167FC448004971C4 /* CoreGraphics.framework */; };
@@ -80,6 +83,11 @@
 		4953B0DD1684EFCB00BF47E1 /* SparkSplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkSplitViewController.m; sourceTree = "<group>"; };
 		4953B0E916890F3900BF47E1 /* SparkAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SparkAPI.h; sourceTree = "<group>"; };
 		4953B0EA16890F3900BF47E1 /* SparkAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SparkAPI.m; sourceTree = "<group>"; };
+		49542D1F16C33E3F00CC8819 /* PDKeychainBindings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDKeychainBindings.h; sourceTree = "<group>"; };
+		49542D2016C33E3F00CC8819 /* PDKeychainBindings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDKeychainBindings.m; sourceTree = "<group>"; };
+		49542D2116C33E3F00CC8819 /* PDKeychainBindingsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PDKeychainBindingsController.h; sourceTree = "<group>"; };
+		49542D2216C33E3F00CC8819 /* PDKeychainBindingsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PDKeychainBindingsController.m; sourceTree = "<group>"; };
+		49542D2516C33E7900CC8819 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		498619AE167FC448004971C4 /* Spark.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Spark.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		498619B2167FC448004971C4 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		498619B4167FC448004971C4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -175,6 +183,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				49542D2616C33E7900CC8819 /* Security.framework in Frameworks */,
 				49861A1B167FC9E6004971C4 /* SystemConfiguration.framework in Frameworks */,
 				49861A19167FC9A7004971C4 /* MobileCoreServices.framework in Frameworks */,
 				498619B3167FC448004971C4 /* UIKit.framework in Frameworks */,
@@ -186,6 +195,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		49542D1E16C33E1A00CC8819 /* PDKeychainBindings */ = {
+			isa = PBXGroup;
+			children = (
+				49542D1F16C33E3F00CC8819 /* PDKeychainBindings.h */,
+				49542D2016C33E3F00CC8819 /* PDKeychainBindings.m */,
+				49542D2116C33E3F00CC8819 /* PDKeychainBindingsController.h */,
+				49542D2216C33E3F00CC8819 /* PDKeychainBindingsController.m */,
+			);
+			name = PDKeychainBindings;
+			sourceTree = "<group>";
+		};
 		498619A3167FC448004971C4 = {
 			isa = PBXGroup;
 			children = (
@@ -211,6 +231,7 @@
 				498619B6167FC448004971C4 /* CoreGraphics.framework */,
 				498619B4167FC448004971C4 /* Foundation.framework */,
 				49861A18167FC9A7004971C4 /* MobileCoreServices.framework */,
+				49542D2516C33E7900CC8819 /* Security.framework */,
 				49861A1A167FC9E6004971C4 /* SystemConfiguration.framework */,
 				498619B2167FC448004971C4 /* UIKit.framework */,
 			);
@@ -230,6 +251,7 @@
 			isa = PBXGroup;
 			children = (
 				498619FB167FC91B004971C4 /* AFNetworking 1.0.1 */,
+				49542D1E16C33E1A00CC8819 /* PDKeychainBindings */,
 				49861A88168171BE004971C4 /* SBJSON 3.1 */,
 				49861AAE1681722F004971C4 /* images */,
 				498619BA167FC448004971C4 /* SparkiOS-Info.plist */,
@@ -472,6 +494,8 @@
 				4953B0EB16890F3900BF47E1 /* SparkAPI.m in Sources */,
 				49C3E2D1169768BC00918153 /* JSONHelper.m in Sources */,
 				49C3E2DA16994C8E00918153 /* ImageTableViewCell.m in Sources */,
+				49542D2316C33E3F00CC8819 /* PDKeychainBindings.m in Sources */,
+				49542D2416C33E3F00CC8819 /* PDKeychainBindingsController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
