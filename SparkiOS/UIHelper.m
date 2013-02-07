@@ -25,6 +25,7 @@
 #import "Keys.h"
 #import "LoginViewController.h"
 #import "MyAccountViewController.h"
+#import "PDKeychainBindings.h"
 #import "SlideshowViewController.h"
 #import "SparkAPI.h"
 #import "SparkSplitViewController.h"
@@ -151,10 +152,12 @@
 
 + (void)logout:(UIViewController*)viewController
 {
+    PDKeychainBindings *keychain = [PDKeychainBindings sharedKeychainBindings];
+    [keychain removeObjectForKey:SPARK_ACCESS_TOKEN];
+    [keychain removeObjectForKey:SPARK_REFRESH_TOKEN];
+    [keychain removeObjectForKey:SPARK_OPENID];
+    
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults removeObjectForKey:SPARK_ACCESS_TOKEN];
-    [defaults removeObjectForKey:SPARK_REFRESH_TOKEN];
-    [defaults removeObjectForKey:SPARK_OPENID];
     [defaults removeObjectForKey:OPENID_ID];
     [defaults removeObjectForKey:OPENID_FRIENDLY];
     [defaults removeObjectForKey:OPENID_FIRST_NAME];

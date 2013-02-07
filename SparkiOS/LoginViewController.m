@@ -24,6 +24,7 @@
 #import "AppDelegate.h"
 #import "iOSConstants.h"
 #import "Keys.h"
+#import "PDKeychainBindings.h"
 #import "SparkAPI.h"
 #import "UIHelper.h"
 #import "ViewListingsViewController.h"
@@ -94,15 +95,16 @@
     AppDelegate *appDelegate = ((AppDelegate*)[[UIApplication sharedApplication] delegate]);
     appDelegate.sparkAPI = sparkAPI;
     
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    PDKeychainBindings *keychain = [PDKeychainBindings sharedKeychainBindings];
     if(sparkAPI.oauthAccessToken)
-        [defaults setObject:sparkAPI.oauthAccessToken forKey:SPARK_ACCESS_TOKEN];
+        [keychain setObject:sparkAPI.oauthAccessToken forKey:SPARK_ACCESS_TOKEN];
     if(sparkAPI.oauthRefreshToken)
-        [defaults setObject:sparkAPI.oauthRefreshToken forKey:SPARK_REFRESH_TOKEN];
+        [keychain setObject:sparkAPI.oauthRefreshToken forKey:SPARK_REFRESH_TOKEN];
     if(sparkAPI.openIdSparkId)
     {
-        [defaults setObject:sparkAPI.openIdSparkId forKey:SPARK_OPENID];
+        [keychain setObject:sparkAPI.openIdSparkId forKey:SPARK_OPENID];
 
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         NSString *value = [parameters objectForKey:@"openid.ax.value.id"];
         if(value)
             [defaults setObject:value forKey:OPENID_ID];
