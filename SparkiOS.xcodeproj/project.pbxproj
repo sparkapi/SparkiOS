@@ -250,7 +250,7 @@
 		498619B9167FC448004971C4 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				498619FB167FC91B004971C4 /* AFNetworking 1.0.1 */,
+				498619FB167FC91B004971C4 /* AFNetworking 1.1 */,
 				49542D1E16C33E1A00CC8819 /* PDKeychainBindings */,
 				49861A88168171BE004971C4 /* SBJSON 3.1 */,
 				49861AAE1681722F004971C4 /* images */,
@@ -262,7 +262,7 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		498619FB167FC91B004971C4 /* AFNetworking 1.0.1 */ = {
+		498619FB167FC91B004971C4 /* AFNetworking 1.1 */ = {
 			isa = PBXGroup;
 			children = (
 				498619FC167FC91B004971C4 /* AFHTTPClient.h */,
@@ -285,7 +285,7 @@
 				49861A0D167FC91B004971C4 /* UIImageView+AFNetworking.h */,
 				49861A0E167FC91B004971C4 /* UIImageView+AFNetworking.m */,
 			);
-			name = "AFNetworking 1.0.1";
+			name = "AFNetworking 1.1";
 			path = AFNetworking;
 			sourceTree = "<group>";
 		};

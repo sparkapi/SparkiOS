@@ -210,7 +210,7 @@ In `LoginViewController`, the `processAuthentication` method should also be modi
 
 ## Dependencies
 
-* [AFNetworking 1.0.1](https://github.com/AFNetworking/AFNetworking)
+* [AFNetworking 1.1](https://github.com/AFNetworking/AFNetworking)
 * [PDKeychainBindings](https://github.com/carlbrown/PDKeychainBindingsController)
 * [SBJSON 3.1](http://stig.github.com/json-framework/)
 
