@@ -3,7 +3,7 @@ Spark iOS API and Example App
 
 The `SparkAPI` object is designed as a standalone Objective-C interface for use with the [Spark API](http://www.sparkplatform.com/docs/overview/api).  It implements Spark [authentication](http://www.sparkplatform.com/docs/authentication/authentication) via the Hybrid or OpenID methods.  API calls per HTTP method provide a high-level Spark API interface and return a JSON results array on success while handling errors like session expiration for the client.
 
-This project includes an example iPad and iPhone app that makes use of `SparkAPI` object to authenticate via Hybrid or OpenID methods, search listings, view listings, view an individual listing with photos and standard fields, and view a user account.  View app [screenshots](./SparkiOS/blob/master/Spark iOS Screenshots.pdf) for iPad and iPhone.
+This project includes an example iPad and iPhone app that makes use of `SparkAPI` object to authenticate via Hybrid or OpenID methods, search listings, view listings, view an individual listing with photos and standard fields, and view a user account.  View app [screenshots](./Spark iOS Screenshots.pdf) for iPad and iPhone.
 
 ## Requirements
 
@@ -57,7 +57,7 @@ Both utilize callback blocks that receive asynchronous responses from the Spark 
                          failure:(void(^)(NSString* openIdMode, NSString* openIdError))failure;
 ```
 
-These authentication methods are typically placed in a UIWebViewDelegate object to respond to a NSURLRequest generated after the user provides their Spark credentials.  See [LoginViewController.m](./SparkiOS/blob/master/SparkiOS/LoginViewController.m) for an example.
+These authentication methods are typically placed in a UIWebViewDelegate object to respond to a NSURLRequest generated after the user provides their Spark credentials.  See [LoginViewController.m](./SparkiOS/LoginViewController.m) for an example.
 
 
 ``` objective-c
