@@ -67,8 +67,8 @@
 		49861ACB168190CE004971C4 /* ViewListingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 49861ACA168190CE004971C4 /* ViewListingViewController.m */; };
 		49861ACE16819A6E004971C4 /* ListingFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 49861ACD16819A6D004971C4 /* ListingFormatter.m */; };
 		49861AD016823960004971C4 /* ViewListingDetailLineCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 49861ACF16823960004971C4 /* ViewListingDetailLineCell.xib */; };
-		49C3E2D1169768BC00918153 /* JSONHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 49C3E2D0169768BC00918153 /* JSONHelper.m */; };
 		49C3E2DA16994C8E00918153 /* ImageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 49C3E2D916994C8E00918153 /* ImageTableViewCell.m */; };
+		EB280353180ED71B00408A68 /* JSONHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = EB280352180ED71B00408A68 /* JSONHelper.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -172,10 +172,10 @@
 		49861ACC16819A6D004971C4 /* ListingFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListingFormatter.h; sourceTree = "<group>"; };
 		49861ACD16819A6D004971C4 /* ListingFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListingFormatter.m; sourceTree = "<group>"; };
 		49861ACF16823960004971C4 /* ViewListingDetailLineCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewListingDetailLineCell.xib; sourceTree = "<group>"; };
-		49C3E2CF169768BC00918153 /* JSONHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONHelper.h; sourceTree = "<group>"; };
-		49C3E2D0169768BC00918153 /* JSONHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONHelper.m; sourceTree = "<group>"; };
 		49C3E2D816994C8E00918153 /* ImageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageTableViewCell.h; sourceTree = "<group>"; };
 		49C3E2D916994C8E00918153 /* ImageTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageTableViewCell.m; sourceTree = "<group>"; };
+		EB280351180ED71B00408A68 /* JSONHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONHelper.h; sourceTree = "<group>"; };
+		EB280352180ED71B00408A68 /* JSONHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONHelper.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -211,6 +211,8 @@
 			children = (
 				4953B0E916890F3900BF47E1 /* SparkAPI.h */,
 				4953B0EA16890F3900BF47E1 /* SparkAPI.m */,
+				EB280351180ED71B00408A68 /* JSONHelper.h */,
+				EB280352180ED71B00408A68 /* JSONHelper.m */,
 				498619B8167FC448004971C4 /* SparkiOS */,
 				498619B1167FC448004971C4 /* Frameworks */,
 				498619AF167FC448004971C4 /* Products */,
@@ -297,8 +299,6 @@
 				49C3E2D816994C8E00918153 /* ImageTableViewCell.h */,
 				49C3E2D916994C8E00918153 /* ImageTableViewCell.m */,
 				49861A29167FEA13004971C4 /* iOSConstants.h */,
-				49C3E2CF169768BC00918153 /* JSONHelper.h */,
-				49C3E2D0169768BC00918153 /* JSONHelper.m */,
 				4953B0CF1683AD9C00BF47E1 /* Keys.h */,
 				49861ACC16819A6D004971C4 /* ListingFormatter.h */,
 				49861ACD16819A6D004971C4 /* ListingFormatter.m */,
@@ -461,6 +461,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				498619BF167FC448004971C4 /* main.m in Sources */,
+				EB280353180ED71B00408A68 /* JSONHelper.m in Sources */,
 				498619C3167FC448004971C4 /* AppDelegate.m in Sources */,
 				49861A0F167FC91B004971C4 /* AFHTTPClient.m in Sources */,
 				49861A10167FC91B004971C4 /* AFHTTPRequestOperation.m in Sources */,
@@ -492,7 +493,6 @@
 				4953B0D616842A2B00BF47E1 /* SlideshowViewController.m in Sources */,
 				4953B0DE1684EFCB00BF47E1 /* SparkSplitViewController.m in Sources */,
 				4953B0EB16890F3900BF47E1 /* SparkAPI.m in Sources */,
-				49C3E2D1169768BC00918153 /* JSONHelper.m in Sources */,
 				49C3E2DA16994C8E00918153 /* ImageTableViewCell.m in Sources */,
 				49542D2316C33E3F00CC8819 /* PDKeychainBindings.m in Sources */,
 				49542D2416C33E3F00CC8819 /* PDKeychainBindingsController.m in Sources */,
